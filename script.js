@@ -50,7 +50,8 @@ const END_TIME_KEY = 'endTime';
 
 // ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 // バックエンドAPIのURL。デプロイ後にRenderのURLに書き換えます。
-const API_URL = 'http://localhost:3001/api/reports';
+//const API_URL = 'http://localhost:3001/api/reports';
+const API_URL = 'https://hiwa-tenko-backend.onrender.com/api/reports';
 // ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 
 // 現在年月日を表示する関数
