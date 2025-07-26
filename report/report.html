@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- ↓↓↓ キャッシュ無効化のためのメタタグを追加 ↓↓↓ -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <!-- ↑↑↑ ここまでを追加 ↑↑↑ -->
+    <title>業務時間-Hiwa点呼</title>
+    <link rel="shortcut icon" href="../images/favicon.ico">
+    <link rel="stylesheet" href="style-report.css?v=1.0.0">
+</head>
+<body>
+    <div class="container">
+
+        <div class="header-container">
+            <div class="header-title">
+                <img src="../images/logo_s1.jpg" alt="Hiwaロゴ" class="logo">
+                <h2>業務時間</h2>
+            </div>
+            <div class="link-back">
+                <a href="../index.html" class="back-button">戻る</a>
+            </div>
+        </div>
+        <div class="main-content">
+            <section>
+                <h3>先週の業務時間</h3>
+            </section>
+<!--
+            <section>
+                <h3>1. 業務の開始時の操作</h3>
+                <ol>
+                    <li>「運転者氏名」「車両番号」を入力します。（次回から自動で入力されます）</li>
+                    <li>「点呼方法」を選択し、必要に応じて詳細を記入します。</li>
+                    <li>「点呼確認者 氏名」を入力します。（こちらも次回から自動入力されます）</li>
+                    <li>アルコールチェックや健康状態などの確認項目をチェックします。<strong>異常がある場合は、チェックを外して詳細欄に内容を記入してください。</strong></li>
+                    <li>すべての入力が終わったら、画面下の<strong class="text-start">「開始 点呼」</strong>ボタンを押して送信します。</li>
+                </ol>
+            </section>
+-->
+
+            <div id="report-table-container">
+                    <!-- 業務時間（先週1週間分）テーブルがここに挿入されます -->
+            </div>
+
+            <section>
+                <div class="comment-text">※1　業務時間とは、開始点呼から終了点呼までの時間です。（実際の労働時間ではありません）</div>
+            </section>
+
+        </div>
+        <div class="footer">
+            <a href="../index.html" class="back-button">戻る</a>
+        </div>
+    </div>
+</body>
+<script src="report.js?v=1.0.0" defer></script>
+</html>

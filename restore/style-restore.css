@@ -1,0 +1,135 @@
+﻿/* report.htmlページ全体の基本スタイル */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f7f6;
+    color: #333;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* ヘッダーやフッターのスタイル (help.html, report.html共通) */
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+.header-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #005ab3;
+}
+.logo {
+    height: 2.5em;
+}
+.nav-back {
+    text-align: center;
+    margin-top: 30px;
+}
+.back-button {
+    display: inline-block;
+    padding: 6px 8px;
+    background-color: #fff;
+    color: #333;
+    text-decoration: none;
+    border: solid 3px #007bff;
+    border-radius: 4px;
+    font-size: 1.1em;
+    transition: background-color 0.2s;
+}
+
+.back-button:hover {
+    background-color: #c9dff3;
+}
+
+
+.nav-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.nav-content section {
+    margin-bottom: 24px;
+}
+
+.nav-content h2 {
+    font-size: 1.4em;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+}
+
+.nav-content h3 {
+    font-size: 1.2em;
+    color: #005ab3;
+    margin-bottom: 12px;
+    border-left: 4px solid #005ab3;
+    padding-left: 8px;
+}
+
+.nav-content p {
+    font-size: 1em;
+    line-height: 1.7;
+    color: #555;
+    border-bottom: 1px solid #ddd;
+}
+
+.name-label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+    /*font-weight: bold;*/
+}
+
+.input-name {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* paddingを含めてwidth 100%にする */
+    margin-top: 0; /* time-set-buttonからのmarginがあるので、input自体のmargin-topは不要な場合 */
+    font-size: 16px;
+}
+
+.btn-container {
+    text-align: left;
+    margin-top: 20px;
+
+}
+.action-button {
+    background-color: #238dff;
+    color: white;
+    padding: 4px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.2em;
+    /*font-weight: bold;*/
+    /*width: 100%;*/
+    /*height: 3.0em;*/
+
+}
+.action-button:hover {
+    background-color: #0056b3;
+}
+
+.nav-footer {
+    text-align: right;
+    margin-top: 10px;
+}
+

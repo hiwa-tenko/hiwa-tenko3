@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- ↓↓↓ キャッシュ無効化のためのメタタグを追加 ↓↓↓ -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <!-- ↑↑↑ ここまでを追加 ↑↑↑ -->
+    <title>ヘルプ-Hiwa点呼</title>
+    <link rel="shortcut icon" href="../images/favicon.ico">
+    <link rel="stylesheet" href="style-help.css">
+</head>
+<body>
+    <div class="container">
+
+        <div class="header-container">
+            <div class="header-title">
+                <img src="../images/logo_s1.jpg" alt="Hiwaロゴ" class="logo">
+                <h2>点呼-ヘルプ</h2>
+            </div>
+            <div class="help-back">
+                <a href="../index.html" class="back-button">戻る</a>
+            </div>
+            <!--
+            <div class="header-menu">
+                <img id="list_menu" src="images/list-menu1.svg" alt="menu">
+            </div>
+            -->
+        </div>
+        <!--
+        <nav id="nav_menu" class="nav-menu">
+            <ul>
+                <li><a href="#">***</a></li>
+                <li><a href="#">***</a></li>
+                <li><a href="help.html">ヘルプ</a></li>
+            </ul>
+        </nav>
+        -->
+        <div class="help-content">
+            <section>
+                <h2>基本的な使い方</h2>
+                <p>このアプリは、業務の開始時と終了時の点呼を記録するためのものです。</p>
+            </section>
+
+            <section>
+                <h3>1. 業務の開始時の操作</h3>
+                <ol>
+                    <li>「運転者氏名」「車両番号」を入力します。（次回から自動で入力されます）</li>
+                    <li>「点呼方法」を選択し、必要に応じて詳細を記入します。</li>
+                    <li>「点呼確認者 氏名」を入力します。（こちらも次回から自動入力されます）</li>
+                    <li>アルコールチェックや健康状態などの確認項目をチェックします。<strong>異常がある場合は、チェックを外して詳細欄に内容を記入してください。</strong></li>
+                    <li>すべての入力が終わったら、画面下の<strong class="text-start">「開始 点呼」</strong>ボタンを押して送信します。</li>
+                </ol>
+            </section>
+
+            <section>
+                <h3>2. 業務の終了時の操作</h3>
+                <ol>
+                    <li>業務の開始時の点呼を送信すると、ボタンが自動的に<strong class="text-end">「終了 点呼」</strong>に切り替わります。</li>
+                    <li>業務の終了後、アプリを開き、必要項目を再度確認・入力します。</li>
+                    <li>画面下の<strong class="text-end">「終了 点呼」</strong>ボタンを押して送信します。</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>履歴の確認</h2>
+                <p>画面の下にある「点呼の履歴」で、過去15日間の送受信履歴を確認できます。▼ボタンを押すと履歴が表示されます。</p>
+            </section>
+            
+            <section>
+                <h2>データの入力項目について</h2>
+                <p>「運転者氏名」「車両番号」「点呼方法」「点呼確認者 氏名」は、デバイス（PC,タブレット,スマホ）に保存され、次回の入力は必要ありません。</p>
+                <p>●運転者氏名（例）：✕「田中　一郎」「田中」　◯「田中一郎」※姓と名の間にはスペースは入れないでください</p>
+                <p>●車両番号（例）：✕「１２３４」　◯「1234」※ナンバーの数字のみ、入力してください</p>
+                <p>●点呼方法：「対面」※個人で運送業務をしている場合は対面を選択してください</p>
+                <p>●点呼確認者 ※個人で運送業務をしている場合は運転者氏名を入力してください</p>
+            </section>
+
+            <section>
+                <h2>点呼の送信データについて</h2>
+                <p>「開始　点呼」「終了　点呼」ボタンをクリック後、サーバに1年間保存されます。</p>
+            </section>
+
+           
+        </div>
+        <div class="help-footer">
+            <a href="../index.html" class="back-button">戻る</a>
+        </div>
+    </div>
+</body>
+</html>

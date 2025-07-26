@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- ↓↓↓ キャッシュ無効化のためのメタタグを追加 ↓↓↓ -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <title>Hiwa点呼3</title>
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <!-- iOS用アイコン -->
+   <link rel="apple-touch-icon" href="images/hiwa_logo2_192.png">
+   <!-- Android用ウェブアプリマニフェスト -->
+   <link rel="manifest" href="manifest.json">
+
+    <!-- ↓↓↓ キャッシュバスティングを追加 ↓↓↓ -->
+    <link rel="stylesheet" href="style.css?v=3.0.0">
+
+</head>
+<body>
+    <div class="container">
+        <div class="header-container">
+            <div class="header-title">
+                <img src="images/logo_s1.jpg" alt="Hiwaロゴ" class="logo">
+                <h2>Hiwa点呼3</h2>
+            </div>
+            
+            <div class="header-menu">
+                <img id="list_menu" src="images/list-menu1.svg" alt="menu">
+                <nav id="nav_menu" class="nav-menu" hidden>
+                    <ul>
+                        <li><a href="report/report.html?v=3.0.0">業務時間</a></li>
+                        <li><a href="restore/restore.html?v=3.0.0">履歴の復元</a></li>
+                        <li><a href="help/help.html?v=3.0.0">ヘルプ</a></li>
+                    </ul>
+                </nav>
+            </div>
+            
+        </div>
+       
+        <form id="reportForm">
+
+            <div class="inner-main">
+
+                <div class="main-top">
+                    <div class="form-group">
+                        <label  class="name-label" for="name">運転者氏名</label>
+                        <input class="input-name" type="text" id="name" name="name" required autocomplete="name">
+                    </div>
+                    <div class="form-group">
+                        <label class="number-label" for="number">車両番号</label>
+                        <input class="input-number" type="text" id="number" name="number" required autocomplete="name">
+                    </div>
+                </div>
+                <div class="main-detail">
+                    <div class="form-group">
+                        <label class="select-label" for="tenko">点呼方法</label>
+                        <select id="tenko" name="tenko">
+						    <option value="対面">対面</option>
+                            <option value="TEL">TEL</option>
+						    <option value="その他">その他</option>
+					    </select>
+                    </div>
+                    <div class="form-group" id="tenko-detail-group">
+                        <label class="detail-label" for="tenko_detail">詳細（対面以外は理由を記入）</label>
+                        <input type="text" class="input-detail" id="tenko_detail" name="tenko_detail" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label class="detail-label" for="tenko_name">点呼確認者 氏名</label>
+                        <input type="text" class="input-detail" id="tenko_name" name="tenko_name" autocomplete="name">
+                    </div>
+                    <div class="form-group">
+                    </div>
+                </div>
+                <div class="main-detail">
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="alcohol_checker" name="alcohol_checker" value="有り">
+                            <label class="checkbox-label" for="alcohol_checker">アルコール検知器の使用</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="drunk_check" name="drunk_check" value="無し">
+                            <label class="checkbox-label" for="drunk_check">酒気帯びは無し</label>
+                        </div>
+                    </div>
+                    <div class="form-group" id="alcohol-detail-group">
+                        <label class="detail-label" for="alcohol_checker_detail">詳細</label>
+                        <input type="text" class="input-detail" id="alcohol_checker_detail" name="alcohol_checker_detail" autocomplete="off">
+                    </div>
+                </div>
+                <div class="main-detail">
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <input type="checkbox" id="health_check" name="health_check" value="無し">
+                            <label class="checkbox-label" for="health_check">疾病・疲労・睡眠不足は無し</label>
+                        </div>
+                    </div>
+                    <div class="form-group" id="health-detail-group">
+                        <label class="detail-label" for="health_detail">詳細</label>
+                        <input type="text" class="input-detail" id="health_detail" name="health_detail" autocomplete="off">
+                    </div>
+                </div>
+                <div class="main-detail">
+                    <div class="form-group">
+                         <div class="checkbox">
+                            <input type="checkbox" id="daily_check" name="daily_check" value="異常無し">
+                            <label class="checkbox-label" for="daily_check">日常点検に異常は無し</label>
+                        </div>
+                    </div>
+                    <div class="form-group" id="daily-detail-group">
+                        <label class="detail-label" for="daily_detail">詳細</label>
+                        <input type="text" class="input-detail" id="daily_detail" name="daily_detail" autocomplete="off">
+                    </div>
+                </div>
+                <div class="main-detail">
+                    <div class="form-group-1">
+                        <label class="detail-label" for="order_list">その他指示事項（天候等）</label>
+                        <input type="text" class="input-detail" id="order_list" name="order_list" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+            <div id="currentDate" class="current-date"></div>
+            <div id="currentTime" class="current-time"></div>
+            <div class="btn-container">
+                <button type="submit" id="submitButton">送信</button>
+            </div>
+            <input type="hidden" name="start" id="start" value="">
+            <input type="hidden" name="end" id="end" value="">
+        </form>
+        <div class="message-container"><span class="start-end" id="start_end"></span><span class="message-text" id="message_text"></span></div>
+        <div class="history-container">
+            <div class="history-header">
+                <h4>点呼の履歴 (15日分)</h4>
+            
+                <button type="button" id="history_button" aria-label="履歴を表示">
+                    <img src="images/arrow-down1.svg" alt="表示" style="width: 16px; height: 16px;">
+                </button>
+            
+            </div>
+            <div id="history_list" class="history-list"></div>
+        </div>
+    </div>
+
+    <script src="script.js?v=3.0.0"></script>
+
+</body>
+</html>

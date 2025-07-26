@@ -1,0 +1,524 @@
+﻿/*
+点呼記録簿_テスト1
+2025/06/21
+*/
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f7f6;
+    color: #333;
+}
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 10px;
+    /*
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    */
+}
+.header-container {
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2px; /* 子要素間のスペースを一括で指定 */
+    
+}
+.header-title { /*title*/
+    display: flex;
+    align-items: center;
+    text-align: left;
+    color: #005ab3;
+
+}
+.header-title h2 { 
+    display: inline;
+    text-align: left;
+    color: #005ab3;
+    margin-top: 0;
+    margin-bottom: 0;
+
+}
+.logo { /*モンキーロゴ*/
+    height: 3.0em;
+    margin-left: 10px;
+    margin-right: 4px;
+
+}
+.header-menu { /*menu*/
+    text-align: center;
+
+}
+.header-menu img { /*menu-list.svg*/
+    width: 3.0em;
+    height: 2.5em;
+    margin-right: 4px;
+    cursor: pointer; /* クリックできることを示すカーソル */
+}
+
+.nav-menu li a:hover {
+    background-color: #f4f7f6; /* ホバー時の背景色 */
+}
+
+/* --- nav-helpページのスタイル ここから--- */
+.help-header {
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #005ab3;
+    text-align: center;
+}
+
+.help-header h1 {
+    color: #005ab3;
+    margin: 0;
+}
+
+.help-back {
+    text-align: center;
+    margin-top: 30px;
+}
+.back-button {
+    display: inline-block;
+    padding: 6px 8px;
+    background-color: #fff;
+    color: #333;
+    text-decoration: none;
+    border: solid 3px #007bff;
+    border-radius: 4px;
+    font-size: 1.1em;
+    transition: background-color 0.2s;
+}
+
+.back-button:hover {
+    background-color: #c9dff3;
+}
+
+.help-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.help-content section {
+    margin-bottom: 24px;
+}
+
+.help-content h2 {
+    font-size: 1.4em;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+}
+
+.help-content h3 {
+    font-size: 1.2em;
+    color: #005ab3;
+    margin-bottom: 12px;
+    border-left: 4px solid #005ab3;
+    padding-left: 8px;
+}
+
+.help-content p, .help-content ol {
+    font-size: 1em;
+    line-height: 1.7;
+    color: #555;
+}
+
+.help-content ol {
+    padding-left: 20px;
+}
+
+.help-content li {
+    margin-bottom: 8px;
+}
+
+.text-start {
+    color: #007bff;
+    font-weight: bold;
+}
+
+.text-end {
+    color: #fe6435;
+    font-weight: bold;
+}
+
+.help-footer {
+    text-align: right;
+    margin-top: 0;
+}
+
+
+
+/* --- nav-helpページのスタイル ここまで--- */
+
+
+.start-set-button {
+    width: 100%;
+    height: 5.0em;
+    padding: 8px 10px;
+    margin-bottom: 8px; /* 下のinput要素との間隔 */
+    background-color: #acfde4;
+    color: #10513c;
+    border: solid 2px #10513c;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.2em;
+    text-align: center;
+}
+.start-set-button:hover {
+    color: #acfde4;
+    background-color: #187152;
+}
+.end-set-button {
+    width: 100%;
+    height: 5.0em;
+    padding: 8px 10px;
+    margin-bottom: 8px; /* 下のinput要素との間隔 */
+    background-color: #10513c;
+    color: #acfde4;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.2em;
+    text-align: center;
+}
+.end-set-button:hover {
+    color: #10513c;
+    background-color: #acfde4;
+}
+.form-group {
+    margin-top: 0px;
+    margin-bottom: 4px;
+}
+.tenko-detail-group{
+    display: none;
+}
+.form-group-1 {
+    margin-top: 0px;
+    margin-bottom: 4px;
+    grid-column: span 2;
+}
+.main-top {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+    padding: 4px 10px;
+    background-color: #262b2f;
+    border: 2px solid #fff;
+}
+
+.name-label,
+.number-label {
+    display: block;
+    margin-bottom: 8px;
+    color: #fff;
+    /*font-weight: bold;*/
+}
+.time-label {
+    margin-bottom: 4px;
+}
+
+.inner-main {
+    max-width: 600px;
+    margin: 10px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.input-name,
+.input-number,
+input[type="datetime-local"],
+input[type="number"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* paddingを含めてwidth 100%にする */
+    margin-top: 0; /* time-set-buttonからのmarginがあるので、input自体のmargin-topは不要な場合 */
+    font-size: 16px;
+}
+input[type="checkbox"] {
+    height: 20px;
+    width: 20px;
+    background-color: #fff;
+    color: #fff;
+}
+.checkbox-label {
+    padding-bottom: 4px;
+    margin-left: 0;
+    color: #fff;
+    /*font-weight: bold;*/
+}
+.checkbox {
+    display: flex;
+    margin-top: 1.5em;
+    align-items: center;
+}
+.checkbox-group {
+    display: flex;
+    margin-top: 0.8em;
+    align-items: center;
+}
+.main-detail {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+    padding: 4px 10px;
+    background-color: #262b2f;
+    border: 2px solid #fff;
+}
+.select-label {
+    display: block;
+    margin-left: 4px;
+    margin-bottom: 4px;
+    color: #fff;
+    /*font-weight: bold;*/
+}
+.detail-label {
+    display: block;
+    margin-left: 4px;
+    margin-bottom: 4px;
+    color: #fff;
+    /*font-weight: bold;*/
+}
+select {
+    width:100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* paddingを含めてwidth 100%にする */
+    margin-top: 0; /* time-set-buttonからのmarginがあるので、input自体のmargin-topは不要な場合 */
+    font-size: 16px;
+    font-weight: bold;
+}
+.input-detail {
+    width:100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* paddingを含めてwidth 100%にする */
+    margin-top: 0; /* time-set-buttonからのmarginがあるので、input自体のmargin-topは不要な場合 */
+    font-size: 16px;
+}
+textarea {
+    height: 100px;
+    resize: vertical;
+}
+.current-date { /*西暦年月日*/
+    text-align: center;
+    margin-left: 1.0em; /*曜日の（）の調整*/
+    margin-bottom: 5px;
+    font-size: 1.4em;
+}
+
+.current-time { /*時分*/
+    text-align: center;    
+    margin-bottom: 5px;
+    font-size: 1.6em;
+    font-weight: bold;
+    color: #005ab3;
+}
+.btn-container {
+    text-align: center;
+}
+.btn-container button {
+    background-color: #007bff;
+    color: white;
+    padding: 4px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 2.0em;
+    font-weight: bold;
+    width: 100%;
+    height: 3.0em;
+
+}
+.btn-container button:hover {
+    background-color: #0056b3;
+}
+
+/* 終了点呼ボタン用のスタイル */
+.btn-container button.end-call {
+    background-color: #fe6435; /* 橙色 */
+}
+
+.btn-container button.end-call:hover {
+    background-color: #d65934; /* 少し暗い橙色 */
+}
+.message-container {
+    width: 100%;
+    text-align: center;
+    margin: 12px auto;
+    font-weight: bold;
+    color: #000;
+}
+.start-end{
+    font-size: 1em;
+    color: #fff;
+}
+.success {
+    color: green;
+    text-align: center;
+}
+.error {
+    color: red;
+}
+/* --- 送信履歴のデザイン --- */
+.history-container h4 {
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+}
+
+#historyList {
+            display: flex;
+            flex-direction: column;
+            gap: 0; /* カード間の余白 */
+}
+
+.history-card-start {
+            background-color: #ffffff;
+            border-radius: 6px 0 0 0;
+            padding: 0.2rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-left: 7px solid #007bff; /* アクセントカラー */
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+.history-card-end {
+            background-color: #ffffff;
+            border-radius: 0 0 0 6px;
+            margin-bottom: 0.2rem;
+            padding: 0.2rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-left: 7px solid #fe6435; /* アクセントカラー */
+            border-bottom: 2px solid #aeaeae;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+/*
+.history-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+}
+*/
+.history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.1rem 0;
+            border-bottom: 1px solid #f0f0f0;
+}
+.history-item-:last-child {
+            border-bottom: none;
+}
+.history-label {
+            font-weight: 600; /* 少し太く */
+            color: #555;
+            margin-right: 1rem;
+            flex-shrink: 0; /* ラベルが縮まないように */
+}
+/*
+.history-value {
+            color: #333;
+            text-align: right;
+            word-break: break-all;
+}
+*/
+.history-time {
+            font-size: 1.2em;
+            font-weight: 600; /* 少し太く */
+            color: #333;
+            text-align: right;
+            word-break: break-all; /* 長いテキストがはみ出ないように */
+}
+.history-date {
+            font-size: 1.0em;
+            font-weight: 600; /* 少し太く */
+            color: #333;
+            text-align: right;
+            word-break: break-all; /* 長いテキストがはみ出ないように */
+}
+
+/* 履歴表示のスタイル */
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.history-header h4 {
+    margin: 0; /* h4のデフォルトマージンをリセット */
+
+}
+
+#history_button {
+    padding: 4px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    font-size: 1.4em; /* 記号が見やすいようにサイズ調整 */
+    line-height: 1;   /* ボタンの縦の高さを調整 */
+    min-width: 40px;  /* ボタンの最小幅を確保 */
+}
+
+#history_button:hover {
+    background-color: #e0e0e0;
+}
+
+/* 履歴リストをデフォルトで非表示にする */
+.history-list {
+    display: none;  /* 非表示 */
+
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+}
+
+/* visibleクラスが付いたら表示する */
+.history-list.visible {
+    display: block;
+}
+
+/* --- メニューのスタイル --- */
+.nav-menu {
+    display: none; /* デフォルトでは非表示 */
+    position: absolute; /* ページに対する絶対位置 */
+    top: 65px; /* ヘッダーの高さに応じて調整してください */
+    right: 20px; /* 画面の右端からの距離 */
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 1000; /* 他の要素より手前に表示 */
+    border: 1px solid #eee;
+}
+
+/* JavaScriptでこのクラスを付け外しします */
+.nav-menu.visible {
+    display: block;
+}
+
+.nav-menu ul {
+    list-style: none; /*箇条書きの黒丸を消す*/
+    margin: 0;
+    padding: 8px 0; /* 上下のpadding */
+}
+
+.nav-menu li a {
+    display: block;
+    padding: 10px 25px;
+    color: #333;
+    text-decoration: none; /* リンクの下線を消す */
+    font-size: 16px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.nav-menu li a:hover {
+    background-color: #f4f7f6; /* ホバー時の背景色 */
+}

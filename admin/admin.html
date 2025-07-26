@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理者ページ - 点呼状況</title>
+    <link rel="stylesheet" href="report/style-report.css">
+</head>
+<body>
+    <div class="container" style="max-width: 800px;">
+        <div class="header-container">
+            <div class="header-title">
+                <h1>本日の点呼状況 (リアルタイム)</h1>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="search-controls">
+                <label for="search-date">日付選択:</label>
+                <input type="date" id="search-date">
+                <button id="search-button">検索</button>
+            </div>
+            <table class="report-table">
+                <thead>
+                    <tr>
+                        <th>運転者氏名</th>
+                        <th>点呼種別</th>
+                        <th>点呼時間</th>
+                    </tr>
+                </thead>
+                <tbody id="roll-call-list">
+                    <!-- データはJavaScriptによってここに挿入されます -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+</body>
+</html>
+

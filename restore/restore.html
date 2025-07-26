@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- ↓↓↓ キャッシュ無効化のためのメタタグを追加 ↓↓↓ -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <!-- ↑↑↑ ここまでを追加 ↑↑↑ -->
+    <title>履歴の復元-Hiwa点呼</title>
+    <link rel="shortcut icon" href="../images/favicon.ico">
+    <link rel="stylesheet" href="style-restore.css?v=1.0.0">
+</head>
+<body>
+    <div class="container">
+
+        <div class="header-container">
+            <div class="header-title">
+                <img src="../images/logo_s1.jpg" alt="Hiwaロゴ" class="logo">
+                <h2>履歴の復元</h2>
+            </div>
+            <div class="nav-back">
+                <a href="../index.html" class="back-button">戻る</a>
+            </div>
+        </div>
+
+        <div class="nav-content">
+            <section>
+                <div>履歴データが表示されなくなった場合は「復元の実行」ボタンを押してください</div>
+            </section>
+            <section>
+                <div class="restore-form">
+                    <div class="form-group">
+                        <label  class="name-label" for="name">運転者氏名</label>
+                        <input class="input-name" type="text" id="name" name="name" placeholder="氏名（例：山田太郎　スペースは無し）を入力" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="name-label" for="password">パスワード</label>
+                        <input class="input-name" type="password" id="password" name="password" placeholder="車両番号（初期値）を入力" required autocomplete="current-password">
+                    </div>
+                    <div class="btn-container">
+                        <button id="restoreButton" class="action-button">履歴の復元を実行</button>
+                    </div>
+                    <div id="message" class="message-area"></div>
+                </div>
+            </section>
+
+        </div>
+        <div class="nav-footer">
+            <a href="../index.html" class="back-button">戻る</a>
+        </div>
+    </div>
+</body>
+<script src="restore.js?v=1.0.0" defer></script>
+</html>
