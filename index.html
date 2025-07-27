@@ -11,12 +11,12 @@
     <title>Hiwa点呼3</title>
     <link rel="shortcut icon" href="images/favicon.ico">
     <!-- iOS用アイコン -->
-   <link rel="apple-touch-icon" href="images/hiwa_logo2_192.png">
-   <!-- Android用ウェブアプリマニフェスト -->
-   <link rel="manifest" href="manifest.json">
-
-    <!-- ↓↓↓ キャッシュバスティングを追加 ↓↓↓ -->
+    <link rel="apple-touch-icon" href="images/hiwa_logo2_192.png">
+    <!-- Android用ウェブアプリマニフェスト -->
+    <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="style.css">
+    <!-- ↓↓↓ ログイン状態をチェックするスクリプトを追加 ↓↓↓ -->
+    <script type="module" src="js/auth.js"></script>
 
 </head>
 <body>
@@ -34,6 +34,9 @@
                         <li><a href="report/report.html">業務時間</a></li>
                         <li><a href="restore/restore.html">履歴の復元</a></li>
                         <li><a href="help/help.html">ヘルプ</a></li>
+                        <li class="nav-separator"></li>
+                        <li><a href="#">アカウント</a></li>
+                        <li><a id="logout-button" href="#">ログアウト</a></li>
                     </ul>
                 </nav>
             </div>
@@ -143,7 +146,8 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- ↓↓↓ script.jsをモジュールとして読み込むように変更 ↓↓↓ -->
+    <script type="module" src="script.js"></script>
 
 </body>
 </html>

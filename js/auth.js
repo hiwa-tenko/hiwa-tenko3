@@ -1,0 +1,46 @@
+import { supabase } from './supabaseClient.js';
+
+const checkUserSession = async () => {
+    const { data: { session } } = await supabase.auth.getSession();
+
+    // 現在のページのファイル名を取得
+    const currentPage = window.location.pathname.split('/').pop();
+
+    // ログインが不要なページのリスト
+    const publicPages = ['login.html', 'signup.html'];
+
+    if (!session) {
+        // 未ログイン状態
+        if (!publicPages.includes(currentPage)) {
+            // ログインが必要なページにいる場合、ログインページにリダイレクト
+            window.location.href = 'login.html';
+        }
+    } else {
+        // ログイン済み
+        if (publicPages.includes(currentPage)) {
+            // ログインページや新規登録ページにいる場合、メインページにリダイレクト
+            window.location.href = 'index.html';
+        }
+    }
+};
+
+// ページ読み込み時にセッションをチェック
+checkUserSession();
+
+// ログアウト処理
+document.addEventListener('DOMContentLoaded', () => {
+    const logoutButton = document.getElementById('logout-button');
+
+    if (logoutButton) {
+        logoutButton.addEventListener('click', async (event) => {
+            event.preventDefault();
+            const { error } = await supabase.auth.signOut();
+            if (error) {
+                console.error('ログアウトエラー', error);
+            } else {
+                // ログアウト成功後、ログインページにリダイレクト
+                window.location.href = 'login.html';
+            }
+        });
+    }
+});
