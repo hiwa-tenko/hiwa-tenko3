@@ -1,5 +1,8 @@
 ﻿﻿//test2_Hiwa点呼記録
 
+// supabaseクライアントをインポート
+import { supabase } from './js/supabaseClient.js';
+
 //LocalStorageに保存する期間（日）
 const LSperiod = 15;
 
@@ -94,8 +97,23 @@ function getFormattedCurrentDateTime() {
     return `${year}-${month}-${day}T${hours}:${minutes}`;
 }
 
-const handleFormSubmit = (e) => {
+const handleFormSubmit = async (e) => { // async関数に変更
     e.preventDefault(); // デフォルトのフォーム送信を停止
+
+    // 現在のセッションからアクセストークンを取得
+    const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+
+    if (sessionError || !session) {
+        console.error('セッションの取得に失敗しました:', sessionError);
+        messageText.textContent = '認証エラーが発生しました。再ログインしてください。';
+        messageText.className = 'error';
+        // 3秒後にログインページにリダイレクト
+        setTimeout(() => {
+            window.location.href = 'login.html';
+        }, 3000);
+        return;
+    }
+    const accessToken = session.access_token;
 
     const current_time = getFormattedCurrentDateTime()
 
@@ -145,6 +163,8 @@ const handleFormSubmit = (e) => {
         body: JSON.stringify(data),
         headers: {
             'Content-Type': 'application/json',
+            // 認証トークンをヘッダーに追加
+            'Authorization': `Bearer ${accessToken}`,
         },
         signal: controller.signal, // AbortControllerをfetchに渡す
     })
