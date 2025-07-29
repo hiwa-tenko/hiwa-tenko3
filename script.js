@@ -395,6 +395,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // 履歴を表示
     displayHistory();
 
+    // ページアクセスログを記録する
+    recordUserAccess();
+
 });
 
 // ページ読み込み時にlocalStorageから[運転者氏名]、[車両番号]、[点呼確認者名]の値を取得フォームに設定
@@ -432,5 +435,49 @@ const loadFormDataFromLocalStorage = () => {
         submitButton.textContent = "開始　点呼";
         submitButton.classList.remove('end-call'); // 終了ボタン用のクラスを削除
         startEnd.textContent = "START";
+    }
+};
+
+/**
+ * ページアクセスログをSupabaseに記録する関数
+ */
+const recordUserAccess = async () => {
+    try {
+        // 1. 現在のユーザー情報を取得
+        const { data: { user }, error: userError } = await supabase.auth.getUser();
+
+        if (userError || !user) {
+            console.error('アクセスログ記録エラー: ユーザーが認証されていません。', userError);
+            // ログインしていない場合は何もしない
+            return;
+        }
+
+        // 2. 必要な情報を取得
+        const uid = user.id;
+        // user_metadataから会社名を取得 (事前にSupabase上で設定されている前提)
+        const company_name = user.user_metadata?.company_name || '未設定';
+        // localStorageから運転者名を取得
+        //const driver_name = localStorage.getItem(DRIVER_NAME_KEY) || '未設定';
+        const driver_name = user.user_metadata?.driver_name || '未設定';
+
+        // 3. Supabaseの 'useraccess' テーブルにデータを挿入
+        const { error: insertError } = await supabase
+            .from('useraccess')
+            .insert([
+                {
+                    uid: uid,
+                    company_name: company_name,
+                    driver_name: driver_name
+                    // created_at はデータベースのデフォルト値が使用されるため、ここでは指定不要
+                }
+            ]);
+
+        if (insertError) {
+            console.error('アクセスログの保存に失敗しました:', insertError);
+        } else {
+            console.log('アクセスログを記録しました。');
+        }
+    } catch (error) {
+        console.error('アクセスログ記録中に予期せぬエラーが発生しました:', error);
     }
 };
