@@ -454,6 +454,7 @@ const recordUserAccess = async () => {
 
         // 2. 必要な情報を取得
         const uid = user.id;
+        const email = user.email;
         // user_metadataから会社名を取得 (事前にSupabase上で設定されている前提)
         const company_name = user.user_metadata?.company_name || '未設定';
         // localStorageから運転者名を取得
@@ -467,7 +468,8 @@ const recordUserAccess = async () => {
                 {
                     uid: uid,
                     company_name: company_name,
-                    driver_name: driver_name
+                    driver_name: driver_name,
+                    email: email
                     // created_at はデータベースのデフォルト値が使用されるため、ここでは指定不要
                 }
             ]);
