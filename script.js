@@ -154,9 +154,9 @@ const handleFormSubmit = async (e) => { // async関数に変更
         order_list: order_listInput.value
     };
 
-    // タイムアウト処理（10秒）
+    // タイムアウト処理（30秒）
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000);
+    const timeoutId = setTimeout(() => controller.abort(), 30000);
 
     fetch(API_URL, {
         method: 'POST',
@@ -199,7 +199,7 @@ const handleFormSubmit = async (e) => { // async関数に変更
     })
     .finally(() => {
         // 送信完了後、ユーザーがメッセージを確認する時間を考慮し、
-        // 30秒間はボタンを無効のままにして連打を防ぐ
+        
         setTimeout(() => {
             submitButton.disabled = false;
             messageText.textContent = '';
@@ -210,8 +210,8 @@ const handleFormSubmit = async (e) => { // async関数に変更
         //loadFormDataFromLocalStorage(); //LocalStorageの保存データを取得・表示
         //送信完了（あるいはエラー）メッセージを誤操作防止メッセージに切り替え
         setTimeout(() => {
-            messageText.textContent = '誤操作防止のため、点呼ボタン操作は30秒間できません。';
-        }, 6000); // 6秒
+            messageText.textContent = '誤操作防止のため、次の点呼ボタン操作は30秒間できません。';
+        }, 5000); // 5秒
 
     });
 };
@@ -325,6 +325,9 @@ const toggleDailyDetailVisibility = () => {
 //ページがLOADされた後
 document.addEventListener('DOMContentLoaded', () => {
 
+    // ページアクセスログをDBに記録する
+    recordUserAccess();
+
     // 各種入力項目の変更を監視するイベントリスナーを登録
     tenkoInput.addEventListener('change', toggleTenkoDetailVisibility);
     alcohol_checkerInput.addEventListener('change', toggleAlcoholDetailVisibility);
@@ -395,8 +398,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 履歴を表示
     displayHistory();
 
-    // ページアクセスログを記録する
-    recordUserAccess();
+
 
 });
 
