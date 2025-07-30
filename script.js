@@ -211,25 +211,27 @@ const handleFormSubmit = async (e) => { // async関数に変更
     })
     .finally(() => {
         // 送信完了後、ユーザーがメッセージを確認する時間を考慮し、
-        
-        setTimeout(() => {
-            submitButton.disabled = false;
-            messageText.textContent = '';
-            loadFormDataFromLocalStorage(); //LocalStorageの保存データを取得・表示
+        // オーバーレイの非表示とボタンの有効化のタイミングを分離します。
 
+        // フォームをリセット
+        form.reset();
+
+        // 3秒後にオーバーレイを非表示にし、メイン画面にメッセージを表示
+        setTimeout(() => {
             // オーバーレイを非表示
             if (overlay) {
                 overlay.classList.add('hidden');
             }
-        }, 60000); // 60秒
+            // メイン画面に「誤操作防止」メッセージを表示
+            messageText.textContent = '誤操作防止のため、次の点呼ボタン操作は30秒後までできません。';
+        }, 3000); // 3秒
 
-        form.reset(); // フォームをリセット
-        //loadFormDataFromLocalStorage(); //LocalStorageの保存データを取得・表示
-        //送信完了（あるいはエラー）メッセージを誤操作防止メッセージに切り替え
+        // 30秒後にボタンを有効化し、メッセージをクリアする
         setTimeout(() => {
-            messageText.textContent = '誤操作防止のため、次の点呼ボタン操作は30秒間できません。';
-        }, 5000); // 5秒
-
+            submitButton.disabled = false;
+            messageText.textContent = '';
+            loadFormDataFromLocalStorage(); // LocalStorageの保存データを取得・表示
+        }, 30000); // 30秒
     });
 };
 
