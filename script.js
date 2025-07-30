@@ -1,4 +1,4 @@
-﻿﻿//test2_Hiwa点呼記録
+﻿//test2_Hiwa点呼記録
 
 // supabaseクライアントをインポート
 import { supabase } from './js/supabaseClient.js';
@@ -11,6 +11,8 @@ const form = document.getElementById('reportForm');
 const submitButton = document.getElementById('submitButton');
 const startEnd = document.getElementById('start_end');
 const messageText = document.getElementById('message_text');
+const overlay = document.getElementById('overlay');
+const overlayMessage = document.getElementById('overlay-message');
 const currentDateDiv = document.getElementById('currentDate');
 const currentTimeDiv = document.getElementById('currentTime');
 const startTimeInput = document.getElementById('start');
@@ -100,6 +102,12 @@ function getFormattedCurrentDateTime() {
 const handleFormSubmit = async (e) => { // async関数に変更
     e.preventDefault(); // デフォルトのフォーム送信を停止
 
+    // オーバーレイを表示
+    if (overlay) {
+        if (overlayMessage) overlayMessage.textContent = "送信中...";
+        overlay.classList.remove('hidden');
+    }
+
     // 現在のセッションからアクセストークンを取得
     const { data: { session }, error: sessionError } = await supabase.auth.getSession();
 
@@ -117,8 +125,8 @@ const handleFormSubmit = async (e) => { // async関数に変更
 
     const current_time = getFormattedCurrentDateTime()
 
-    // メッセージをクリアし、ボタンを無効化
-    messageText.textContent = "送信中...";
+    // ボタンを無効化
+    // messageText.textContent = "送信中..."; // オーバーレイに表示するためコメントアウト
     submitButton.disabled = true;
 
     //現在時刻を開始あるいは終了点呼の時刻にセットする
@@ -154,9 +162,9 @@ const handleFormSubmit = async (e) => { // async関数に変更
         order_list: order_listInput.value
     };
 
-    // タイムアウト処理（30秒）
+    // タイムアウト処理（60秒）
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 30000);
+    const timeoutId = setTimeout(() => controller.abort(), 60000);
 
     fetch(API_URL, {
         method: 'POST',
@@ -178,20 +186,24 @@ const handleFormSubmit = async (e) => { // async関数に変更
     })
     .then(resData => {
         if (resData.status === 'success') {
+            if (overlayMessage) overlayMessage.textContent = resData.message;
             messageText.textContent = resData.message;
             messageText.className = 'success';
             saveStateAndHistory(data); // 送信成功時に状態と履歴を保存
             displayHistory(); // 履歴テーブルを更新
         } else {
             // GASがエラーを返してきた場合 (例: { status: 'error', message: '...' })
+            if (overlayMessage) overlayMessage.textContent = 'エラーが発生しました: ' + (resData.message || '不明なエラーです。');
             messageText.textContent = 'エラーが発生しました: ' + (resData.message || '不明なエラーです。');
             messageText.className = 'error';
         }
     })
     .catch(error => {
         if (error.name === 'AbortError') {
+            if (overlayMessage) overlayMessage.textContent = '送信がタイムアウトしました。時間をおいて再試行してください。';
             messageText.textContent = '送信がタイムアウトしました。時間をおいて再試行してください。';
         } else {
+            if (overlayMessage) overlayMessage.textContent = '送信に失敗しました。ネットワーク接続やサーバーの状態を確認してください。';
             messageText.textContent = '送信に失敗しました。ネットワーク接続やサーバーの状態を確認してください。';
         }
         messageText.className = 'error';
@@ -204,7 +216,12 @@ const handleFormSubmit = async (e) => { // async関数に変更
             submitButton.disabled = false;
             messageText.textContent = '';
             loadFormDataFromLocalStorage(); //LocalStorageの保存データを取得・表示
-        }, 30000); // 30秒
+
+            // オーバーレイを非表示
+            if (overlay) {
+                overlay.classList.add('hidden');
+            }
+        }, 60000); // 60秒
 
         form.reset(); // フォームをリセット
         //loadFormDataFromLocalStorage(); //LocalStorageの保存データを取得・表示
