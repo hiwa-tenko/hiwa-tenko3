@@ -53,6 +53,7 @@ const REPORT_HISTORY_KEY = 'reportHistory'; // 履歴保存用のキー
 const START_TIME_KEY = 'startTime';
 const END_TIME_KEY = 'endTime';
 
+const FORM_DATA_KEY = 'unsentFormData'; // 未送信のフォームデータ保存用のキー
 // ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 // バックエンドAPIのURL。デプロイ後にRenderのURLに書き換えます。
 //const API_URL = 'http://localhost:3001/api/reports';
@@ -235,6 +236,27 @@ const handleFormSubmit = async (e) => { // async関数に変更
     });
 };
 
+// フォームの入力内容をリアルタイムでlocalStorageに保存する関数
+const saveFormDataToLocalStorage = () => {
+    const formData = {
+        name: nameInput.value,
+        number: numberInput.value,
+        tenko: tenkoInput.value,
+        tenko_detail: tenko_detailInput.value,
+        tenko_name: tenko_nameInput.value,
+        alcohol_checker: alcohol_checkerInput.checked,
+        alcohol_checker_detail: alcohol_checker_detailInput.value,
+        drunk_check: drunk_checkInput.checked,
+        health_check: health_checkInput.checked,
+        health_detail: health_detailInput.value,
+        daily_check: daily_checkInput.checked,
+        daily_detail: daily_detailInput.value,
+        order_list: order_listInput.value,
+    };
+    localStorage.setItem(FORM_DATA_KEY, JSON.stringify(formData));
+};
+
+
 // 状態と履歴をlocalStorageに保存する関数
 const saveStateAndHistory = (sentData) => {
     // 1. 次回入力補助用のデータを保存
@@ -263,6 +285,9 @@ const saveStateAndHistory = (sentData) => {
     const recentHistory = history.filter(record => record.timestamp > periodDaysAgo);
 
     localStorage.setItem(REPORT_HISTORY_KEY, JSON.stringify(recentHistory));
+
+    // 5. 送信が成功したので、未送信フォームデータをクリア
+    localStorage.removeItem(FORM_DATA_KEY);
 };
 
 // 履歴をテーブルに表示する関数
@@ -347,6 +372,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // ページアクセスログをDBに記録する
     recordUserAccess();
 
+    // リアルタイム保存用のイベントリスナーを登録
+    const textInputsToSave = [
+        nameInput, numberInput, tenko_detailInput, tenko_nameInput,
+        alcohol_checker_detailInput, health_detailInput, daily_detailInput, order_listInput
+    ];
+    const choiceInputsToSave = [
+        tenkoInput, alcohol_checkerInput, drunk_checkInput,
+        health_checkInput, daily_checkInput
+    ];
+    textInputsToSave.forEach(input => {
+        if (input) input.addEventListener('input', saveFormDataToLocalStorage);
+    });
+    choiceInputsToSave.forEach(input => {
+        if (input) input.addEventListener('change', saveFormDataToLocalStorage);
+    });
     // 各種入力項目の変更を監視するイベントリスナーを登録
     tenkoInput.addEventListener('change', toggleTenkoDetailVisibility);
     alcohol_checkerInput.addEventListener('change', toggleAlcoholDetailVisibility);
@@ -423,36 +463,60 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // ページ読み込み時にlocalStorageから[運転者氏名]、[車両番号]、[点呼確認者名]の値を取得フォームに設定
 const loadFormDataFromLocalStorage = () => {
-    //localStorageから[運転者氏名]、[車両番号]、[点呼確認者名]の値を読み込んでフォームに設定
-    if (nameInput) {
+    // リアルタイム保存された未送信データを読み込む
+    const unsentDataJSON = localStorage.getItem(FORM_DATA_KEY);
+
+    if (unsentDataJSON) {
+        const data = JSON.parse(unsentDataJSON);
+        if (nameInput) nameInput.value = data.name || '';
+        if (numberInput) numberInput.value = data.number || '';
+        if (tenkoInput) tenkoInput.value = data.tenko || '対面';
+        if (tenko_detailInput) tenko_detailInput.value = data.tenko_detail || '';
+        if (tenko_nameInput) tenko_nameInput.value = data.tenko_name || '';
+        if (alcohol_checkerInput) alcohol_checkerInput.checked = data.alcohol_checker || false;
+        if (alcohol_checker_detailInput) alcohol_checker_detailInput.value = data.alcohol_checker_detail || '';
+        if (drunk_checkInput) drunk_checkInput.checked = data.drunk_check || false;
+        if (health_checkInput) health_checkInput.checked = data.health_check || false;
+        if (health_detailInput) health_detailInput.value = data.health_detail || '';
+        if (daily_checkInput) daily_checkInput.checked = data.daily_check || false;
+        if (daily_detailInput) daily_detailInput.value = data.daily_detail || '';
+        if (order_listInput) order_listInput.value = data.order_list || '';
+
+        // 詳細表示の更新もトリガーする
+        toggleTenkoDetailVisibility();
+        toggleAlcoholDetailVisibility();
+        toggleHealthDetailVisibility();
+        toggleDailyDetailVisibility();
+    } else {
+        // 未送信データがない場合は、前回送信成功時のデータを読み込む
+        if (nameInput) {
             const savedName = localStorage.getItem(DRIVER_NAME_KEY);
             if (savedName !== null) { // 値が存在する場合のみ設定
                 nameInput.value = savedName;
             }
-    }
-    if (numberInput) {
+        }
+        if (numberInput) {
             const savedVehicleNumber = localStorage.getItem(VEHICLE_NUMBER_KEY);
             if (savedVehicleNumber !== null) { // 値が存在する場合のみ設定
                 numberInput.value = savedVehicleNumber;
             }
-    }
-    if (tenko_nameInput) {
+        }
+        if (tenko_nameInput) {
             const savedTenkoName = localStorage.getItem(TENKO_NAME_KEY);
             if (savedTenkoName !== null) { // 値が存在する場合のみ設定
                 tenko_nameInput.value = savedTenkoName;
             }
+        }
     }
 
     // 開始/終了の状態に応じてボタンの表示を切り替える
     // localStorageにSTART_TIME_KEYの値が存在する場合（空文字列やnullでない）、次は「終了点呼」
     if (localStorage.getItem(START_TIME_KEY)) {
-        console.log("状態: 開始点呼済み -> 次は終了点呼", localStorage.getItem(START_TIME_KEY));
         submitButton.textContent = "終了　点呼";
         submitButton.classList.add('end-call'); // 終了ボタン用のクラスを追加
         startEnd.textContent = "END";
     } else {
         // START_TIME_KEYが保存されていない、または空文字列の場合は「開始点呼」
-        console.log("状態: 未開始または終了点呼済み -> 次は開始点呼");
         submitButton.textContent = "開始　点呼";
         submitButton.classList.remove('end-call'); // 終了ボタン用のクラスを削除
         startEnd.textContent = "START";
