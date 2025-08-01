@@ -12,6 +12,7 @@ const submitButton = document.getElementById('submitButton');
 const startEnd = document.getElementById('start_end');
 const messageText = document.getElementById('message_text');
 const overlay = document.getElementById('overlay');
+const loadingOverlay = document.getElementById('loading-overlay');
 const overlayMessage = document.getElementById('overlay-message');
 const currentDateDiv = document.getElementById('currentDate');
 const currentTimeDiv = document.getElementById('currentTime');
@@ -99,6 +100,27 @@ function getFormattedCurrentDateTime() {
     const minutes = now.getMinutes().toString().padStart(2, '0');
     return `${year}-${month}-${day}T${hours}:${minutes}`;
 }
+
+// 10秒後にローディングオーバーレイを非表示にする関数
+const hideLoadingOverlay = () => {
+    if (loadingOverlay) {
+        // フェードアウト効果のためにopacityを変更
+        loadingOverlay.style.opacity = '0';
+        // transitionの完了後にdisplay: noneを設定
+        setTimeout(() => {
+            loadingOverlay.classList.add('hidden');
+        }, 500); // 0.5秒のCSS transitionに合わせる
+    }
+};
+
+// ページ表示時にローディングオーバーレイを表示し、10秒後に非表示にする関数
+const showAndHideLoadingOverlay = () => {
+    if (loadingOverlay) {
+        loadingOverlay.classList.remove('hidden');
+        loadingOverlay.style.opacity = '1';
+        setTimeout(hideLoadingOverlay, 10000); // 10秒後に非表示
+    }
+};
 
 const handleFormSubmit = async (e) => { // async関数に変更
     e.preventDefault(); // デフォルトのフォーム送信を停止
@@ -369,6 +391,9 @@ const toggleDailyDetailVisibility = () => {
 //ページがLOADされた後
 document.addEventListener('DOMContentLoaded', () => {
 
+    // ページ読み込み時にローディングオーバーレイを表示
+    showAndHideLoadingOverlay();
+
     // ページアクセスログをDBに記録する
     recordUserAccess();
 
@@ -457,8 +482,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // 履歴を表示
     displayHistory();
 
+});
 
-
+// バックグラウンドから復帰した際の処理
+document.addEventListener('visibilitychange', () => {
+    // ページが再び表示された場合
+    if (document.visibilityState === 'visible') {
+        // ローディングオーバーレイを表示
+        showAndHideLoadingOverlay();
+        // 時刻表示を即時更新
+        displayCurrentDate();
+        displayCurrentTime();
+    }
 });
 
 // ページ読み込み時にlocalStorageから[運転者氏名]、[車両番号]、[点呼確認者名]の値を取得フォームに設定

@@ -538,6 +538,40 @@ textarea {
     min-height: 1.2em;
 }
 
+/* ローディングオーバーレイのスタイル */
+.loading-overlay {
+    position: fixed;
+    inset: 0; /* top, right, bottom, left を 0 にするショートハンド */
+    background-color: rgba(255, 255, 255, 0.9); /* 少し透明な白 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 1;
+    transition: opacity 0.5s ease-out;
+}
+
+/* hiddenクラスは既存のものを再利用します */
+.loading-overlay.hidden {
+    display: none;
+}
+
+/* ローディングスピナーのスタイル */
+.spinner {
+    border: 8px solid #f3f3f3; /* Light grey */
+    border-top: 8px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
 #overlay {
   position: fixed;
   inset: 0; /* top, right, bottom, left: 0; と同じです */
