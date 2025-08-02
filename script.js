@@ -113,12 +113,12 @@ const hideLoadingOverlay = () => {
     }
 };
 
-// ページ表示時にローディングオーバーレイを表示し、10秒後に非表示にする関数
+// ページ表示時にローディングオーバーレイを表示し、6秒後に非表示にする関数
 const showAndHideLoadingOverlay = () => {
     if (loadingOverlay) {
         loadingOverlay.classList.remove('hidden');
         loadingOverlay.style.opacity = '1';
-        setTimeout(hideLoadingOverlay, 10000); // 10秒後に非表示
+        setTimeout(hideLoadingOverlay, 6000); // 6秒後に非表示
     }
 };
 
@@ -391,11 +391,11 @@ const toggleDailyDetailVisibility = () => {
 //ページがLOADされた後
 document.addEventListener('DOMContentLoaded', () => {
 
-    // ページ読み込み時にローディングオーバーレイを表示
-    showAndHideLoadingOverlay();
-
     // ページアクセスログをDBに記録する
     recordUserAccess();
+
+    // ページ読み込み時にローディングオーバーレイを表示（supaBASEの無料プランのコールドスタート20秒待ち対策）
+    showAndHideLoadingOverlay();
 
     // リアルタイム保存用のイベントリスナーを登録
     const textInputsToSave = [
@@ -488,6 +488,8 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('visibilitychange', () => {
     // ページが再び表示された場合
     if (document.visibilityState === 'visible') {
+        // ページアクセスログをDBに記録する
+        recordUserAccess();
         // ローディングオーバーレイを表示
         showAndHideLoadingOverlay();
         // 時刻表示を即時更新
