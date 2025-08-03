@@ -118,7 +118,7 @@ const showAndHideLoadingOverlay = () => {
     if (loadingOverlay) {
         loadingOverlay.classList.remove('hidden');
         loadingOverlay.style.opacity = '1';
-        setTimeout(hideLoadingOverlay, 2000); // 2秒後に非表示
+        setTimeout(hideLoadingOverlay, 1000); // 1秒後に非表示
     }
 };
 
@@ -245,16 +245,19 @@ const handleFormSubmit = async (e) => { // async関数に変更
             if (overlay) {
                 overlay.classList.add('hidden');
             }
+            submitButton.disabled = false;  // 5秒後にボタンを有効化し、メッセージをクリアする
+            messageText.textContent = '';   // 5秒後にボタンを有効化し、メッセージをクリアする
+            loadFormDataFromLocalStorage(); // LocalStorageの保存データを取得・表示
             // メイン画面に「誤操作防止」メッセージを表示
-            messageText.textContent = '誤操作防止のため、次の点呼ボタン操作は30秒後までできません。';
+            //messageText.textContent = '誤操作防止のため、次の点呼ボタン操作は30秒後までできません。';
         }, 3000); // 3秒
 
         // 5秒後にボタンを有効化し、メッセージをクリアする
-        setTimeout(() => {
-            submitButton.disabled = false;
-            messageText.textContent = '';
-            loadFormDataFromLocalStorage(); // LocalStorageの保存データを取得・表示
-        }, 5000); // 5秒
+        //setTimeout(() => {
+            //submitButton.disabled = false;
+            //messageText.textContent = '';
+            //loadFormDataFromLocalStorage(); // LocalStorageの保存データを取得・表示
+        //}, 5000); // 5秒
     });
 };
 
@@ -394,7 +397,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ページアクセスログをDBに記録する
     //recordUserAccess();
 
-    // ページ読み込み時にローディングオーバーレイを表示（supaBASEの無料プランのコールドスタート2秒待ち対策）
+    // ページ読み込み時にローディングオーバーレイを表示
     showAndHideLoadingOverlay();
 
     // リアルタイム保存用のイベントリスナーを登録
