@@ -101,7 +101,7 @@ function getFormattedCurrentDateTime() {
     return `${year}-${month}-${day}T${hours}:${minutes}`;
 }
 
-// 10秒後にローディングオーバーレイを非表示にする関数
+// ローディングオーバーレイを非表示にする関数
 const hideLoadingOverlay = () => {
     if (loadingOverlay) {
         // フェードアウト効果のためにopacityを変更
@@ -113,12 +113,12 @@ const hideLoadingOverlay = () => {
     }
 };
 
-// ページ表示時にローディングオーバーレイを表示し、6秒後に非表示にする関数
+// ページ表示時にローディングオーバーレイを表示し、2秒後に非表示にする関数
 const showAndHideLoadingOverlay = () => {
     if (loadingOverlay) {
         loadingOverlay.classList.remove('hidden');
         loadingOverlay.style.opacity = '1';
-        setTimeout(hideLoadingOverlay, 6000); // 6秒後に非表示
+        setTimeout(hideLoadingOverlay, 2000); // 2秒後に非表示
     }
 };
 
@@ -138,10 +138,10 @@ const handleFormSubmit = async (e) => { // async関数に変更
         console.error('セッションの取得に失敗しました:', sessionError);
         messageText.textContent = '認証エラーが発生しました。再ログインしてください。';
         messageText.className = 'error';
-        // 3秒後にログインページにリダイレクト
+        // 2秒後にログインページにリダイレクト
         setTimeout(() => {
             window.location.href = 'login.html';
-        }, 3000);
+        }, 2000);
         return;
     }
     const accessToken = session.access_token;
@@ -249,12 +249,12 @@ const handleFormSubmit = async (e) => { // async関数に変更
             messageText.textContent = '誤操作防止のため、次の点呼ボタン操作は30秒後までできません。';
         }, 3000); // 3秒
 
-        // 30秒後にボタンを有効化し、メッセージをクリアする
+        // 5秒後にボタンを有効化し、メッセージをクリアする
         setTimeout(() => {
             submitButton.disabled = false;
             messageText.textContent = '';
             loadFormDataFromLocalStorage(); // LocalStorageの保存データを取得・表示
-        }, 30000); // 30秒
+        }, 5000); // 5秒
     });
 };
 
@@ -279,7 +279,7 @@ const saveFormDataToLocalStorage = () => {
 };
 
 
-// 状態と履歴をlocalStorageに保存する関数
+// 今のの状態と履歴をlocalStorageに保存する関数
 const saveStateAndHistory = (sentData) => {
     // 1. 次回入力補助用のデータを保存
     if (sentData.name) localStorage.setItem(DRIVER_NAME_KEY, sentData.name);
@@ -392,9 +392,9 @@ const toggleDailyDetailVisibility = () => {
 document.addEventListener('DOMContentLoaded', () => {
 
     // ページアクセスログをDBに記録する
-    recordUserAccess();
+    //recordUserAccess();
 
-    // ページ読み込み時にローディングオーバーレイを表示（supaBASEの無料プランのコールドスタート20秒待ち対策）
+    // ページ読み込み時にローディングオーバーレイを表示（supaBASEの無料プランのコールドスタート2秒待ち対策）
     showAndHideLoadingOverlay();
 
     // リアルタイム保存用のイベントリスナーを登録
@@ -489,7 +489,7 @@ document.addEventListener('visibilitychange', () => {
     // ページが再び表示された場合
     if (document.visibilityState === 'visible') {
         // ページアクセスログをDBに記録する
-        recordUserAccess();
+        //recordUserAccess();
         // ローディングオーバーレイを表示
         showAndHideLoadingOverlay();
         // 時刻表示を即時更新
@@ -498,7 +498,7 @@ document.addEventListener('visibilitychange', () => {
     }
 });
 
-// ページ読み込み時にlocalStorageから[運転者氏名]、[車両番号]、[点呼確認者名]の値を取得フォームに設定
+// ページ読み込み時にlocalStorageから[運転者氏名]、[車両番号]、[点呼確認者名]など全部の値を取得フォームに設定
 const loadFormDataFromLocalStorage = () => {
     // リアルタイム保存された未送信データを読み込む
     const unsentDataJSON = localStorage.getItem(FORM_DATA_KEY);
