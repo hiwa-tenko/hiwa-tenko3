@@ -63,6 +63,12 @@ body {
     margin-right: 0;
     cursor: pointer; /* クリックできることを示すカーソル */
 }
+.top-button img { /*arrow_top1.svg*/
+    width: 2.5em;
+    height: 2.5em;
+    margin-right: 0;
+    cursor: pointer; /* クリックできることを示すカーソル */
+}
 
 .start-set-button {
     width: 70%;

@@ -113,7 +113,7 @@ const hideLoadingOverlay = () => {
     }
 };
 
-// ページ表示時にローディングオーバーレイを表示し、2秒後に非表示にする関数
+// ページ表示時にローディングオーバーレイを表示し、1秒後に非表示にする関数
 const showAndHideLoadingOverlay = () => {
     if (loadingOverlay) {
         loadingOverlay.classList.remove('hidden');
@@ -138,10 +138,10 @@ const handleFormSubmit = async (e) => { // async関数に変更
         console.error('セッションの取得に失敗しました:', sessionError);
         messageText.textContent = '認証エラーが発生しました。再ログインしてください。';
         messageText.className = 'error';
-        // 2秒後にログインページにリダイレクト
+        // 1秒後にログインページにリダイレクト
         setTimeout(() => {
             window.location.href = 'login.html';
-        }, 2000);
+        }, 1000);
         return;
     }
     const accessToken = session.access_token;
