@@ -383,7 +383,7 @@ const toggleDailyDetailVisibility = () => {
 };
 
 // ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
-// 14分ごとにサーバーにpingを送信して、スリープを防ぐ (Renderの無料プランは15分でスリープするため)
+// 13分ごとにサーバーにpingを送信して、スリープを防ぐ (Renderの無料プランは15分でスリープするため)
 //　有料プラン変更後は不要かも？
 // ページLoad後（'DOMContentLoaded'）にもkeepServerWarmを設定
 const PING_URL = 'https://hiwa-tenko-backend.onrender.com/api/health'; // バックエンドに作成した軽量なエンドポイント
@@ -395,7 +395,7 @@ const keepServerWarm = () => {
     });
 };
 
-setInterval(keepServerWarm, 14 * 60 * 1000);    // 14分ごとにserver スリープ防止を実行
+setInterval(keepServerWarm, 13 * 60 * 1000);    // 13分ごとにserver スリープ防止を実行
 // ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 
 //ページがLOADされた後
