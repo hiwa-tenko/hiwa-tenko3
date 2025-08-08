@@ -245,19 +245,11 @@ const handleFormSubmit = async (e) => { // async関数に変更
             if (overlay) {
                 overlay.classList.add('hidden');
             }
-            submitButton.disabled = false;  // 5秒後にボタンを有効化し、メッセージをクリアする
-            messageText.textContent = '';   // 5秒後にボタンを有効化し、メッセージをクリアする
+            // ボタンを再度有効化し、メッセージをクリア
+            submitButton.disabled = false;
+            messageText.textContent = '';
             loadFormDataFromLocalStorage(); // LocalStorageの保存データを取得・表示
-            // メイン画面に「誤操作防止」メッセージを表示
-            //messageText.textContent = '誤操作防止のため、次の点呼ボタン操作は30秒後までできません。';
         }, 3000); // 3秒
-
-        // 5秒後にボタンを有効化し、メッセージをクリアする
-        //setTimeout(() => {
-            //submitButton.disabled = false;
-            //messageText.textContent = '';
-            //loadFormDataFromLocalStorage(); // LocalStorageの保存データを取得・表示
-        //}, 5000); // 5秒
     });
 };
 
@@ -391,8 +383,23 @@ const toggleDailyDetailVisibility = () => {
         }
 };
 
+// 14分ごとにサーバーにpingを送信して、スリープを防ぐ
+// (Renderの無料プランは15分でスリープするため)
+const PING_URL = 'https://hiwa-tenko-backend.onrender.com/api/health'; // バックエンドに作成した軽量なエンドポイント
+
+const keepServerWarm = () => {
+    console.log('サーバーのスリープを防止するためにpingを送信します。');
+    fetch(PING_URL).catch(err => {
+        console.warn('キープアライブのpingに失敗しました:', err);
+    });
+};
+
+setInterval(keepServerWarm, 14 * 60 * 1000);    // 14分ごとにserver スリープ防止を実行
+
 //ページがLOADされた後
 document.addEventListener('DOMContentLoaded', () => {
+
+    keepServerWarm();   //server スリープ防止
 
     // ページアクセスログをDBに記録する
     //recordUserAccess();
