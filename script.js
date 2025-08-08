@@ -56,8 +56,7 @@ const END_TIME_KEY = 'endTime';
 
 const FORM_DATA_KEY = 'unsentFormData'; // 未送信のフォームデータ保存用のキー
 // ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
-// バックエンドAPIのURL。デプロイ後にRenderのURLに書き換えます。
-//const API_URL = 'http://localhost:3001/api/reports';
+//const API_URL = 'http://localhost:3001/api/reports';// デプロイ後にRenderのURLに書き換える。
 const API_URL = 'https://hiwa-tenko-backend.onrender.com/api/reports';
 // ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 
@@ -383,8 +382,10 @@ const toggleDailyDetailVisibility = () => {
         }
 };
 
-// 14分ごとにサーバーにpingを送信して、スリープを防ぐ
-// (Renderの無料プランは15分でスリープするため)
+// ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+// 14分ごとにサーバーにpingを送信して、スリープを防ぐ (Renderの無料プランは15分でスリープするため)
+//　有料プラン変更後は不要かも？
+// ページLoad後（'DOMContentLoaded'）にもkeepServerWarmを設定
 const PING_URL = 'https://hiwa-tenko-backend.onrender.com/api/health'; // バックエンドに作成した軽量なエンドポイント
 
 const keepServerWarm = () => {
@@ -395,11 +396,12 @@ const keepServerWarm = () => {
 };
 
 setInterval(keepServerWarm, 14 * 60 * 1000);    // 14分ごとにserver スリープ防止を実行
+// ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 
 //ページがLOADされた後
 document.addEventListener('DOMContentLoaded', () => {
 
-    keepServerWarm();   //server スリープ防止
+    keepServerWarm();   // ★★★server スリープ防止 ★★★
 
     // ページアクセスログをDBに記録する
     //recordUserAccess();
@@ -458,20 +460,19 @@ document.addEventListener('DOMContentLoaded', () => {
         menuIcon.addEventListener('click', (event) => {
             // メニューの表示/非表示を切り替える
             navMenu.classList.toggle('visible');
-            // イベントの伝播を停止（下のdocumentクリックイベントが発火しないように）
+            // イベントの伝播を停止し、documentのクリックイベントが即座に発火するのを防ぐ
             event.stopPropagation();
         });
+
+        // メニューの外側をクリックしたときにメニューを閉じるイベントリスナーもここに追加
+        document.addEventListener('click', () => {
+            // navMenuが存在し、かつ表示されている場合のみ閉じる処理を実行
+            if (navMenu && navMenu.classList.contains('visible')) {
+                navMenu.classList.remove('visible');
+            }
+        });
     }
-    
-    // メニューの外側をクリックしたときにメニューを閉じる
-    
-    document.addEventListener('click', (event) => {
-        // メニューが表示されていて、かつクリックされた場所がメニューの外の場合
-        if (navMenu.classList.contains('visible')) {
-            navMenu.classList.remove('visible');
-        }
-    });
-    
+
     //履歴の表示・非表示切り替え
     if (historyButton && historyList && buttonImage) {
         historyButton.addEventListener('click', () => {
