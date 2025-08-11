@@ -184,9 +184,10 @@ const handleFormSubmit = async (e) => { // async関数に変更
         order_list: order_listInput.value
     };
 
-    // タイムアウト処理（60秒）
+    // タイムアウト処理（5秒）
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 60000);
+    //const timeoutId = setTimeout(() => controller.abort(), 60000);
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
 
     fetch(API_URL, {
         method: 'POST',
@@ -214,7 +215,7 @@ const handleFormSubmit = async (e) => { // async関数に変更
             saveStateAndHistory(data); // 送信成功時に状態と履歴を保存
             displayHistory(); // 履歴テーブルを更新
         } else {
-            // GASがエラーを返してきた場合 (例: { status: 'error', message: '...' })
+            // エラーを返してきた場合 (例: { status: 'error', message: '...' })
             if (overlayMessage) overlayMessage.textContent = 'エラーが発生しました: ' + (resData.message || '不明なエラーです。');
             messageText.textContent = 'エラーが発生しました: ' + (resData.message || '不明なエラーです。');
             messageText.className = 'error';
@@ -222,8 +223,9 @@ const handleFormSubmit = async (e) => { // async関数に変更
     })
     .catch(error => {
         if (error.name === 'AbortError') {
-            if (overlayMessage) overlayMessage.textContent = '送信がタイムアウトしました。時間をおいて再試行してください。';
-            messageText.textContent = '送信がタイムアウトしました。時間をおいて再試行してください。';
+            //if (overlayMessage) overlayMessage.textContent = '送信がタイムアウトしました。時間をおいて再試行してください。';
+            //messageText.textContent = '送信がタイムアウトしました。時間をおいて再試行してください。';
+            
         } else {
             if (overlayMessage) overlayMessage.textContent = '送信に失敗しました。ネットワーク接続やサーバーの状態を確認してください。';
             messageText.textContent = '送信に失敗しました。ネットワーク接続やサーバーの状態を確認してください。';
@@ -238,7 +240,7 @@ const handleFormSubmit = async (e) => { // async関数に変更
         // フォームをリセット
         form.reset();
 
-        // 3秒後にオーバーレイを非表示にし、メイン画面にメッセージを表示
+        // 1秒後にオーバーレイを非表示にし、メイン画面にメッセージを表示
         setTimeout(() => {
             // オーバーレイを非表示
             if (overlay) {
@@ -248,11 +250,11 @@ const handleFormSubmit = async (e) => { // async関数に変更
             submitButton.disabled = false;
             messageText.textContent = '';
             loadFormDataFromLocalStorage(); // LocalStorageの保存データを取得・表示
-        }, 3000); // 3秒
+        }, 1000); // 1秒
     });
 };
 
-// フォームの入力内容をリアルタイムでlocalStorageに保存する関数
+// フォームの入力中にリアルタイムでlocalStorageに保存する関数
 const saveFormDataToLocalStorage = () => {
     const formData = {
         name: nameInput.value,
@@ -515,6 +517,7 @@ const loadFormDataFromLocalStorage = () => {
     const unsentDataJSON = localStorage.getItem(FORM_DATA_KEY);
 
     if (unsentDataJSON) {
+        // 未送信データがある（送信に失敗していた）場合は、
         const data = JSON.parse(unsentDataJSON);
         if (nameInput) nameInput.value = data.name || '';
         if (numberInput) numberInput.value = data.number || '';
@@ -536,7 +539,7 @@ const loadFormDataFromLocalStorage = () => {
         toggleHealthDetailVisibility();
         toggleDailyDetailVisibility();
     } else {
-        // 未送信データがない場合は、前回送信成功時のデータを読み込む
+        // 未送信データがない（送信に成功していた）場合は、前回送信成功時のデータ（氏名・ナンバー・点呼者）を読み込む
         if (nameInput) {
             const savedName = localStorage.getItem(DRIVER_NAME_KEY);
             if (savedName !== null) { // 値が存在する場合のみ設定
