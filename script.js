@@ -58,6 +58,9 @@ const FORM_DATA_KEY = 'unsentFormData'; // 未送信のフォームデータ保�
 // ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 //const API_URL = 'http://localhost:3001/api/reports';// デプロイ後にRenderのURLに書き換える。
 const API_URL = 'https://hiwa-tenko-backend.onrender.com/api/reports';
+
+// デプロイしたGASのウェブアプリURL(受信記録２)mega.osada.sf@gmail.com
+const GAS_APP_URL = 'https://script.google.com/macros/s/AKfycbw9WmBmnTBknedyvVgZ0HAyNYhTVzu9aesYue9GAP2GwMN_XbtzD9qJaHJC8SO_9yX8/exec';
 // ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 
 // 現在年月日を表示する関数
@@ -121,7 +124,7 @@ const showAndHideLoadingOverlay = () => {
     }
 };
 
-const handleFormSubmit = async (e) => { // async関数に変更
+const handleFormSubmit = () => { // async関数に変更
     e.preventDefault(); // デフォルトのフォーム送信を停止
 
     // オーバーレイを表示
@@ -129,21 +132,6 @@ const handleFormSubmit = async (e) => { // async関数に変更
         if (overlayMessage) overlayMessage.textContent = "送信中...";
         overlay.classList.remove('hidden');
     }
-
-    // 現在のセッションからアクセストークンを取得
-    const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-
-    if (sessionError || !session) {
-        console.error('セッションの取得に失敗しました:', sessionError);
-        messageText.textContent = '認証エラーが発生しました。再ログインしてください。';
-        messageText.className = 'error';
-        // 1秒後にログインページにリダイレクト
-        setTimeout(() => {
-            window.location.href = 'login.html';
-        }, 1000);
-        return;
-    }
-    const accessToken = session.access_token;
 
     const current_time = getFormattedCurrentDateTime()
 
@@ -165,6 +153,28 @@ const handleFormSubmit = async (e) => { // async関数に変更
     // 車両番号から数字以外の文字を削除し、スプレッドシート用にシングルクォートを付与
     let number = numberInput.value.replace(/\D/g, '');
 
+    saveSupabaseDB();   //supabase DBに保存
+
+
+};
+
+// supabase DBに保存する関数
+const saveSupabaseDB = async (e) => {
+    // 現在のセッションからアクセストークンを取得
+    const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+
+    if (sessionError || !session) {
+        console.error('セッションの取得に失敗しました:', sessionError);
+        messageText.textContent = '認証エラーが発生しました。再ログインしてください。';
+        messageText.className = 'error';
+        // 1秒後にログインページにリダイレクト
+        setTimeout(() => {
+            window.location.href = 'login.html';
+        }, 1000);
+        return;
+    }
+    const accessToken = session.access_token;
+
     // FormDataから直接データを取得する代わりに、各入力値を取得します
     const data = {
         name: name,
@@ -184,6 +194,12 @@ const handleFormSubmit = async (e) => { // async関数に変更
         order_list: order_listInput.value
     };
 
+//Google SpreadSheet (GAS_APP_URL) に保存  --start-- 
+
+
+//Google SpreadSheet に保存  --end-- 
+
+    //supabase DB (API_URL) に保存  --start--    
     // タイムアウト処理（5秒）
     const controller = new AbortController();
     //const timeoutId = setTimeout(() => controller.abort(), 60000);
@@ -252,6 +268,7 @@ const handleFormSubmit = async (e) => { // async関数に変更
             loadFormDataFromLocalStorage(); // LocalStorageの保存データを取得・表示
         }, 1000); // 1秒
     });
+//supabase DBに保存  --end--
 };
 
 // フォームの入力中にリアルタイムでlocalStorageに保存する関数
@@ -578,7 +595,7 @@ const loadFormDataFromLocalStorage = () => {
 
 /**
  * ページアクセスログをSupabaseに記録する関数
- */
+ * 他のsleep対策（5秒で強制タイムアウト）を実行中のため一旦コメントアウト
 const recordUserAccess = async () => {
     try {
         // 1. 現在のユーザー情報を取得
@@ -621,3 +638,4 @@ const recordUserAccess = async () => {
         console.error('アクセスログ記録中に予期せぬエラーが発生しました:', error);
     }
 };
+ */
