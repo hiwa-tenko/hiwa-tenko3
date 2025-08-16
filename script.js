@@ -128,6 +128,31 @@ const showAndHideLoadingOverlay = () => {
 const handleFormSubmit = async (e) => { // async関数に変更
     e.preventDefault(); // デフォルトのフォーム送信を停止
 
+    //前回の送信からn時間以内だった場合は送信をブロック
+    const nHours = 1; // n時間
+    const limitTime = nHours * 60 * 60 * 1000; // n時間を表すミリ秒
+    const lastSubmissionTimeValue = localStorage.getItem(START_TIME_KEY) || localStorage.getItem(END_TIME_KEY);
+
+    if (lastSubmissionTimeValue) { // 前回の送信記録がある場合のみチェック
+        const elapsedTime = new Date().getTime() - new Date(lastSubmissionTimeValue).getTime();
+
+        if (elapsedTime < limitTime) {
+            //const passedMinutes = Math.floor(elapsedTime / (60 * 1000));
+            // 確認ダイアログを表示
+            const isConfirmed = confirm(
+                `本当に送信しますか？`
+            );
+
+            // ユーザーが「キャンセル」を押した場合
+            if (!isConfirmed) {
+                messageText.textContent = '送信をキャンセルしました。';
+                setTimeout(() => { messageText.textContent = ''; }, 3000);
+                return; // 処理を中断
+            }
+        }
+    }
+
+
     // オーバーレイを表示
     if (overlay) {
         if (overlayMessage) overlayMessage.textContent = "送信中...";
@@ -166,11 +191,6 @@ const handleFormSubmit = async (e) => { // async関数に変更
         return;
     }
     const accessToken = session.access_token;
-
-    //Google SpreadSheet (GAS_APP_URL) に保存  --start-- 
-
-
-    //Google SpreadSheet に保存  --end-- 
 
     //supabase DB (API_URL) に保存  --start--    
    
@@ -248,7 +268,7 @@ const handleFormSubmit = async (e) => { // async関数に変更
         // フォームをリセット
         form.reset();
 
-        // 1秒後にオーバーレイを非表示にし、メイン画面にメッセージを表示
+        // 0.5秒後にオーバーレイを非表示にし、メイン画面にメッセージを表示
         setTimeout(() => {
             // オーバーレイを非表示
             if (overlay) {
