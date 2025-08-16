@@ -124,6 +124,7 @@ const showAndHideLoadingOverlay = () => {
     }
 };
 
+//開始or終了 点呼ボタンがクリックされた
 const handleFormSubmit = async (e) => { // async関数に変更
     e.preventDefault(); // デフォルトのフォーム送信を停止
 
@@ -133,10 +134,9 @@ const handleFormSubmit = async (e) => { // async関数に変更
         overlay.classList.remove('hidden');
     }
 
-    const current_time = getFormattedCurrentDateTime()
+    const current_time = getFormattedCurrentDateTime();
 
     // ボタンを無効化
-    // messageText.textContent = "送信中..."; // オーバーレイに表示するためコメントアウト
     submitButton.disabled = true;
 
     //現在時刻を開始あるいは終了点呼の時刻にセットする
@@ -153,7 +153,6 @@ const handleFormSubmit = async (e) => { // async関数に変更
     // 車両番号から数字以外の文字を削除し、スプレッドシート用にシングルクォートを付与
     let number = numberInput.value.replace(/\D/g, '');
 
-    //saveSupabaseDB();   //supabase DBに保存
     const { data: { session }, error: sessionError } = await supabase.auth.getSession();
 
     if (sessionError || !session) {
@@ -167,6 +166,17 @@ const handleFormSubmit = async (e) => { // async関数に変更
         return;
     }
     const accessToken = session.access_token;
+
+    //Google SpreadSheet (GAS_APP_URL) に保存  --start-- 
+
+
+    //Google SpreadSheet に保存  --end-- 
+
+    //supabase DB (API_URL) に保存  --start--    
+   
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 60000); // タイムアウト処理（60秒）
+    //const timeoutId = setTimeout(() => controller.abort(), 5000); // タイムアウト処理（5秒）
 
     // FormDataから直接データを取得する代わりに、各入力値を取得します
     const data = {
@@ -186,17 +196,6 @@ const handleFormSubmit = async (e) => { // async関数に変更
         daily_detail: daily_detailInput.value,
         order_list: order_listInput.value
     };
-
-//Google SpreadSheet (GAS_APP_URL) に保存  --start-- 
-
-
-//Google SpreadSheet に保存  --end-- 
-
-    //supabase DB (API_URL) に保存  --start--    
-    // タイムアウト処理（5秒）
-    const controller = new AbortController();
-    //const timeoutId = setTimeout(() => controller.abort(), 60000);
-    const timeoutId = setTimeout(() => controller.abort(), 5000);
 
     fetch(API_URL, {
         method: 'POST',
@@ -232,7 +231,7 @@ const handleFormSubmit = async (e) => { // async関数に変更
     })
     .catch(error => {
         if (error.name === 'AbortError') {
-            //if (overlayMessage) overlayMessage.textContent = '送信がタイムアウトしました。時間をおいて再試行してください。';
+            if (overlayMessage) overlayMessage.textContent = '送信がタイムアウトしました。時間をおいて再試行してください。';
             //messageText.textContent = '送信がタイムアウトしました。時間をおいて再試行してください。';
             
         } else {
@@ -259,122 +258,9 @@ const handleFormSubmit = async (e) => { // async関数に変更
             submitButton.disabled = false;
             messageText.textContent = '';
             loadFormDataFromLocalStorage(); // LocalStorageの保存データを取得・表示
-        }, 1000); // 1秒
+        }, 500); // 0.5秒
     });
-
-};
-
-// supabase DBに保存する関数
-const saveSupabaseDB = async (e) => {
-    // 現在のセッションからアクセストークンを取得
-    const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-
-    if (sessionError || !session) {
-        console.error('セッションの取得に失敗しました:', sessionError);
-        messageText.textContent = '認証エラーが発生しました。再ログインしてください。';
-        messageText.className = 'error';
-        // 1秒後にログインページにリダイレクト
-        setTimeout(() => {
-            window.location.href = 'login.html';
-        }, 1000);
-        return;
-    }
-    const accessToken = session.access_token;
-
-    // FormDataから直接データを取得する代わりに、各入力値を取得します
-    const data = {
-        name: name,
-        number: number, // シングルクォートを削除
-        start: startTimeInput.value,
-        end: endTimeInput.value,
-        tenko: tenkoInput.value,
-        tenko_detail: tenko_detailInput.value,
-        tenko_name: tenko_nameInput.value,
-        alcohol_checker: alcohol_checkerInput.checked ? 'on' : null, // チェックボックスの値を 'on' or null に
-        alcohol_checker_detail: alcohol_checker_detailInput.value,
-        drunk_check: drunk_checkInput.checked ? 'on' : null,
-        health_check: health_checkInput.checked ? 'on' : null,
-        health_detail: health_detailInput.value,
-        daily_check: daily_checkInput.checked ? 'on' : null,
-        daily_detail: daily_detailInput.value,
-        order_list: order_listInput.value
-    };
-
-//Google SpreadSheet (GAS_APP_URL) に保存  --start-- 
-
-
-//Google SpreadSheet に保存  --end-- 
-
-    //supabase DB (API_URL) に保存  --start--    
-    // タイムアウト処理（5秒）
-    const controller = new AbortController();
-    //const timeoutId = setTimeout(() => controller.abort(), 60000);
-    const timeoutId = setTimeout(() => controller.abort(), 5000);
-
-    fetch(API_URL, {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-            'Content-Type': 'application/json',
-            // 認証トークンをヘッダーに追加
-            'Authorization': `Bearer ${accessToken}`,
-        },
-        signal: controller.signal, // AbortControllerをfetchに渡す
-    })
-    .then(response => {
-        clearTimeout(timeoutId); // 応答があったのでタイムアウトを解除
-        if (!response.ok) {
-            // サーバーからのエラーレスポンス (例: 500 Internal Server Error)
-            throw new Error(`サーバーエラーが発生しました (ステータス: ${response.status})`);
-        }
-        return response.json(); // レスポンスをJSONとしてパース
-    })
-    .then(resData => {
-        if (resData.status === 'success') {
-            if (overlayMessage) overlayMessage.textContent = resData.message;
-            messageText.textContent = resData.message;
-            messageText.className = 'success';
-            saveStateAndHistory(data); // 送信成功時に状態と履歴を保存
-            displayHistory(); // 履歴テーブルを更新
-        } else {
-            // エラーを返してきた場合 (例: { status: 'error', message: '...' })
-            if (overlayMessage) overlayMessage.textContent = 'エラーが発生しました: ' + (resData.message || '不明なエラーです。');
-            messageText.textContent = 'エラーが発生しました: ' + (resData.message || '不明なエラーです。');
-            messageText.className = 'error';
-        }
-    })
-    .catch(error => {
-        if (error.name === 'AbortError') {
-            //if (overlayMessage) overlayMessage.textContent = '送信がタイムアウトしました。時間をおいて再試行してください。';
-            //messageText.textContent = '送信がタイムアウトしました。時間をおいて再試行してください。';
-            
-        } else {
-            if (overlayMessage) overlayMessage.textContent = '送信に失敗しました。ネットワーク接続やサーバーの状態を確認してください。';
-            messageText.textContent = '送信に失敗しました。ネットワーク接続やサーバーの状態を確認してください。';
-        }
-        messageText.className = 'error';
-        console.error('Error:', error);
-    })
-    .finally(() => {
-        // 送信完了後、ユーザーがメッセージを確認する時間を考慮し、
-        // オーバーレイの非表示とボタンの有効化のタイミングを分離します。
-
-        // フォームをリセット
-        form.reset();
-
-        // 1秒後にオーバーレイを非表示にし、メイン画面にメッセージを表示
-        setTimeout(() => {
-            // オーバーレイを非表示
-            if (overlay) {
-                overlay.classList.add('hidden');
-            }
-            // ボタンを再度有効化し、メッセージをクリア
-            submitButton.disabled = false;
-            messageText.textContent = '';
-            loadFormDataFromLocalStorage(); // LocalStorageの保存データを取得・表示
-        }, 1000); // 1秒
-    });
-//supabase DBに保存  --end--
+    //supabase DB (API_URL) に保存  --end--  
 };
 
 // フォームの入力中にリアルタイムでlocalStorageに保存する関数
