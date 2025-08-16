@@ -397,24 +397,32 @@ const toggleDailyDetailVisibility = () => {
 // 13分ごとにサーバーにpingを送信して、スリープを防ぐ (Renderの無料プランは15分でスリープするため)
 //　有料プラン変更後は不要かも？
 // ページLoad後（'DOMContentLoaded'）にもkeepServerWarmを設定
-//const PING_URL = 'https://hiwa-tenko-backend.onrender.com/api/health'; // バックエンドに作成した軽量なエンドポイント
-
-//const keepServerWarm = () => {
-    //console.log('サーバーのスリープを防止するためにpingを送信します。');
-    //fetch(PING_URL).catch(err => {
-        //console.warn('キープアライブのpingに失敗しました:', err);
-    //});
-//};
+const PING_URL = 'https://hiwa-tenko-backend.onrender.com/api/health'; // バックエンドに作成した軽量なエンドポイント
+const keepServerWarm = () => {
+    console.log('サーバーのスリープを防止するためにpingを送信します。');
+    fetch(PING_URL)
+        .then(response => {
+            if (response.ok) {
+                console.log('サーバーは起動中です。');
+            } else {
+                console.warn('サーバーへのpingに失敗しました。', response.status);
+            }
+        })
+        .catch(error => {
+            // ネットワークエラーなどでリクエスト自体が失敗した場合
+            console.error('サーバーへのping送信中にエラーが発生しました:', error);
+        });
+};
 
 // Renderの無料プランのスリープ対策。不要な場合はコメントアウトしてください。
-// setInterval(keepServerWarm, 13 * 60 * 1000);    // 13分ごとにserver スリープ防止を実行
+setInterval(keepServerWarm, 13 * 60 * 1000);    // 13分ごとにserver スリープ防止を実行
 // ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 
 //ページがLOADされた後
 document.addEventListener('DOMContentLoaded', () => {
 
     // Renderの無料プランのスリープ対策。不要な場合はコメントアウトしてください。
-    // keepServerWarm();   // ★★★server スリープ防止 ★★★
+    keepServerWarm();   // ★★★server スリープ防止 ★★★
 
     // ページアクセスログをDBに記録する
     //recordUserAccess();
