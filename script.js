@@ -237,29 +237,29 @@ const handleFormSubmit = async (e) => { // async関数に変更
     })
     .then(resData => {
         if (resData.status === 'success') {
-            if (overlayMessage) overlayMessage.textContent = resData.message;
+            //if (overlayMessage) overlayMessage.textContent = resData.message;
             messageText.textContent = resData.message;
             messageText.className = 'success';
             saveStateAndHistory(data); // 送信成功時に状態と履歴を保存
             displayHistory(); // 履歴テーブルを更新
         } else {
             // エラーを返してきた場合 (例: { status: 'error', message: '...' })
-            if (overlayMessage) overlayMessage.textContent = 'エラーが発生しました: ' + (resData.message || '不明なエラーです。');
+            //if (overlayMessage) overlayMessage.textContent = 'エラーが発生しました: ' + (resData.message || '不明なエラーです。');
             messageText.textContent = 'エラーが発生しました: ' + (resData.message || '不明なエラーです。');
             messageText.className = 'error';
         }
     })
     .catch(error => {
         if (error.name === 'AbortError') {
-            if (overlayMessage) overlayMessage.textContent = '送信がタイムアウトしました。時間をおいて再試行してください。';
-            //messageText.textContent = '送信がタイムアウトしました。時間をおいて再試行してください。';
+            //if (overlayMessage) overlayMessage.textContent = '送信がタイムアウトしました。時間をおいて再試行してください。';
+            messageText.textContent = '送信がタイムアウトしました。時間をおいて再試行してください。';
             
         } else {
-            if (overlayMessage) overlayMessage.textContent = '送信に失敗しました。ネットワーク接続やサーバーの状態を確認してください。';
+            //if (overlayMessage) overlayMessage.textContent = '送信に失敗しました。ネットワーク接続やサーバーの状態を確認してください。';
             messageText.textContent = '送信に失敗しました。ネットワーク接続やサーバーの状態を確認してください。';
         }
         messageText.className = 'error';
-        console.error('Error:', error);
+        //console.error('Error:', error);
     })
     .finally(() => {
         // 送信完了後、ユーザーがメッセージを確認する時間を考慮し、
@@ -267,18 +267,16 @@ const handleFormSubmit = async (e) => { // async関数に変更
 
         // フォームをリセット
         form.reset();
-
-        // 0.5秒後にオーバーレイを非表示にし、メイン画面にメッセージを表示
+        // オーバーレイを非表示
+        if (overlay) {
+            overlay.classList.add('hidden');
+        }
+        // 5秒後にメッセージを非表示
         setTimeout(() => {
-            // オーバーレイを非表示
-            if (overlay) {
-                overlay.classList.add('hidden');
-            }
-            // ボタンを再度有効化し、メッセージをクリア
-            submitButton.disabled = false;
             messageText.textContent = '';
+            submitButton.disabled = false;// ボタンを再度有効化
             loadFormDataFromLocalStorage(); // LocalStorageの保存データを取得・表示
-        }, 500); // 0.5秒
+        }, 5000); // 5秒
     });
     //supabase DB (API_URL) に保存  --end--  
 };
