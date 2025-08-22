@@ -60,7 +60,7 @@ const FORM_DATA_KEY = 'unsentFormData'; // 未送信のフォームデータ保�
 const API_URL = 'https://hiwa-tenko-backend.onrender.com/api/reports';
 
 // デプロイしたGASのウェブアプリURL(受信記録２)mega.osada.sf@gmail.com
-const GAS_APP_URL = 'https://script.google.com/macros/s/AKfycbw9WmBmnTBknedyvVgZ0HAyNYhTVzu9aesYue9GAP2GwMN_XbtzD9qJaHJC8SO_9yX8/exec';
+//const GAS_APP_URL = 'https://script.google.com/macros/s/AKfycbw9WmBmnTBknedyvVgZ0HAyNYhTVzu9aesYue9GAP2GwMN_XbtzD9qJaHJC8SO_9yX8/exec';
 // ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 
 // 現在年月日を表示する関数
@@ -192,11 +192,11 @@ const handleFormSubmit = async (e) => { // async関数に変更
     }
     const accessToken = session.access_token;
 
-    //supabase DB (API_URL) に保存  --start--    
+      
    
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 60000); // タイムアウト処理（60秒）
-    //const timeoutId = setTimeout(() => controller.abort(), 5000); // タイムアウト処理（5秒）
+    const timeoutId = setTimeout(() => controller.abort(), 60000); // タイムアウト処理（60秒:cold start用）
+    //const timeoutId = setTimeout(() => controller.abort(), 10000); // タイムアウト処理（10秒:hot start用）
 
     // FormDataから直接データを取得する代わりに、各入力値を取得します
     const data = {
@@ -217,6 +217,31 @@ const handleFormSubmit = async (e) => { // async関数に変更
         order_list: order_listInput.value
     };
 
+    // backup DB (rewritography.com/relait : MySQL)に保存　--start--
+    
+    const backupAPI_URL = 'https://rewritography.com/relait/backupdb_mysql.php';   // バックアップ用のURL
+
+    // バックアップAPIへの送信（メイン処理とは独立して実行）
+    fetch(backupAPI_URL, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(backupData => {
+        // バックアップ成功時はコンソールにログを出力
+        console.log('Backup successful:', backupData.message);
+    })
+    .catch(error => {
+        // バックアップ失敗時はコンソールにエラーを出力
+        // これによってメインのGASへの送信処理は中断されない
+        console.error('Backup failed:', error);
+    });
+    // backup DB (rewritography.com/relait : MySQL)に保存　--end--
+
+    //supabase DB (API_URL) に保存  --start--  
     fetch(API_URL, {
         method: 'POST',
         body: JSON.stringify(data),
@@ -417,7 +442,7 @@ const toggleDailyDetailVisibility = () => {
 // ページLoad後（'DOMContentLoaded'）にもkeepServerWarmを設定
 const PING_URL = 'https://hiwa-tenko-backend.onrender.com/api/health'; // バックエンドに作成した軽量なエンドポイント
 const keepServerWarm = () => {
-    console.log('サーバーのスリープを防止するためにpingを送信します。');
+    //console.log('サーバーのスリープを防止するためにpingを送信します。');
     fetch(PING_URL)
         .then(response => {
             if (response.ok) {
