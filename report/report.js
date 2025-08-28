@@ -34,15 +34,19 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!dailyRecords[recordDateStr]) {
             dailyRecords[recordDateStr] = {};
         }
-        // その日の最初の開始時刻のみ記録する
-        if (record.start && !dailyRecords[recordDateStr].start) {
-            dailyRecords[recordDateStr].start = record.start;
-            console.log("report:39:start=",recordDateStr,dailyRecords[recordDateStr].start);
+        // その日の最も早い開始時刻を記録する
+        if (record.start) {
+            if (!dailyRecords[recordDateStr].start || new Date(record.start) < new Date(dailyRecords[recordDateStr].start)) {
+                dailyRecords[recordDateStr].start = record.start;
+                //console.log("report:39:start=", recordDateStr, dailyRecords[recordDateStr].start);
+            }
         }
-        // 終了時刻は常に最新のもので上書きする
+        // その日の最も遅い終了時刻を記録する
         if (record.end) {
-            dailyRecords[recordDateStr].end = record.end;
-            console.log("report:39:end=",recordDateStr,dailyRecords[recordDateStr].end);
+            if (!dailyRecords[recordDateStr].end || new Date(record.end) > new Date(dailyRecords[recordDateStr].end)) {
+                dailyRecords[recordDateStr].end = record.end;
+                //console.log("report:45:end=", recordDateStr, dailyRecords[recordDateStr].end);
+            }        
         }
     });
 
