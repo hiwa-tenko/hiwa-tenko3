@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const dateTimeString = record.start || record.end;
         if (!dateTimeString) return;
 
-        const recordDateStr = dateTimeString.explode('T')[0]; // "YYYY-MM-DD"
+        const recordDateStr = dateTimeString.split('T')[0]; // "YYYY-MM-DD"
         if (!dailyRecords[recordDateStr]) {
             dailyRecords[recordDateStr] = {};
         }
