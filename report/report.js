@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
             dailyRecords[recordDateStr] = {};
         }
         // その日の最初の開始時刻のみ記録する
-        if (record.start && !isset(dailyRecords[recordDateStr].start)) {
+        if (record.start && dailyRecords[recordDateStr].start == null) {
             dailyRecords[recordDateStr].start = record.start;
             console.log("report:39:start=",recordDateStr,dailyRecords[recordDateStr].start);
         }
