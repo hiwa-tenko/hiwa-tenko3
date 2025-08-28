@@ -30,12 +30,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const dateTimeString = record.start || record.end;
         if (!dateTimeString) return;
 
-        const recordDateStr = dateTimeString.split('T')[0]; // "YYYY-MM-DD"
+        const recordDateStr = dateTimeString.explode('T')[0]; // "YYYY-MM-DD"
         if (!dailyRecords[recordDateStr]) {
             dailyRecords[recordDateStr] = {};
         }
         // その日の最初の開始時刻のみ記録する
-        if (record.start && !dailyRecords[recordDateStr].start) {
+        if (record.start && !isset(dailyRecords[recordDateStr].start)) {
             dailyRecords[recordDateStr].start = record.start;
             console.log("report:39:start=",recordDateStr,dailyRecords[recordDateStr].start);
         }
