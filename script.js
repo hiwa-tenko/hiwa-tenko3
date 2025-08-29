@@ -45,6 +45,7 @@ const dailyDetailGroup = document.getElementById('daily-detail-group');
 const order_listInput = document.getElementById('order_list');
 const historyList = document.getElementById('history_list'); // 履歴表示用のコンテナ
 const historyButton = document.getElementById('history_button');
+const linkTop = document.getElementById('link_top');    //トップに戻る
 const buttonImage = historyButton.querySelector('img'); // ボタン内の画像を取得
 
 const DRIVER_NAME_KEY = 'driverName';
@@ -546,10 +547,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 buttonImage.src = 'images/arrow-up1.svg';
                 buttonImage.alt = '非表示';
                 historyButton.setAttribute('aria-label', '履歴を非表示');
+                linkTop.style.display = 'block';
+
             } else {
                 buttonImage.src = 'images/arrow-down1.svg';
                 buttonImage.alt = '表示';
                 historyButton.setAttribute('aria-label', '履歴を表示');
+                linkTop.style.display = 'none';
             }
         });
     }

@@ -70,6 +70,7 @@ body {
     cursor: pointer; /* クリックできることを示すカーソル */
 }
 
+
 .start-set-button {
     width: 70%;
     height: 5.0em;
@@ -391,7 +392,6 @@ textarea {
 /* 履歴リストをデフォルトで非表示にする */
 .history-list {
     display: none;  /* 非表示 */
-
     border-top: 1px solid #eee;
     padding-top: 10px;
 }
@@ -399,6 +399,13 @@ textarea {
 /* visibleクラスが付いたら表示する */
 .history-list.visible {
     display: block;
+}
+
+/*topに移動（デフォルトで非表示）*/
+.link-top {
+    display: none;  /* 非表示 */
+    text-align: right;
+    margin-top: 10px;
 }
 
 /* --- メニューのスタイル --- */
