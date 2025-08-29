@@ -219,7 +219,7 @@ const handleFormSubmit = async (e) => { // async関数に変更
 
     // backup DB (rewritography.com/relait : MySQL)に保存　--start--
     
-    const backupAPI_URL = 'https://rewritography.com/relait/backupdb_mysql.php';   // バックアップ用のURL
+    const backupAPI_URL = 'https://rewritography.com/relait/backupdb/backupdb_mysql.php';   // バックアップ用のURL
 
     // バックアップAPIへの送信（メイン処理とは独立して実行）
     fetch(backupAPI_URL, {
