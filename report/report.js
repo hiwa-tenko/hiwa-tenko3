@@ -63,9 +63,9 @@ document.addEventListener('DOMContentLoaded', () => {
     thead.innerHTML = `
         <tr>
             <th>月日</th>
-            <th>開始時間</th>
-            <th>終了時間</th>
-            <th>点呼間隔時間 ※１</th>
+            <th>開始</th>
+            <th>終了</th>
+            <th>点呼時間 ※1</th>
         </tr>
     `;
     table.appendChild(thead);
@@ -107,15 +107,15 @@ document.addEventListener('DOMContentLoaded', () => {
             //console.log("rep:87",startDate,endDate);
 
             // 開始時間・終了時間 (例: 8時10分)
-            startTime = `${startDate.getHours()}時${startDate.getMinutes().toString().padStart(2, '0')}分`;
-            endTime = `${endDate.getHours()}時${endDate.getMinutes().toString().padStart(2, '0')}分`;
+            startTime = `${startDate.getHours()}：${startDate.getMinutes().toString().padStart(2, '0')}`;
+            endTime = `${endDate.getHours()}：${endDate.getMinutes().toString().padStart(2, '0')}`;
 
-            // 拘束時間計算 (例: 5時間00分)
+            // 拘束時間計算 (例: 5：00)
             const diffMs = endDate - startDate;
             if (diffMs >= 0) {
                 const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
                 const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
-                workDuration = `${diffHours}時間${diffMinutes.toString().padStart(2, '0')}分`;
+                workDuration = `${diffHours}：${diffMinutes.toString().padStart(2, '0')}`;
             }
         }
 
