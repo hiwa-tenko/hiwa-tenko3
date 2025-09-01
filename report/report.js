@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     lastSunday.setDate(today.getDate() - today.getDay() - 7);
     lastSunday.setHours(0, 0, 0, 0);
 
-    // 2. localStorageから履歴データを取得
+    // 2. localStorageから履歴全データ（過去15日間）を取得
     const history = JSON.parse(localStorage.getItem(REPORT_HISTORY_KEY)) || [];
 
     if (history.length === 0) {
@@ -62,10 +62,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const thead = document.createElement('thead');
     thead.innerHTML = `
         <tr>
-            <th class="black">${lastSundayMonth}月</th>
+            <th>月日</th>
             <th>開始時間</th>
             <th>終了時間</th>
-            <th>業務時間※1</th>
+            <th>点呼間隔時間 ※１</th>
         </tr>
     `;
     table.appendChild(thead);
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const tbody = document.createElement('tbody');
 
     // 5. 先週の日曜日から7日間ループしてテーブルの行を作成
-    for (let i = 0; i < 7; i++) {
+    for (let i = 6; i >= 0; i--) {
     //for (let i = 0; i < 12; i++) {      //★★★★for test★★★
         const currentDate = new Date(lastSunday);
         currentDate.setDate(lastSunday.getDate() + i);
@@ -92,8 +92,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // 月日 (例: 6/23 (日))
         const week = ['(日)', '(月)', '(火)', '(水)', '(木)', '(金)', '(土)'];
         const dayOfWeek = week[currentDate.getDay()];
-        //const formattedDate = `${currentDate.getMonth() + 1}/${currentDate.getDate()} ${dayOfWeek}`;
-        const formattedDate = `${currentDate.getDate()} ${dayOfWeek}`;
+        const formattedDate = `${currentDate.getMonth() + 1}/${currentDate.getDate()} ${dayOfWeek}`;
+        //const formattedDate = `${currentDate.getDate()} ${dayOfWeek}`;
 
         let startTime = '-';
         let endTime = '-';

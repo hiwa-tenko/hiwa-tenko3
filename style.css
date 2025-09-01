@@ -287,7 +287,7 @@ textarea {
 }
 /* --- 送信履歴のデザイン --- */
 .history-header {
-            border-bottom: 2px solid #007bff;
+            border-bottom: 2px solid #949ba2;
             padding-bottom: 0.5rem;
             margin-top: 2rem;
             margin-bottom: 1rem;
@@ -364,19 +364,19 @@ textarea {
 /* 履歴表示のスタイル */
 .history-header {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    /*justify-content: space-between;*/
+    align-items: left;
     margin-bottom: 8px;
 }
 
-.history-header h4 {
+.history-header h3 {
     margin: 0; /* h4のデフォルトマージンをリセット */
-
 }
 
 #history_button {
+    margin-left: 10px;
     padding: 4px 12px;
-    border: 1px solid #ccc;
+    border: 1px solid #aaa;
     border-radius: 4px;
     background-color: #f0f0f0;
     cursor: pointer;
