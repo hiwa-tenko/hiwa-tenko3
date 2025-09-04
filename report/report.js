@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     const REPORT_HISTORY_KEY = 'reportHistory';
-    const tableContainer = document.getElementById('report-table-container');
+    const beforeTableContainer = document.getElementById('before-week-table-container');
 
-    if (!tableContainer) {
+    if (!beforeTableContainer) {
         console.error('テーブルを表示するコンテナが見つかりません。');
         return;
     }
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const history = JSON.parse(localStorage.getItem(REPORT_HISTORY_KEY)) || [];
 
     if (history.length === 0) {
-        tableContainer.innerHTML = '<p>履歴がありません。</p>';
+        beforeTableContainer.innerHTML = '<p>履歴がありません。</p>';
         return;
     }
 
@@ -50,6 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    //---function start---
     //先週の日曜日の月を取得
     const lastSundayDate = new Date(lastSunday);
     //lastSundayDate.setDate(lastSunday.getDate());
@@ -73,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const tbody = document.createElement('tbody');
 
     // 5. 先週の日曜日から7日間ループしてテーブルの行を作成
-    for (let i = 6; i >= 0; i--) {
+    for (let i = 0; i < 7; i++) {
     //for (let i = 0; i < 12; i++) {      //★★★★for test★★★
         const currentDate = new Date(lastSunday);
         currentDate.setDate(lastSunday.getDate() + i);
@@ -115,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (diffMs >= 0) {
                 const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
                 const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
-                workDuration = `${diffHours}：${diffMinutes.toString().padStart(2, '0')}`;
+                workDuration = `${diffHours}時間${diffMinutes.toString().padStart(2, '0')}分`;
             }
         }
 
@@ -127,8 +128,19 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
         tbody.appendChild(tr);
     }
-
     table.appendChild(tbody);
+    //---function end---
+
     // 生成したテーブルをコンテナに追加
-    tableContainer.appendChild(table);
+    beforeTableContainer.appendChild(table);
 });
+
+// 前週の点呼時間のテーブルを出力
+const weekTable = (lastSunday) => {
+
+
+
+    
+    return table;
+
+}

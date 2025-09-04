@@ -328,7 +328,7 @@ const saveFormDataToLocalStorage = () => {
 };
 
 
-// 今のの状態と履歴をlocalStorageに保存する関数
+// 今の状態と履歴をlocalStorageに保存する関数
 const saveStateAndHistory = (sentData) => {
     // 1. 次回入力補助用のデータを保存
     if (sentData.name) localStorage.setItem(DRIVER_NAME_KEY, sentData.name);

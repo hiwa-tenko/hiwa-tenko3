@@ -8,7 +8,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <!-- ↑↑↑ ここまでを追加 ↑↑↑ -->
-    <title>業務時間-Hiwa点呼</title>
+    <title>点呼時間-Hiwa点呼</title>
     <link rel="shortcut icon" href="../images/favicon.ico">
     <link rel="stylesheet" href="style-report.css">
     <script type="module" src="/js/auth.js"></script>
@@ -19,7 +19,7 @@
         <div class="header-container">
             <div class="header-title">
                 <img src="../images/logo_s1.jpg" alt="Hiwaロゴ" class="logo">
-                <h2>業務時間</h2>
+                <h2>点呼レポート</h2>
             </div>
             <div class="link-back">
                 <a href="../index.html" class="back-button">
@@ -28,24 +28,13 @@
             </div>
         </div>
         <div class="main-content">
-            <section>
-                <h3>先週の業務時間</h3>
-            </section>
-<!--
-            <section>
-                <h3>1. 業務の開始時の操作</h3>
-                <ol>
-                    <li>「運転者氏名」「車両番号」を入力します。（次回から自動で入力されます）</li>
-                    <li>「点呼方法」を選択し、必要に応じて詳細を記入します。</li>
-                    <li>「点呼確認者 氏名」を入力します。（こちらも次回から自動入力されます）</li>
-                    <li>アルコールチェックや健康状態などの確認項目をチェックします。<strong>異常がある場合は、チェックを外して詳細欄に内容を記入してください。</strong></li>
-                    <li>すべての入力が終わったら、画面下の<strong class="text-start">「開始 点呼」</strong>ボタンを押して送信します。</li>
-                </ol>
-            </section>
--->
-
-            <div id="report-table-container">
-                    <!-- 業務時間（先週1週間分）テーブルがここに挿入されます -->
+            <section><h3>今週の点呼時間</h3></section>
+            <div id="this-week-table-container">
+                    <!-- 点呼時間（今週1週間分）テーブルがここに挿入されます -->
+            </div>
+            <section><h3>先週の点呼時間</h3></section>
+            <div id="before-week-table-container">
+                    <!-- 点呼時間（先週1週間分）テーブルがここに挿入されます -->
             </div>
 
             <section>
