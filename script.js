@@ -562,7 +562,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     */
     // 履歴を表示
-    displayHistory();
+    //displayHistory();
 
 });
 
