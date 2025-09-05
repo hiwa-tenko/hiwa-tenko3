@@ -177,12 +177,12 @@ input[type="checkbox"] {
 }
 .checkbox {
     display: flex;
-    margin-top: 1.5em;
+    margin-top: 0.5em;
     align-items: center;
 }
 .checkbox-group {
     display: flex;
-    margin-top: 0.8em;
+    margin-top: 0.4em;
     align-items: center;
 }
 .main-detail {

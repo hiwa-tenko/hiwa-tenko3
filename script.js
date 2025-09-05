@@ -220,7 +220,6 @@ const handleFormSubmit = async (e) => { // async関数に変更
     };
 
     // backup DB (rewritography.com/relait : MySQL)に保存　--start--
-    
     const backupAPI_URL = 'https://rewritography.com/relait/backupdb/backupdb_mysql.php';   // バックアップ用のURL
 
     // バックアップAPIへの送信（メイン処理とは独立して実行）
@@ -268,7 +267,7 @@ const handleFormSubmit = async (e) => { // async関数に変更
             messageText.textContent = resData.message;
             messageText.className = 'success';
             saveStateAndHistory(data); // 送信成功時に状態と履歴を保存
-            displayHistory(); // 履歴テーブルを更新
+            //displayHistory(); // 履歴テーブルを更新
         } else {
             // エラーを返してきた場合 (例: { status: 'error', message: '...' })
             //if (overlayMessage) overlayMessage.textContent = 'エラーが発生しました: ' + (resData.message || '不明なエラーです。');
