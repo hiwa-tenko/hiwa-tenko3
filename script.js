@@ -43,10 +43,11 @@ const daily_detailInput = document.getElementById('daily_detail');
 const dailyDetailGroup = document.getElementById('daily-detail-group');
 
 const order_listInput = document.getElementById('order_list');
-const historyList = document.getElementById('history_list'); // 履歴表示用のコンテナ
-const historyButton = document.getElementById('history_button');
+
+//const historyList = document.getElementById('history_list'); // 履歴表示用のコンテナ
+//const historyButton = document.getElementById('history_button');
 const linkTop = document.getElementById('link_top');    //トップに戻る
-const buttonImage = historyButton.querySelector('img'); // ボタン内の画像を取得
+//const buttonImage = historyButton.querySelector('img'); // ボタン内の画像を取得
 
 const DRIVER_NAME_KEY = 'driverName';
 const VEHICLE_NUMBER_KEY = 'vehicleNumber';
