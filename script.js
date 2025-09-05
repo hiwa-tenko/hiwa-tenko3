@@ -363,6 +363,7 @@ const saveStateAndHistory = (sentData) => {
 };
 
 // 履歴をテーブルに表示する関数
+/*
 const displayHistory = () => {
     if (!historyList) return;
 
@@ -401,7 +402,7 @@ const displayHistory = () => {
         historyList.appendChild(card);
     });
 };
-
+*/
 // 点呼方法の「詳細」入力欄の表示/非表示を切り替える関数
 const toggleTenkoDetailVisibility = () => {
         if (tenkoInput.value === '対面') {
@@ -540,6 +541,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     //履歴の表示・非表示切り替え
+    /*
     if (historyButton && historyList && buttonImage) {
         historyButton.addEventListener('click', () => {
             historyList.classList.toggle('visible');
@@ -558,7 +560,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
+    */
     // 履歴を表示
     displayHistory();
 
