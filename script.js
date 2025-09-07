@@ -113,16 +113,16 @@ const hideLoadingOverlay = () => {
         // transitionの完了後にdisplay: noneを設定
         setTimeout(() => {
             loadingOverlay.classList.add('hidden');
-        }, 500); // 0.5秒のCSS transitionに合わせる
+        }, 100); // 0.5秒のCSS transitionに合わせる
     }
 };
 
-// ページ表示時にローディングオーバーレイを表示し、1秒後に非表示にする関数
+// ページ表示時にローディングオーバーレイを表示し、0.5秒後に非表示にする関数
 const showAndHideLoadingOverlay = () => {
     if (loadingOverlay) {
         loadingOverlay.classList.remove('hidden');
         loadingOverlay.style.opacity = '1';
-        setTimeout(hideLoadingOverlay, 1000); // 1秒後に非表示
+        setTimeout(hideLoadingOverlay, 500); // 0.5秒後に非表示
     }
 };
 
@@ -501,10 +501,10 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('submit', handleFormSubmit);
 
     // 1. ページが読み込まれた時点で、現在の選択状態に合わせて表示を初期化
-    toggleTenkoDetailVisibility();
-    toggleAlcoholDetailVisibility();
-    toggleHealthDetailVisibility();
-    toggleDailyDetailVisibility();
+    //toggleTenkoDetailVisibility();
+    //toggleAlcoholDetailVisibility();
+    //toggleHealthDetailVisibility();
+    //toggleDailyDetailVisibility();
     
     //LocalStorageから読み込む
     loadFormDataFromLocalStorage();
@@ -579,8 +579,14 @@ document.addEventListener('visibilitychange', () => {
     }
 });
 
-// ページ読み込み時にlocalStorageから[運転者氏名]、[車両番号]、[点呼確認者名]など全部の値を取得フォームに設定
+// ページ読み込み時にlocalStorageから[運転者氏名]、[車両番号]、[点呼確認者名]などの値を取得フォームに設定
 const loadFormDataFromLocalStorage = () => {
+    // 詳細表示の更新もトリガーする
+    toggleTenkoDetailVisibility();
+    toggleAlcoholDetailVisibility();
+    toggleHealthDetailVisibility();
+    toggleDailyDetailVisibility();
+
     // リアルタイム保存された未送信データを読み込む
     const unsentDataJSON = localStorage.getItem(FORM_DATA_KEY);
 
@@ -601,11 +607,7 @@ const loadFormDataFromLocalStorage = () => {
         if (daily_detailInput) daily_detailInput.value = data.daily_detail || '';
         if (order_listInput) order_listInput.value = data.order_list || '';
 
-        // 詳細表示の更新もトリガーする
-        toggleTenkoDetailVisibility();
-        toggleAlcoholDetailVisibility();
-        toggleHealthDetailVisibility();
-        toggleDailyDetailVisibility();
+
     } else {
         // 未送信データがない（送信に成功していた）場合は、前回送信成功時のデータ（氏名・ナンバー・点呼者）を読み込む
         if (nameInput) {

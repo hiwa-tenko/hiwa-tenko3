@@ -76,7 +76,7 @@ const tenkoTimeTable = (records) => {
             <th>月日</th>
             <th>開始</th>
             <th>終了</th>
-            <th>点呼時間 ※1</th>
+            <th>点呼時間</th>
         </tr>
     `;
     table.appendChild(thead);

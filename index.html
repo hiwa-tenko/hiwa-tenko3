@@ -124,33 +124,25 @@
                         <input type="text" class="input-detail" id="order_list" name="order_list" autocomplete="off">
                     </div>
                 </div>
+                <div class="main-submit">
+                    <div id="currentDate" class="current-date"></div>
+                    <div id="currentTime" class="current-time"></div>
+                    <div class="btn-container">
+                        <button type="submit" id="submitButton">送信</button>
+                    </div>
+                </div>
+                <div class="main-start-end">
+                    <input type="text" name="start" id="start" value="">
+                    <input type="text" name="end" id="end" value="">
+                </div>
             </div>
-            <div id="currentDate" class="current-date"></div>
-            <div id="currentTime" class="current-time"></div>
-            <div class="btn-container">
-                <button type="submit" id="submitButton">送信</button>
-            </div>
-            <input type="hidden" name="start" id="start" value="">
-            <input type="hidden" name="end" id="end" value="">
         </form>
-        <div class="message-container"><span class="message-text" id="message_text"></span></div>
-        <div class="message-container"><span class="start-end" id="start_end"></span></div>
-        <!--
-        <div class="history-container">
-            <div class="history-header">
-                <h3>点呼の履歴 (15日分)</h3>
-                <button type="button" id="history_button" aria-label="履歴を表示">
-                    <img src="images/arrow-down1.svg" alt="表示" style="width: 16px; height: 16px;">
-                </button>
-            </div>
-            <div id="history_list" class="history-list"></div>
+
+        <div class="message-container">
+            <div class="message-text" id="message_text"></div>
+            <div class="start-end" id="start_end"></div>
         </div>
-        -->
-        <div class="link-top" id="link_top">
-            <a href="#page-top" class="top-button">
-                <img src="../images/arrow_top1.svg" alt="back">
-            </a>
-        </div>
+
     </div>
 
     <!-- ローディングオーバーレイを追加 -->

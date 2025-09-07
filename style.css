@@ -12,7 +12,7 @@ body {
 .container {
     max-width: 600px;
     margin: 0 auto;
-    padding: 10px;
+    padding: 0px;
     /*
     background-color: #fff;
     border-radius: 8px;
@@ -27,7 +27,7 @@ body {
     margin-left: 10px;
     margin-right: 10px;
     border-top: 0;
-    border-bottom: 0;
+    border-bottom: 4px;
 }
 .header-title { /*title*/
     display: flex;
@@ -117,7 +117,7 @@ body {
 }
 .form-group-1 {
     margin-top: 0px;
-    margin-bottom: 2px;
+    margin-bottom: 6px;
     grid-column: span 2;
 }
 .main-top {
@@ -216,8 +216,7 @@ select {
     border-radius: 4px;
     box-sizing: border-box; /* paddingを含めてwidth 100%にする */
     margin-top: 0; /* time-set-buttonからのmarginがあるので、input自体のmargin-topは不要な場合 */
-    font-size: 16px;
-    font-weight: bold;
+    font-size: 1.0em;
 }
 .input-detail {
     width:100%;
@@ -226,22 +225,33 @@ select {
     border-radius: 4px;
     box-sizing: border-box; /* paddingを含めてwidth 100%にする */
     margin-top: 0; /* time-set-buttonからのmarginがあるので、input自体のmargin-topは不要な場合 */
-    font-size: 16px;
+    font-size: 1.0em;
 }
 textarea {
     height: 100px;
     resize: vertical;
 }
+.main-submit {
+    padding: 2px 10px;
+    background-color: #fff;
+}
+.main-start-end {
+    padding: 2px 10px;
+    background-color: #262b2f;
+    border: 2px solid #fff;
+}
+
 .current-date { /*西暦年月日*/
     text-align: center;
     margin-left: 1.0em; /*曜日の（）の調整*/
-    margin-bottom: 5px;
+    margin-top: 8px;
+    margin-bottom: 4px;
     font-size: 1.4em;
 }
 
 .current-time { /*時分*/
     text-align: center;    
-    margin-bottom: 5px;
+    margin-bottom: 8px;
     font-size: 1.6em;
     font-weight: bold;
     color: #005ab3;
@@ -568,7 +578,7 @@ textarea {
     align-items: center;
     z-index: 9999;
     opacity: 1;
-    transition: opacity 0.5s ease-out;
+    transition: opacity 0.1s ease-out;
 }
 
 /* hiddenクラスは既存のものを再利用します */
