@@ -18,6 +18,8 @@ const currentDateDiv = document.getElementById('currentDate');
 const currentTimeDiv = document.getElementById('currentTime');
 const startTimeInput = document.getElementById('start');
 const endTimeInput = document.getElementById('end');
+const startTime = document.getElementById('start_time');
+const endTime = document.getElementById('end_time');
 
 const nameInput = document.getElementById('name');
 const numberInput = document.getElementById('number');
@@ -168,9 +170,11 @@ const handleFormSubmit = async (e) => { // async関数に変更
 
     //現在時刻を開始あるいは終了点呼の時刻にセットする
     if (startEnd.textContent === "START") {   //開始点呼の場合
+        startTime.textContent=current_time;
         startTimeInput.value=current_time;
         endTimeInput.value="";
     }else if (startEnd.textContent === "END") {   //終了点呼の場合
+        endTime.textContent=current_time;
         startTimeInput.value="";
         endTimeInput.value=current_time;
     }
@@ -632,14 +636,18 @@ const loadFormDataFromLocalStorage = () => {
 
     // 開始/終了の状態に応じてボタンの表示を切り替える
     // localStorageにSTART_TIME_KEYの値が存在する場合（空文字列やnullでない）、次は「終了点呼」
-    if (localStorage.getItem(START_TIME_KEY)) {
+    const savedStartTime = localStorage.getItem(START_TIME_KEY);
+    const savedEndTime = localStorage.getItem(END_TIME_KEY);
+    if (savedStartTime) {
         submitButton.textContent = "終了　点呼";
         submitButton.classList.add('end-call'); // 終了ボタン用のクラスを追加
+        startTime.textContent = savedStartTime;
         startEnd.textContent = "END";
     } else {
         // START_TIME_KEYが保存されていない、または空文字列の場合は「開始点呼」
         submitButton.textContent = "開始　点呼";
         submitButton.classList.remove('end-call'); // 終了ボタン用のクラスを削除
+        endTime.textContent = savedEndTime;
         startEnd.textContent = "START";
     }
 };
