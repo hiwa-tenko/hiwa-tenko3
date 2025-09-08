@@ -174,7 +174,7 @@ const handleFormSubmit = async (e) => { // async関数に変更
         startTimeInput.value=current_time;
         endTimeInput.value="";
     }else if (startEnd.textContent === "END") {   //終了点呼の場合
-        endTime.textContent=current_time;
+        endTime.textContent= "終了：" + current_time;
         startTimeInput.value="";
         endTimeInput.value=current_time;
     }
