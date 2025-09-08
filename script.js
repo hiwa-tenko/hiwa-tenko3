@@ -104,7 +104,7 @@ function getFormattedCurrentDateTime() {
     const day = now.getDate().toString().padStart(2, '0');
     const hours = now.getHours().toString().padStart(2, '0');
     const minutes = now.getMinutes().toString().padStart(2, '0');
-    return `${year}-${month}-${day}T${hours}:${minutes}`;
+    return `${year}-${month}-${day} ${hours}:${minutes}`;
 }
 
 // ローディングオーバーレイを非表示にする関数
@@ -170,7 +170,7 @@ const handleFormSubmit = async (e) => { // async関数に変更
 
     //現在時刻を開始あるいは終了点呼の時刻にセットする
     if (startEnd.textContent === "START") {   //開始点呼の場合
-        startTime.textContent=current_time;
+        startTime.textContent= "開始：" + current_time;
         startTimeInput.value=current_time;
         endTimeInput.value="";
     }else if (startEnd.textContent === "END") {   //終了点呼の場合
