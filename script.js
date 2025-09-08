@@ -170,11 +170,11 @@ const handleFormSubmit = async (e) => { // async関数に変更
 
     //現在時刻を開始あるいは終了点呼の時刻にセットする
     if (startEnd.textContent === "START") {   //開始点呼の場合
-        startTime.textContent= "開始：" + current_time;
+        //startTime.textContent= "開始：" + current_time;
         startTimeInput.value=current_time;
         endTimeInput.value="";
     }else if (startEnd.textContent === "END") {   //終了点呼の場合
-        endTime.textContent= "終了：" + current_time;
+        //endTime.textContent= "終了：" + current_time;
         startTimeInput.value="";
         endTimeInput.value=current_time;
     }
@@ -641,13 +641,13 @@ const loadFormDataFromLocalStorage = () => {
     if (savedStartTime) {
         submitButton.textContent = "終了　点呼";
         submitButton.classList.add('end-call'); // 終了ボタン用のクラスを追加
-        startTime.textContent = savedStartTime;
+        startTime.textContent = "開始 点呼：" + savedStartTime;
         startEnd.textContent = "END";
     } else {
         // START_TIME_KEYが保存されていない、または空文字列の場合は「開始点呼」
         submitButton.textContent = "開始　点呼";
         submitButton.classList.remove('end-call'); // 終了ボタン用のクラスを削除
-        endTime.textContent = savedEndTime;
+        endTime.textContent = "終了 点呼：" + savedEndTime;
         startEnd.textContent = "START";
     }
 };
