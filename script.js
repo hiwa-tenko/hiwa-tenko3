@@ -90,11 +90,12 @@ function displayCurrentTime() {
 
         //点呼時間（終了時間ー開始時間）の経過時間を表示
         const startTimeValue = localStorage.getItem(START_TIME_KEY);
-        const endTimeValue = localStorage.getItem(END_TIME_KEY);
-        if (startTimeValue && endTimeValue) {
+        //const endTimeValue = localStorage.getItem(END_TIME_KEY);
+        if (startTimeValue) {
             const startTime = new Date(startTimeValue);
-            const endTime = new Date(endTimeValue);
+            //const endTime = new Date(endTimeValue);
             const elapseTime = nowTime - startTime;
+            console.log(elapseTime);
             const elapsedHours = Math.floor(elapseTime / 3600000);
             const elapsedMinutes = Math.floor((elapseTime % 3600000) / 60000);
             const elapsedSeconds = Math.floor((elapseTime % 60000) / 1000);

@@ -255,7 +255,6 @@ textarea {
 
 .current-start-end {
     display:flex;
-    height: 1.2em;
     align-items: center;
     gap: 10px;
     margin-top: 8px;
@@ -273,6 +272,7 @@ textarea {
 }
 
 .current-start-end div {
+    height: 1.2em;
     background-color: #000;
     color: #fff;
     padding: 4px 10px;
