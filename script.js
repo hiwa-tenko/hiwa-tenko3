@@ -19,6 +19,7 @@ const currentTimeDiv = document.getElementById('currentTime');
 const startTimeInput = document.getElementById('start');
 const endTimeInput = document.getElementById('end');
 const startTime = document.getElementById('start_time');
+const durationTime = document.getElementById('duration_time');
 const endTime = document.getElementById('end_time');
 
 const nameInput = document.getElementById('name');
@@ -82,10 +83,23 @@ function displayCurrentDate() {
 // 現在時刻を表示する関数
 function displayCurrentTime() {
     if (currentTimeDiv) {
-        const now = new Date();
+        const nowTime = new Date();
         const hours = now.getHours().toString().padStart(2);
         const minutes = now.getMinutes().toString().padStart(2, '0');
         currentTimeDiv.textContent = `${hours}時${minutes}分`;
+
+        //点呼時間（終了時間ー開始時間）の経過時間を表示
+        const startTimeValue = localStorage.getItem(START_TIME_KEY);
+        //const endTimeValue = localStorage.getItem(END_TIME_KEY);
+        if (startTimeValue && endTimeValue) {
+            const startTime = new Date(startTimeValue);
+            const endTime = new Date(endTimeValue);
+            const elapseTime = nowTime - startTime;
+            const elapsedHours = Math.floor(elapseTime / 3600000);
+            const elapsedMinutes = Math.floor((elapseTime % 3600000) / 60000);
+            const elapsedSeconds = Math.floor((elapseTime % 60000) / 1000);
+            durationTime.textContent = `${elapsedHours}時間${elapsedMinutes}分${elapsedSeconds}秒`;
+        }
     }
 }
 
@@ -641,13 +655,13 @@ const loadFormDataFromLocalStorage = () => {
     if (savedStartTime) {
         submitButton.textContent = "終了　点呼";
         submitButton.classList.add('end-call'); // 終了ボタン用のクラスを追加
-        startTime.textContent = "開始 点呼：" + savedStartTime;
+        startTime.textContent = savedStartTime;
         startEnd.textContent = "END";
     } else {
         // START_TIME_KEYが保存されていない、または空文字列の場合は「開始点呼」
         submitButton.textContent = "開始　点呼";
         submitButton.classList.remove('end-call'); // 終了ボタン用のクラスを削除
-        endTime.textContent = "終了 点呼：" + savedEndTime;
+        endTime.textContent = savedEndTime;
         startEnd.textContent = "START";
     }
 };
