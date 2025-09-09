@@ -84,8 +84,8 @@ function displayCurrentDate() {
 function displayCurrentTime() {
     if (currentTimeDiv) {
         const nowTime = new Date();
-        const hours = now.getHours().toString().padStart(2);
-        const minutes = now.getMinutes().toString().padStart(2, '0');
+        const hours = nowTime.getHours().toString().padStart(2);
+        const minutes = nowTime.getMinutes().toString().padStart(2, '0');
         currentTimeDiv.textContent = `${hours}時${minutes}分`;
 
         //点呼時間（終了時間ー開始時間）の経過時間を表示
