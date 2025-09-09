@@ -94,12 +94,12 @@ function displayCurrentTime() {
         if (startTimeValue) {
             const startTime = new Date(startTimeValue);
             //const endTime = new Date(endTimeValue);
-            const elapseTime = nowTime - startTime;
-            console.log(elapseTime);
+            const elapseTime = nowTime - startTime; //ミリ秒
+            //console.log(elapseTime);
             const elapsedHours = Math.floor(elapseTime / 3600000);
             const elapsedMinutes = Math.floor((elapseTime % 3600000) / 60000);
-            const elapsedSeconds = Math.floor((elapseTime % 60000) / 1000);
-            durationTime.textContent = `${elapsedHours}時間${elapsedMinutes}分${elapsedSeconds}秒`;
+            //const elapsedSeconds = Math.floor((elapseTime % 60000) / 1000);
+            durationTime.textContent = `${elapsedHours}時間${elapsedMinutes}分`;
         }
     }
 }
