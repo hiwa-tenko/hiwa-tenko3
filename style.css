@@ -256,7 +256,7 @@ textarea {
 .current-start-end {
     display:grid;
     grid-template-columns: repeat(auto-fit, minmax(1fr, 2fr, 1fr));
-    grid-template-rows: repeat(3, 1fr);
+    grid-template-rows: repeat(1.0em, 1.4em);
     gap: 10px;
     padding: 2px 10px;
     align-items: center;
@@ -264,7 +264,13 @@ textarea {
     padding: 2px 2px;
 
 }
-.current-start-end div {
+.start-end-label {
+    color: #000;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.8em;
+}
+.start-end-time {
     background-color: #000;
     color: #fff;
     padding: 4px 10px;
