@@ -266,7 +266,7 @@ textarea {
     font-weight: bold;
     color: #333;
     padding: 10px;
-    background-color: transparent; /* 1行目 背景色なし */
+    background-color: transparent !important;
 }
 
 .start-end-time {
