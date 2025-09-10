@@ -255,12 +255,9 @@ textarea {
 /* 2行3列のグリッド */
 .current-start-end {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr 2fr 1fr; /* 1,3列目:1fr, 2列目:2fr */
     grid-template-rows: auto auto;
     gap: 4px;
-    padding: 10px;
-    background-color: #f4f7f6;
-    border-radius: 8px;
     margin-top: 15px;
     text-align: center;
 }
@@ -268,13 +265,16 @@ textarea {
 .start-end-label {
     font-weight: bold;
     color: #333;
-    padding-bottom: 5px;
+    padding: 10px;
+    background-color: transparent; /* 1行目 背景色なし */
 }
 
 .start-end-time {
     font-size: 1.2em;
-    color: #005ab3;
     font-weight: bold;
+    color: #fff; /* 2行目 文字色を白に */
+    background-color: #000; /* 2行目 背景色を黒に */
+    padding: 10px;
 }
 /*
 .current-start-end {
