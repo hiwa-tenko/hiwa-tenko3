@@ -71,18 +71,19 @@ const API_URL = 'https://hiwa-tenko-backend.onrender.com/api/reports';
 // 現在年月日を表示する関数
 function displayCurrentDate() {
     if (currentDateDiv) {
-        const now = new Date();
-        const year = now.getFullYear();
-        const month = (now.getMonth() + 1).toString().padStart(2, '0');
-        const day = now.getDate().toString().padStart(2, '0');
+        const nowDay = new Date();
+        const year = nowDay.getFullYear();
+        const month = (nowDay.getMonth() + 1).toString().padStart(2, '0');
+        const day = nowDay.getDate().toString().padStart(2, '0');
         const week = ['日', '月', '火', '水', '木', '金', '土'];
-        const dayOfWeek = week[now.getDay()];
+        const dayOfWeek = week[nowDay.getDay()];
         currentDateDiv.textContent = `${year}年${month}月${day}日（${dayOfWeek}）`;
     }
 }
 // 現在時刻を表示する関数
 function displayCurrentTime() {
     if (currentTimeDiv) {
+        
         const nowTime = new Date();
         const hours = nowTime.getHours().toString().padStart(2);
         const minutes = nowTime.getMinutes().toString().padStart(2, '0');
