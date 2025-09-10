@@ -252,13 +252,36 @@ textarea {
     font-weight: bold;
     color: #005ab3;
 }
-
+/* 2行3列のグリッド */
 .current-start-end {
-    display:grid;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto auto;
+    gap: 4px;
+    padding: 10px;
+    background-color: #f4f7f6;
+    border-radius: 8px;
+    margin-top: 15px;
+    text-align: center;
+}
+
+.start-end-label {
+    font-weight: bold;
+    color: #333;
+    padding-bottom: 5px;
+}
+
+.start-end-time {
+    font-size: 1.2em;
+    color: #005ab3;
+    font-weight: bold;
+}
+/*
+.current-start-end {
+    display: grid;
     grid-template-columns: 1fr, 2fr, 1fr;
     grid-template-rows: 1.0em, 1.4em;
     gap: 10px;
-    align-items: center;
 
 }
 .start-end-label {
@@ -273,6 +296,7 @@ textarea {
     border-radius: 4px;
     font-size: 0.8em;
 }
+*/
 /*
 .s-time {
     background-color: #000;
