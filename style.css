@@ -255,26 +255,26 @@ textarea {
 /* 2行3列のグリッド */
 .current-start-end {
     display: grid;
-    grid-template-columns: 1fr 2fr 1fr; /* 1,3列目:1fr, 2列目:2fr */
+    grid-template-columns: 1fr 1fr 1fr; /* 1,3列目:1fr, 2列目:1fr */
     grid-template-rows: auto auto;
     gap: 4px;
-    margin-top: 15px;
+    margin-top: 4px;
     text-align: center;
 }
 
 .start-end-label {
-    font-weight: bold;
-    color: #333;
-    padding: 10px;
+    font-size: 0.9em;
+    color: #333 !important;
+    padding: 2px;
     background-color: transparent !important;
 }
 
 .start-end-time {
-    font-size: 1.2em;
-    font-weight: bold;
+    font-size: 0.9em;
     color: #fff; /* 2行目 文字色を白に */
     background-color: #000; /* 2行目 背景色を黒に */
-    padding: 10px;
+    padding: 0px 4px 4px 4px;
+    border-radius: 4px;
 }
 /*
 .current-start-end {

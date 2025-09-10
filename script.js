@@ -657,17 +657,26 @@ const loadFormDataFromLocalStorage = () => {
     if (savedStartTime) {
         submitButton.textContent = "終了　点呼";
         submitButton.classList.add('end-call'); // 終了ボタン用のクラスを追加
-        startTime.textContent = savedStartTime;
+        startTime.textContent = getFormattedTime(savedStartTime);
         startEnd.textContent = "END";
     } else {
         // START_TIME_KEYが保存されていない、または空文字列の場合は「開始点呼」
         submitButton.textContent = "開始　点呼";
         submitButton.classList.remove('end-call'); // 終了ボタン用のクラスを削除
-        endTime.textContent = savedEndTime;
+        endTime.textContent = getFormattedTime(savedEndTime);
         startEnd.textContent = "START";
     }
 };
 
+function getFormattedTime(savedTime) {
+    const nowTime = new Date(savedTime);
+    const year = nowTime.getFullYear();
+    const month = (nowTime.getMonth() + 1).toString().padStart(2, '0');
+    const day = nowTime.getDate().toString().padStart(2, '0');
+    const hours = nowTime.getHours().toString().padStart(2, '0');
+    const minutes = nowTime.getMinutes().toString().padStart(2, '0');
+    return `${month}/${day} ${hours}:${minutes}`;
+}
 /**
  * ページアクセスログをSupabaseに記録する関数
  * 他のsleep対策（5秒で強制タイムアウト）を実行中のため一旦コメントアウト
