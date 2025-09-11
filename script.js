@@ -189,11 +189,14 @@ const handleFormSubmit = async (e) => { // async関数に変更
         //startTime.textContent= "開始：" + current_time;
         startTimeInput.value=current_time;
         endTimeInput.value="";
+        startEnd.textContent = "END";
     }else if (startEnd.textContent === "END") {   //終了点呼の場合
         //endTime.textContent= "終了：" + current_time;
         startTimeInput.value="";
         endTimeInput.value=current_time;
+        startEnd.textContent = "START";
     }
+    console.log("startEnd = "+startEnd.textContent);
     // 名前からスペース（全・半角）を削除
     let name = nameInput.value.replace(/\s/g, '');
 
@@ -287,6 +290,7 @@ const handleFormSubmit = async (e) => { // async関数に変更
             messageText.textContent = resData.message;
             messageText.className = 'success';
             saveStateAndHistory(data); // 送信成功時に状態と履歴を保存
+
             //displayHistory(); // 履歴テーブルを更新
         } else {
             // エラーを返してきた場合 (例: { status: 'error', message: '...' })
@@ -526,7 +530,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //toggleHealthDetailVisibility();
     //toggleDailyDetailVisibility();
     
-    //LocalStorageから読み込む
+    //ページが読み込まれた時、LocalStorageから読み込む
     loadFormDataFromLocalStorage();
 
     // menuがクリックされたときの処理
@@ -599,7 +603,7 @@ document.addEventListener('visibilitychange', () => {
     }
 });
 
-// ページ読み込み時にlocalStorageから[運転者氏名]、[車両番号]、[点呼確認者名]などの値を取得フォームに設定
+// 「ページ読み込み時」、あるいは「送信後」にlocalStorageから[運転者氏名]、[車両番号]、[点呼確認者名]などの値を取得フォームに設定
 const loadFormDataFromLocalStorage = () => {
     // 詳細表示の更新もトリガーする
     toggleTenkoDetailVisibility();
@@ -648,32 +652,40 @@ const loadFormDataFromLocalStorage = () => {
                 tenko_nameInput.value = savedTenkoName;
             }
         }
-    }
+        // localStorageの開始時刻/終了時刻の状態に応じて開始・終了点呼ボタンと開始・終了時間を切り替える
+        // style.css 372行をコメントアウト中（非表示を無効）
+        const savedStartTime = localStorage.getItem(START_TIME_KEY);
+        const savedEndTime = localStorage.getItem(END_TIME_KEY);
+        // 終了点呼ボタンに切り替えるAND条件
+        // 1. startEndが"END"
+        // 2. START_TIME_KEYが存在する
+        console.log("savedStartTime = "+savedStartTime);
+        console.log("savedEndTime = "+savedEndTime);
+        console.log("startEnd ="+startEnd.textContent);
+        if (startEnd.textContent === "END" && savedStartTime) {
+            submitButton.textContent = "終了　点呼";
+            submitButton.classList.add('end-call'); // 終了ボタン用のクラスを追加
+            startTime.textContent = getFormattedTime(savedStartTime);
+            //startEnd.textContent = "END";
+        } else {
+        // 開始点呼ボタンに切り替えるOR条件
+        // 1. startEndが"END以外（"START" OR ""）
+        // 2. START_TIME_KEYが存在しない、または空文字列の場合は「開始点呼」
+            submitButton.textContent = "開始　点呼";
+            submitButton.classList.remove('end-call'); // 終了ボタン用のクラスを削除
+            endTime.textContent = getFormattedTime(savedEndTime);
+            //startEnd.textContent = "START";
+        }
 
-    // 開始/終了の状態に応じてボタンの表示を切り替える
-    // localStorageにSTART_TIME_KEYの値が存在する場合（空文字列やnullでない）、次は「終了点呼」
-    const savedStartTime = localStorage.getItem(START_TIME_KEY);
-    const savedEndTime = localStorage.getItem(END_TIME_KEY);
-    if (savedStartTime) {
-        submitButton.textContent = "終了　点呼";
-        submitButton.classList.add('end-call'); // 終了ボタン用のクラスを追加
-        startTime.textContent = getFormattedTime(savedStartTime);
-        startEnd.textContent = "END";
-    } else {
-        // START_TIME_KEYが保存されていない、または空文字列の場合は「開始点呼」
-        submitButton.textContent = "開始　点呼";
-        submitButton.classList.remove('end-call'); // 終了ボタン用のクラスを削除
-        endTime.textContent = getFormattedTime(savedEndTime);
-        startEnd.textContent = "START";
     }
 };
 
 function getFormattedTime(savedTime) {
     const nowTime = new Date(savedTime);
     const year = nowTime.getFullYear();
-    const month = (nowTime.getMonth() + 1).toString().padStart(2, '0');
-    const day = nowTime.getDate().toString().padStart(2, '0');
-    const hours = nowTime.getHours().toString().padStart(2, '0');
+    const month = (nowTime.getMonth() + 1).toString();
+    const day = nowTime.getDate().toString();
+    const hours = nowTime.getHours().toString();
     const minutes = nowTime.getMinutes().toString().padStart(2, '0');
     return `${month}/${day} ${hours}:${minutes}`;
 }

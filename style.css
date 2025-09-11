@@ -34,11 +34,12 @@ body {
     align-items: center;
     text-align: left;
     color: #005ab3;
+    margin-bottom: 4px;
 
 }
 .header-title h2 { 
     display: inline;
-    font-size: 1.6em;
+    font-size: 1.5em;
     font-weight: bold;
     text-align: left;
     color: #005ab3;
@@ -258,7 +259,7 @@ textarea {
     grid-template-columns: 1fr 1fr 1fr; /* 1,3列目:1fr, 2列目:1fr */
     grid-template-rows: auto auto;
     gap: 4px;
-    margin-top: 4px;
+    margin-top: 0px;
     text-align: center;
 }
 
@@ -270,10 +271,10 @@ textarea {
 }
 
 .start-end-time {
+    height: 1.3em;
     font-size: 0.9em;
     color: #fff; /* 2行目 文字色を白に */
     background-color: #000; /* 2行目 背景色を黒に */
-    padding: 0px 4px 4px 4px;
     border-radius: 4px;
 }
 /*
@@ -369,7 +370,8 @@ textarea {
     color: #000;
 }
 .start-end{
-    visibility: hidden;
+    /*visibility: hidden;*/
+    visibility:visible;
 }
 .success {
     color: green;
