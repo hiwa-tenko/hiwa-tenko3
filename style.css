@@ -344,10 +344,10 @@ textarea {
 /* 既存のボタンのスタイルを調整 */
 .submit-btn {
     /*background-color: #fcfcc0;*/
-    background-color: transparent;
+    background-color: rgba(217, 217, 217, 0.4);
     color: rgb(0, 0, 0);
     padding: 4px 2px 4px 2px; /* 円形ボタンのスペースを確保するために左のパディングを増やします */
-    border: 3px solid transparent;
+    border: 3px solid  rgba(19, 19, 19, 0.7);
     border-radius: 30px;
     cursor: pointer;
     font-size: 1.1em;
