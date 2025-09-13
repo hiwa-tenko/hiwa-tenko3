@@ -186,7 +186,7 @@ const handleFormSubmit = async (e) => { // async関数に変更
 
     //現在時刻を開始あるいは終了点呼の時刻にセット、開始、終了のステータスを変更
     if (startEnd.textContent === "開始") {   //開始点呼の場合
-        //startTime.textContent= "開始：" + current_time;
+        startTime.textContent= getFormattedTime(current_time);  //開始時刻
         startTimeInput.value=current_time;
         endTimeInput.value="";
         startEnd.textContent = "終了";
@@ -195,7 +195,7 @@ const handleFormSubmit = async (e) => { // async関数に変更
         startEnd.style.background = '#ff4b5c';
 
     }else if (startEnd.textContent === "終了") {   //終了点呼の場合
-        //endTime.textContent= "終了：" + current_time;
+        endTime.textContent= getFormattedTime(current_time);  //終了時刻
         startTimeInput.value="";
         endTimeInput.value=current_time;
         startEnd.textContent = "開始";
@@ -225,8 +225,6 @@ const handleFormSubmit = async (e) => { // async関数に変更
     }
     const accessToken = session.access_token;
 
-      
-   
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 60000); // タイムアウト処理（60秒:cold start用）
     //const timeoutId = setTimeout(() => controller.abort(), 10000); // タイムアウト処理（10秒:hot start用）

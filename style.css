@@ -234,9 +234,11 @@ textarea {
 }
 .main-submit {
     padding: 2px 10px;
-    background-color: #fff;
+    background-image: url('images/logo1.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
-
 
 .current-date { /*西暦年月日*/
     text-align: center;
