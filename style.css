@@ -343,10 +343,10 @@ textarea {
 
 /* 既存のボタンのスタイルを調整 */
 .submit-btn {
-    background-color: #fcfcc0;
+    /*background-color: #fcfcc0;*/
     color: rgb(0, 0, 0);
     padding: 4px 2px 4px 2px; /* 円形ボタンのスペースを確保するために左のパディングを増やします */
-    border: 3px solid #808080;
+    /*border: 3px solid #808080;*/
     border-radius: 30px;
     cursor: pointer;
     font-size: 1.1em;
@@ -379,7 +379,7 @@ textarea {
 }
 .submit-btn:hover {
     color: rgb(0, 0, 0);
-    background-color: #ffff88;
+    /*background-color: #ffff88;*/
 }
 
 /* 終了点呼ボタン用のスタイル */
