@@ -184,19 +184,27 @@ const handleFormSubmit = async (e) => { // async関数に変更
     // ボタンを無効化
     submitButton.disabled = true;
 
-    //現在時刻を開始あるいは終了点呼の時刻にセットする
-    if (startEnd.textContent === "START") {   //開始点呼の場合
+    //現在時刻を開始あるいは終了点呼の時刻にセット、開始、終了のステータスを変更
+    if (startEnd.textContent === "開始") {   //開始点呼の場合
         //startTime.textContent= "開始：" + current_time;
         startTimeInput.value=current_time;
         endTimeInput.value="";
-        startEnd.textContent = "END";
-    }else if (startEnd.textContent === "END") {   //終了点呼の場合
+        startEnd.textContent = "終了";
+        startEnd.style.left = 'auto';
+        startEnd.style.right = '11%';
+        startEnd.style.background = '#ff4b5c';
+
+    }else if (startEnd.textContent === "終了") {   //終了点呼の場合
         //endTime.textContent= "終了：" + current_time;
         startTimeInput.value="";
         endTimeInput.value=current_time;
-        startEnd.textContent = "START";
+        startEnd.textContent = "開始";
+        startEnd.style.left = '11%';
+        startEnd.style.right = 'auto';
+        startEnd.style.background = '#3968d4ff';
     }
     console.log("startEnd = "+startEnd.textContent);
+
     // 名前からスペース（全・半角）を削除
     let name = nameInput.value.replace(/\s/g, '');
 
@@ -533,6 +541,58 @@ document.addEventListener('DOMContentLoaded', () => {
     //ページが読み込まれた時、LocalStorageから読み込む
     loadFormDataFromLocalStorage();
 
+        const tenkoButton = document.getElementById('tenkoButton');
+
+    if (startEnd) {
+        // 初期状態を「開始」に設定
+        startEnd.textContent = '開始';
+        startEnd.style.left = '11%';
+        startEnd.style.right = 'auto';
+        startEnd.style.background = '#3968d4ff';
+
+        startEnd.addEventListener('click', function() {
+            if (this.textContent === '開始') {
+                // 「終了」に変更
+                this.textContent = '終了';
+                this.style.left = 'auto';
+                this.style.right = '11%';
+                this.style.background = '#ff4b5c';
+            } else {    //「終了」だった場合
+                // 「開始」に変更
+                this.textContent = '開始';
+                this.style.left = '11%';
+                this.style.right = 'auto';
+                this.style.background = '#3968d4ff';
+            }
+        });
+
+        // localStorageの開始時刻/終了時刻の状態に応じて開始・終了点呼ボタンと開始・終了時間を切り替える
+        // style.css 372行をコメントアウト中（非表示を無効）
+        const savedStartTime = localStorage.getItem(START_TIME_KEY);
+        const savedEndTime = localStorage.getItem(END_TIME_KEY);
+        // 終了ボタンに切り替えるAND条件
+        // 1. startEndが"終了"
+        // 2. START_TIME_KEYが存在する
+        console.log("savedStartTime = "+savedStartTime);
+        console.log("savedEndTime = "+savedEndTime);
+        console.log("startEnd ="+startEnd.textContent);
+        if (startEnd.textContent === "終了" && savedStartTime) {
+            //submitButton.textContent = "終了　点呼";
+            //submitButton.classList.add('end-call'); // 終了ボタン用のクラスを追加
+            startTime.textContent = getFormattedTime(savedStartTime);
+            //startEnd.textContent = "END";
+
+        } else {
+        // 開始点呼ボタンに切り替えるOR条件
+        // 1. startEndが"END以外（"START" OR ""）
+        // 2. START_TIME_KEYが存在しない、または空文字列の場合は「開始点呼」
+            //submitButton.textContent = "開始　点呼";
+            //submitButton.classList.remove('end-call'); // 終了ボタン用のクラスを削除
+            endTime.textContent = getFormattedTime(savedEndTime);
+            //startEnd.textContent = "START";
+        }
+    }
+
     // menuがクリックされたときの処理
     const menuIcon = document.getElementById('list_menu');
     const navMenu = document.getElementById('nav_menu');
@@ -652,30 +712,7 @@ const loadFormDataFromLocalStorage = () => {
                 tenko_nameInput.value = savedTenkoName;
             }
         }
-        // localStorageの開始時刻/終了時刻の状態に応じて開始・終了点呼ボタンと開始・終了時間を切り替える
-        // style.css 372行をコメントアウト中（非表示を無効）
-        const savedStartTime = localStorage.getItem(START_TIME_KEY);
-        const savedEndTime = localStorage.getItem(END_TIME_KEY);
-        // 終了点呼ボタンに切り替えるAND条件
-        // 1. startEndが"END"
-        // 2. START_TIME_KEYが存在する
-        console.log("savedStartTime = "+savedStartTime);
-        console.log("savedEndTime = "+savedEndTime);
-        console.log("startEnd ="+startEnd.textContent);
-        if (startEnd.textContent === "END" && savedStartTime) {
-            submitButton.textContent = "終了　点呼";
-            submitButton.classList.add('end-call'); // 終了ボタン用のクラスを追加
-            startTime.textContent = getFormattedTime(savedStartTime);
-            //startEnd.textContent = "END";
-        } else {
-        // 開始点呼ボタンに切り替えるOR条件
-        // 1. startEndが"END以外（"START" OR ""）
-        // 2. START_TIME_KEYが存在しない、または空文字列の場合は「開始点呼」
-            submitButton.textContent = "開始　点呼";
-            submitButton.classList.remove('end-call'); // 終了ボタン用のクラスを削除
-            endTime.textContent = getFormattedTime(savedEndTime);
-            //startEnd.textContent = "START";
-        }
+
 
     }
 };

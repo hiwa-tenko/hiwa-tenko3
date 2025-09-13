@@ -333,32 +333,59 @@ textarea {
 }
 
 .btn-container {
+    position: relative; /* 子要素を絶対配置するための基準とします */
+    margin-top: 16px;
     margin-bottom: 20px;
     text-align: center;
 }
-.btn-container button {
-    background-color: #238dff;
-    color: white;
-    padding: 4px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1.6em;
-    font-weight: bold;
-    width: 60%;
-    height: 3.5em;
 
+/* 既存のボタンのスタイルを調整 */
+.submit-btn {
+    background-color: #fcfcc0;
+    color: rgb(0, 0, 0);
+    padding: 4px 2px 4px 2px; /* 円形ボタンのスペースを確保するために左のパディングを増やします */
+    border: 3px solid #808080;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    width: 80%;
+    /*max-width: 300px;*/
+    height: 60px;
+    position: relative; /* z-indexを機能させるために必要です */
 }
-.btn-container button:hover {
-    background-color: #0056b3;
+
+/* 開始・終了点呼 */
+.start-end-btn {
+    position: absolute;
+    top: 50%;
+    left: 11%;
+    transform: translateY(-50%); /* 上下中央に配置します */
+    width: 54px;   /* 円の直径（幅） */
+    height: 54px;  /* 円の直径（高さ） */
+    background-color: #3968d4ff; /* 円の背景色（例） */
+    border: 3px solid white;   /* 円の境界線（例） */
+    border-radius: 50%; /* 正円にするための必須プロパティ */
+    cursor: pointer;
+    z-index: 2; /* 既存のボタンより手前に表示します */
+    /* 中のテキスト（もしあれば）を中央に配置するためのスタイル */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 1.0em;
+}
+.submit-btn:hover {
+    color: rgb(0, 0, 0);
+    background-color: #ffff88;
 }
 
 /* 終了点呼ボタン用のスタイル */
-.btn-container button.end-call {
+.start-end-btn.end-call {
     background-color: #ff602f; /* 橙色 */
 }
 
-.btn-container button.end-call:hover {
+.start-end-btn.end-call:hover {
     background-color: #d65934; /* 少し暗い橙色 */
 }
 
