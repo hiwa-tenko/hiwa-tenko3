@@ -234,10 +234,13 @@ textarea {
 }
 .main-submit {
     padding: 2px 10px;
+    background-color: #ffffff;
+    /*
     background-image: url('images/keiban1.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    */
 }
 
 .current-date { /*西暦年月日*/
@@ -344,11 +347,11 @@ textarea {
 /* 既存のボタンのスタイルを調整 */
 .submit-btn {
     /*background-color: #fcfcc0;*/
-    background-color: rgba(217, 217, 217, 0.4);
+    background-color: rgb(251, 255, 125);
     color: rgb(0, 0, 0);
     padding: 4px 2px 4px 2px; /* 円形ボタンのスペースを確保するために左のパディングを増やします */
-    border: 3px solid  rgba(19, 19, 19, 0.7);
-    border-radius: 30px;
+    border: 6px solid  rgba(84, 84, 83, 0.7);
+    border-radius: 35px;
     cursor: pointer;
     font-size: 1.1em;
     font-weight: bold;
@@ -394,6 +397,8 @@ textarea {
 
 .message-container {
     width: 100%;
+    height: 1.6em;
+    font-size: 1.0em;
     text-align: center;
     margin: 12px auto;
     font-weight: bold;
