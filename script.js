@@ -185,25 +185,29 @@ const handleFormSubmit = async (e) => { // async関数に変更
     submitButton.disabled = true;
 
     //現在時刻を開始あるいは終了点呼の時刻にセット、開始、終了のステータスを変更
-    if (startEnd.textContent === "開始") {   //開始点呼の場合
+    if (startEnd.value === "開始") {   //開始点呼の場合
         startTime.textContent= getFormattedTime(current_time);  //開始時刻
         startTimeInput.value=current_time;
         endTimeInput.value="";
+        /*
         startEnd.textContent = "終了";
         startEnd.style.left = 'auto';
         startEnd.style.right = '11%';
         startEnd.style.background = '#ff4b5c';
+        */
 
-    }else if (startEnd.textContent === "終了") {   //終了点呼の場合
+    }else if (startEnd.value === "終了") {   //終了点呼の場合
         endTime.textContent= getFormattedTime(current_time);  //終了時刻
         startTimeInput.value="";
         endTimeInput.value=current_time;
+        /*
         startEnd.textContent = "開始";
         startEnd.style.left = '11%';
         startEnd.style.right = 'auto';
         startEnd.style.background = '#3968d4ff';
+        */
     }
-    console.log("startEnd = "+startEnd.textContent);
+    console.log("startEnd = "+startEnd.value);
 
     // 名前からスペース（全・半角）を削除
     let name = nameInput.value.replace(/\s/g, '');
@@ -468,6 +472,16 @@ const toggleDailyDetailVisibility = () => {
         }
 };
 
+// 開始と終了を切り替える関数
+const toggleStartEndSwitch = () => {
+    console.log("startEnd= "+startEnd.value);
+        if (startEnd.value === '開始') {
+            // 
+        } else {    // 終了
+            // 
+        }
+};
+
 // ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 // 13分ごとにサーバーにpingを送信して、スリープを防ぐ (Renderの無料プランは15分でスリープするため)
 //　有料プラン変更後は不要かも？
@@ -526,6 +540,7 @@ document.addEventListener('DOMContentLoaded', () => {
     drunk_checkInput.addEventListener('change', toggleAlcoholDetailVisibility);
     health_checkInput.addEventListener('change', toggleHealthDetailVisibility);
     daily_checkInput.addEventListener('change', toggleDailyDetailVisibility);
+    startEnd.addEventListener('change', toggleStartEndSwitch);  //開始・終了切り替えトグル
 
     // フォーム送信のイベントリスナーを登録
     form.addEventListener('submit', handleFormSubmit);
@@ -543,6 +558,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (startEnd) {
         // 初期状態を「開始」に設定
+        /*
         startEnd.textContent = '開始';
         startEnd.style.left = '11%';
         startEnd.style.right = 'auto';
@@ -563,6 +579,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.style.background = '#3968d4ff';
             }
         });
+        */
 
         // localStorageの開始時刻/終了時刻の状態に応じて開始・終了点呼ボタンと開始・終了時間を切り替える
         // style.css 372行をコメントアウト中（非表示を無効）
@@ -573,8 +590,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // 2. START_TIME_KEYが存在する
         console.log("savedStartTime = "+savedStartTime);
         console.log("savedEndTime = "+savedEndTime);
-        console.log("startEnd ="+startEnd.textContent);
-        if (startEnd.textContent === "終了" && savedStartTime) {
+        console.log("startEnd ="+startEnd.value);
+        if (startEnd.value === "終了" && savedStartTime) {
             //submitButton.textContent = "終了　点呼";
             //submitButton.classList.add('end-call'); // 終了ボタン用のクラスを追加
             startTime.textContent = getFormattedTime(savedStartTime);
