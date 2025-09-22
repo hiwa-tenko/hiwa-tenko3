@@ -473,14 +473,28 @@ const toggleDailyDetailVisibility = () => {
 };
 
 // 開始と終了を切り替える関数
-const toggleStartEndSwitch = () => {
-    console.log("startEnd= "+startEnd.value);
-        if (startEnd.value === '開始') {
-            // 
-        } else {    // 終了
-            // 
-        }
-};
+const toggleSwitch = document.getElementById('toggle-switch');
+const toggleLabel = document.querySelector('.toggle-label');
+const toggleText = document.querySelector('.toggle-text');
+
+toggleSwitch.addEventListener('change', function() {
+  if (this.checked) {
+    toggleText.textContent = '終了';
+    // テキストを右に配置
+    toggleText.style.left = '10px';
+    toggleText.style.right = 'auto';
+  } else {
+    toggleText.textContent = '開始';
+    // テキストを左に配置
+    toggleText.style.left = 'auto';
+    toggleText.style.right = '10px';
+  }
+});
+
+// 初期状態のテキストを右に配置
+toggleText.style.right = '10px';
+toggleText.style.left = 'auto';
+
 
 // ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 // 13分ごとにサーバーにpingを送信して、スリープを防ぐ (Renderの無料プランは15分でスリープするため)

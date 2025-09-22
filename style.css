@@ -753,55 +753,54 @@ textarea {
 }
 
 /* start-end toggle switch*/
-.toggle-button-4 {
-    display: flex;
-    align-items: center;
-    position: relative;
-    width: 100px;
-    height: 50px;
-    border-radius: 50px;
-    box-sizing: content-box;
-    background-color: #327ffb33;
-    cursor: pointer;
-    transition: background-color .4s;
+.toggle-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
 }
 
-.toggle-button-4:has(:checked) {
-    background-color: #ff474733;
+.toggle-input {
+  display: none; /* チェックボックスを非表示にする */
 }
 
-.toggle-button-4::before {
-    position: absolute;
-    left: 5px;
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    background-color: #327ffb;
-    content: '';
-    transition: left .4s;
+.toggle-label {
+  display: block;
+  width: 100px;
+  height: 40px;
+  background-color: #ccc;
+  border-radius: 20px;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.4s;
 }
 
-.toggle-button-4:has(:checked)::before {
-    left: 50px;
-    background-color: #ff4747;
+.toggle-label::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 32px;
+  height: 32px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.4s;
 }
 
-.toggle-button-4::after {
-    position: absolute;
-    left: 26px;
-    transform: translateX(-50%);
-    color: #fff;
-    font-weight: 600;
-    font-size: .9em;
-    content: '開始';
-    transition: left .4s;
+.toggle-text {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  transition: opacity 0.4s;
 }
 
-.toggle-button-4:has(:checked)::after {
-    left: 71px;
-    content: '終了';
+.toggle-input:checked + .toggle-label {
+  background-color: #2196F3;
 }
 
-.toggle-button-4 input {
-    display: none;
+.toggle-input:checked + .toggle-label::after {
+  transform: translateX(60px);
 }

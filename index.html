@@ -15,6 +15,18 @@
     <!-- Android用ウェブアプリマニフェスト -->
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="style.css">
+
+    <script>
+    // !!!!!!メンテナンスモードはリダイレクト!!!!!!!!
+        (function() {
+            const isMaintenance = true; // ！通常時は、 false　に変更する！
+            const maintenanceUrl = 'https://rs-o.sakura.ne.jp/hiwa_tenko/';
+
+            if(isMaintenance){
+                window.location.href = maintenanceUrl;
+            }
+        })();
+    </script>
     <!-- ↓↓↓ ログイン状態をチェックするスクリプトを追加 ↓↓↓ -->
     <script type="module" src="/js/auth.js"></script>
 
@@ -128,14 +140,23 @@
                     <div id="currentDate" class="current-date"></div>
                     <div id="currentTime" class="current-time"></div>
                     <div class="btn-container">
-                        <button class="submit-btn" type="submit" id="submitButton">点呼送信</button>
+                        <button class="submit-btn" type="submit" id="submitButton">開始点呼</button>
                         <!-- <button class="start-end-btn" type="button" id="start_end"></button> -->
                     </div>
+                    <div class="toggle-container">
+                        <input type="checkbox" id="toggle-switch" class="toggle-input">
+                        <label for="toggle-switch" class="toggle-label">
+                            <span class="toggle-text">開始</span>
+                        </label>
+                    </div>
+
+                    <!--
                     <div>
                         <label class="toggle-button-4">
                             <input type="checkbox" name="start-end" id="start_end"/>
                         </label>
                     </div>
+                    -->
                     <div class="message-container">
                         <div class="message-text" id="message_text"></div>
                         <!-- <div class="start-end" id="start_end"></div> -->
