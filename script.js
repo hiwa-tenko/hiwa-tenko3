@@ -557,7 +557,7 @@ document.addEventListener('DOMContentLoaded', () => {
     drunk_checkInput.addEventListener('change', toggleAlcoholDetailVisibility);
     health_checkInput.addEventListener('change', toggleHealthDetailVisibility);
     daily_checkInput.addEventListener('change', toggleDailyDetailVisibility);
-    startEnd.addEventListener('change', toggleStartEndSwitch);  //開始・終了切り替えトグル
+    //startEnd.addEventListener('change', toggleStartEndSwitch);  //開始・終了切り替えトグル
 
     // フォーム送信のイベントリスナーを登録
     form.addEventListener('submit', handleFormSubmit);
