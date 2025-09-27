@@ -473,6 +473,7 @@ const toggleDailyDetailVisibility = () => {
 };
 
 // 開始と終了を切り替える関数
+/*
 const toggleSwitch = document.getElementById('toggle-switch');
 const toggleLabel = document.querySelector('.toggle-label');
 const toggleText = document.querySelector('.toggle-text');
@@ -490,7 +491,7 @@ toggleSwitch.addEventListener('change', function() {
     toggleText.style.right = '10px';
   }
 });
-
+*/
 // 初期状態のテキストを右に配置
 toggleText.style.right = '10px';
 toggleText.style.left = 'auto';
