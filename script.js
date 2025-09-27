@@ -609,7 +609,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // 2. START_TIME_KEYが存在する
         console.log("savedStartTime = "+savedStartTime);
         console.log("savedEndTime = "+savedEndTime);
-        console.log("startEnd ="+startEnd.value);
+        console.log("startEnd ="+startEnd.textContent);
         //開始点呼ボタンがクリック
         if (startEnd.value === "開始" && savedStartTime) {
             //submitButton.textContent = "終了　点呼";
