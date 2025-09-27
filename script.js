@@ -189,8 +189,9 @@ const handleFormSubmit = async (e) => { // async関数に変更
         startTime.textContent= getFormattedTime(current_time);  //開始時刻
         startTimeInput.value=current_time;
         endTimeInput.value="";
-        /*
+        
         startEnd.textContent = "終了";
+        /*
         startEnd.style.left = 'auto';
         startEnd.style.right = '11%';
         startEnd.style.background = '#ff4b5c';
@@ -200,8 +201,9 @@ const handleFormSubmit = async (e) => { // async関数に変更
         endTime.textContent= getFormattedTime(current_time);  //終了時刻
         startTimeInput.value="";
         endTimeInput.value=current_time;
-        /*
+        
         startEnd.textContent = "開始";
+        /*
         startEnd.style.left = '11%';
         startEnd.style.right = 'auto';
         startEnd.style.background = '#3968d4ff';
@@ -573,8 +575,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (startEnd) {
         // 初期状態を「開始」に設定
-        /*
+        
         startEnd.textContent = '開始';
+
+        /*
         startEnd.style.left = '11%';
         startEnd.style.right = 'auto';
         startEnd.style.background = '#3968d4ff';
@@ -606,11 +610,12 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log("savedStartTime = "+savedStartTime);
         console.log("savedEndTime = "+savedEndTime);
         console.log("startEnd ="+startEnd.value);
-        if (startEnd.value === "終了" && savedStartTime) {
+        //開始点呼ボタンがクリック
+        if (startEnd.value === "開始" && savedStartTime) {
             //submitButton.textContent = "終了　点呼";
             //submitButton.classList.add('end-call'); // 終了ボタン用のクラスを追加
             startTime.textContent = getFormattedTime(savedStartTime);
-            //startEnd.textContent = "END";
+            startEnd.textContent = "終了";
 
         } else {
         // 開始点呼ボタンに切り替えるOR条件
@@ -619,7 +624,7 @@ document.addEventListener('DOMContentLoaded', () => {
             //submitButton.textContent = "開始　点呼";
             //submitButton.classList.remove('end-call'); // 終了ボタン用のクラスを削除
             endTime.textContent = getFormattedTime(savedEndTime);
-            //startEnd.textContent = "START";
+            startEnd.textContent = "開始";
         }
     }
 
