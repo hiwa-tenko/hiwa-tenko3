@@ -493,8 +493,8 @@ toggleSwitch.addEventListener('change', function() {
 });
 */
 // 初期状態のテキストを右に配置
-toggleText.style.right = '10px';
-toggleText.style.left = 'auto';
+//toggleText.style.right = '10px';
+//toggleText.style.left = 'auto';
 
 
 // ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
