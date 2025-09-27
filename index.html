@@ -8,7 +8,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>Hiwa点呼5</title>
+    <title>Hiwa点呼3</title>
     <link rel="shortcut icon" href="images/favicon.ico">
     <!-- iOS用アイコン -->
     <link rel="apple-touch-icon" href="images/hiwa_logo2_192.png">
@@ -19,10 +19,11 @@
     <script>
     // !!!!!!メンテナンスモードがtrueならリダイレクト!!!!!!!!
         (function() {
-            const isMaintenance = true; // ！通常時は、 false　に変更する！
+            const isMaintenance = false; // ！通常時は、 false　に変更する！
             const maintenanceUrl = 'https://rs-o.sakura.ne.jp/hiwa_tenko/';
 
             if(isMaintenance){
+                console.log("メンテナンス");
                 window.location.href = maintenanceUrl;
             }
         })();
@@ -38,7 +39,7 @@
         <div class="header-container">
             <div class="header-title">
                 <img src="images/logo_s1.jpg" alt="Hiwaロゴ" class="logo">
-                <h2>Hiwa点呼5</h2>
+                <h2>Hiwa点呼3</h2>
             </div>
             
             <div class="header-menu">
