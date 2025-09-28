@@ -139,49 +139,51 @@
                     </div>
                 </div>
                 <div class="main-submit">
-                    <div id="currentDate" class="current-date"></div>
-                    <div id="currentTime" class="current-time"></div>
+                    <div class="date-container">
+                        <div id="currentDate" class="current-date"></div>
+                    </div>
+                    <div class="time-container">
+                        <div id="currentTime" class="current-time"></div>
+                        <div class="toggle-container">
+                            <div class="start-end" id="start_end"></div>
+
+                            <!--開始・終了切り替えトグルSW (次のMajorバージョンアップの追加予定機能)-->
+                            <!--
+                            <input type="checkbox" id="toggle-switch" class="toggle-input">
+                            <label for="toggle-switch" class="toggle-label">
+                                <span class="toggle-text" id="start_end">開始</span>
+                            </label>
+                            -->
+                        </div>
+                    </div>
+
                     <div class="btn-container">
                         <button class="submit-btn" type="submit" id="submitButton">開始点呼</button>
                         <!-- <button class="start-end-btn" type="button" id="start_end"></button> -->
                     </div>
-                    <!--
-                    <div class="toggle-container">
-                        <input type="checkbox" id="toggle-switch" class="toggle-input">
-                        <label for="toggle-switch" class="toggle-label">
-                            <span class="toggle-text">開始</span>
-                        </label>
-                    </div>
-                    -->
 
-                    <!--
-                    <div>
-                        <label class="toggle-button-4">
-                            <input type="checkbox" name="start-end" id="start_end"/>
-                        </label>
-                    </div>
-                    -->
                     <div class="message-container">
                         <div class="message-text" id="message_text"></div>
-                        <div class="start-end" id="start_end"></div>
+                        
                     </div>
                 </div>
                 
                 <div class="current-start-end">
-                    <!--
+
                     <div class="start-end-label">開始</div>
                     <div class="start-end-label">点呼時間</div>
                     <div class="start-end-label">終了</div>
-                    -->
+ 
                     <div class="start-end-time" id="start_time"></div>
                     <div class="start-end-time" id="duration_time"></div>
                     <div class="start-end-time" id="end_time"></div>
                 </div>
-
+                <!--
                 <div>
                     <input type="hidden" name="start" id="start" value="">
                     <input type="hidden" name="end" id="end" value="">
                 </div>
+                -->
             </div>
         </form>
 
