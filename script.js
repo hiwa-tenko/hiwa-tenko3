@@ -620,6 +620,7 @@ document.addEventListener('DOMContentLoaded', () => {
             //submitButton.classList.add('end-call'); // 終了ボタン用のクラスを追加
             startTime.textContent = getFormattedTime(savedStartTime);
             startEnd.textContent = "終了";
+      
 
         } else {
         // 開始点呼ボタンに切り替えるOR条件
