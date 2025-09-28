@@ -187,7 +187,7 @@ const handleFormSubmit = async (e) => { // async関数に変更
     //現在時刻を開始あるいは終了点呼の時刻にセット、開始、終了のステータスを変更
     if (startEnd.textContent === "開始") {   //開始点呼の場合
         startTime.textContent= getFormattedTime(current_time);  //開始時刻
-        startTimeInput.value=current_time;
+        startTimeInput.value = current_time;
         endTimeInput.value="";
         
         startEnd.textContent = "終了";
@@ -202,7 +202,7 @@ const handleFormSubmit = async (e) => { // async関数に変更
     }else if (startEnd.textContent === "終了") {   //終了点呼の場合
         endTime.textContent= getFormattedTime(current_time);  //終了時刻
         startTimeInput.value="";
-        endTimeInput.value=current_time;
+        endTimeInput.value = current_time;
         
         startEnd.textContent = "開始";
         submitButton.textContent = "開始　点呼";
