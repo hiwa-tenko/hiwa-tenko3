@@ -24,6 +24,7 @@ body {
 
 }
 .link1 { 
+    margin-bottom: 0px;
     text-align: left;
     color: #fdfefe;
     background-color: #dc3603;
@@ -33,6 +34,8 @@ body {
     font-weight: bold;
     text-align: left;
     background-color: #eef3b0;
+    margin-top: 0;
+    margin-bottom: 10px;
 }
 .header-container {
     display:flex;
