@@ -23,12 +23,16 @@ body {
     margin: 0 auto;
 
 }
-.link-container h4 { 
-    font-size: 1.5em;
-    font-weight: bold;
+.link1 { 
     text-align: left;
     color: #fdfefe;
     background-color: #dc3603;
+}
+.link2 { 
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: left;
+    background-color: #eef3b0;
 }
 .header-container {
     display:flex;
