@@ -19,6 +19,17 @@ body {
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     */
 }
+.link-container {
+    margin: 0 auto;
+
+}
+.link-container h4 { 
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: left;
+    color: #fdfefe;
+    background-color: #dc3603;
+}
 .header-container {
     display:flex;
     justify-content: space-between;
@@ -29,6 +40,7 @@ body {
     border-top: 0;
     border-bottom: 4px;
 }
+
 .header-title { /*title*/
     display: flex;
     align-items: center;

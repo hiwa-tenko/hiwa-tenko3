@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "../../../webjrga"
+		},
+		{
+			"path": "../../../relait"
+		},
+		{
+			"path": "D:/120GUSB_backup/mega_static_jp"
+		},
+		{
+			"path": ".."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "nippo3"
+	}
+}
