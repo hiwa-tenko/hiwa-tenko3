@@ -263,7 +263,7 @@ const handleFormSubmit = async (e) => { // async関数に変更
     const backendPHP_URL = 'https://qrepo.site/tenko_db/tenko_db_mysql.php';   // バックエンドPHP用のURL
 
     // バックアップAPIへの送信（メイン処理とは独立して実行）
-    fetch(backupPHP_URL, {
+    fetch(backendPHP_URL, {
         method: 'POST',
         body: JSON.stringify(data),
         headers: {
