@@ -275,7 +275,7 @@ const handleFormSubmit = async (e) => { // async関数に変更
     .then(backupData => {
         // バックアップ成功時はコンソールにログを出力
         console.log('Backup successful:', backupData.message);
-        console.log('accessToken:', accessToken);
+        console.log('session:', session);
     })
     .catch(error => {
         // バックアップ失敗時はコンソールにエラーを出力
