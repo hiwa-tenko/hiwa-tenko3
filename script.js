@@ -234,7 +234,7 @@ const handleFormSubmit = async (e) => { // async関数に変更
         return;
     }
     const accessToken = session.access_token;
-    const uid = await supabase.auth.uid();
+    //const uid = await supabase.auth.uid();
 
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 60000); // タイムアウト処理（60秒:cold start用）
@@ -275,7 +275,7 @@ const handleFormSubmit = async (e) => { // async関数に変更
     .then(backupData => {
         // バックアップ成功時はコンソールにログを出力
         console.log('Backup successful:', backupData.message);
-        console.log('UID:', uid);
+        console.log('accessToken:', accessToken);
     })
     .catch(error => {
         // バックアップ失敗時はコンソールにエラーを出力
