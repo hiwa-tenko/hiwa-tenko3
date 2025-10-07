@@ -69,6 +69,10 @@ body {
     text-overflow: ellipsis; /* はみ出した部分を...で表示 */
 
 }
+.header-title span { 
+    font-size: 1.1em;
+    font-weight: bold;
+}
 .logo { /*モンキーロゴ*/
     height: 3.0em;
     margin-left: 0;

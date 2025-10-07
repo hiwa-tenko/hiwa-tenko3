@@ -234,6 +234,7 @@ const handleFormSubmit = async (e) => { // async関数に変更
         return;
     }
     const accessToken = session.access_token;
+    const uid = await supabase.auth.uid();
 
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 60000); // タイムアウト処理（60秒:cold start用）
@@ -258,9 +259,9 @@ const handleFormSubmit = async (e) => { // async関数に変更
         order_list: order_listInput.value
     };
 
-    // backup DB (rewritography.com/relait : MySQL)に保存　--start--
-    //const backendPHP_URL = 'https://rewritography.com/relait/backupdb/backupdb_mysql.php';   // バックアップ用のURL
-    const backendPHP_URL = 'https://qrepo.site/tenko_db/backupdb_mysql.php';   // バックエンドPHP用のURL
+    // backup DB (xserver : MySQL)に保存　--start--
+    //const backendPHP_URL = 'https://rewritography.com/relait/backupdb/backupdb_mysql.php';   // lolipopバックアップ用のURL
+    const backendPHP_URL = 'https://qrepo.site/tenko_db/backupdb_mysql.php';   // xserverバックアップ用のURL
 
     // バックアップAPIへの送信（メイン処理とは独立して実行）
     fetch(backendPHP_URL, {
@@ -274,13 +275,14 @@ const handleFormSubmit = async (e) => { // async関数に変更
     .then(backupData => {
         // バックアップ成功時はコンソールにログを出力
         console.log('Backup successful:', backupData.message);
+        console.log('UID:', uid);
     })
     .catch(error => {
         // バックアップ失敗時はコンソールにエラーを出力
-        // これによってメインのGASへの送信処理は中断されない
+        // これによってメインのDBへの送信処理は中断されない
         console.error('Backup failed:', error);
     });
-    // backup DB (rewritography.com/relait : MySQL)に保存　--end--
+    // backup DB (tenko.qrepo.site : MySQL)に保存　--end--
 
     //supabase DB (API_URL) に保存  --start--  
     fetch(API_URL, {
@@ -532,11 +534,11 @@ setInterval(keepServerWarm, 13 * 60 * 1000);    // 13分ごとにserver スリ�
 //ページがLOADされた後
 document.addEventListener('DOMContentLoaded', () => {
 
+    //ログイン情報（運転者氏名をUIDから取得する）
+
+
     // Renderの無料プランのスリープ対策。不要な場合はコメントアウトしてください。
     keepServerWarm();   // ★★★server スリープ防止 ★★★
-
-    // ページアクセスログをDBに記録する
-    //recordUserAccess();
 
     // ページ読み込み時にローディングオーバーレイを表示
     showAndHideLoadingOverlay();
@@ -551,10 +553,10 @@ document.addEventListener('DOMContentLoaded', () => {
         health_checkInput, daily_checkInput
     ];
     textInputsToSave.forEach(input => {
-        if (input) input.addEventListener('input', saveFormDataToLocalStorage);
+        if (input) input.addEventListener('input', saveFormDataToLocalStorage); //入力時にLS保存
     });
     choiceInputsToSave.forEach(input => {
-        if (input) input.addEventListener('change', saveFormDataToLocalStorage);
+        if (input) input.addEventListener('change', saveFormDataToLocalStorage); //変更時にLS保存
     });
     // 各種入力項目の変更を監視するイベントリスナーを登録
     tenkoInput.addEventListener('change', toggleTenkoDetailVisibility);
@@ -685,8 +687,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     */
-    // 履歴を表示
-    //displayHistory();
 
 });
 
