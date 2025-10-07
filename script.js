@@ -234,7 +234,85 @@ const handleFormSubmit = async (e) => { // async関数に変更
         return;
     }
     const accessToken = session.access_token;
-    //const uid = await supabase.auth.uid();
+    const user = session.user;
+    const uid = user.id;
+    const email = user.email;
+    const user_data = user.user_metadata;
+    const company_name = user_data.company_name;
+    const user_name = user_data.driver_name;
+
+    /*
+user
+: 
+app_metadata
+: 
+{provider: 'email', providers: Array(1)}
+aud
+: 
+"authenticated"
+confirmation_sent_at
+: 
+"2025-07-28T06:09:41.559136Z"
+confirmed_at
+: 
+"2025-07-28T06:10:42.861802Z"
+created_at
+: 
+"2025-07-28T06:09:41.471407Z"
+email
+: 
+"mega.osada.sf@gmail.com"
+email_confirmed_at
+: 
+"2025-07-28T06:10:42.861802Z"
+id
+: 
+"36e5768f-0088-4ab6-8e2a-43c6815b0c78"
+identities
+: 
+[{…}]
+is_anonymous
+: 
+false
+last_sign_in_at
+: 
+"2025-09-27T22:02:56.876258Z"
+phone
+: 
+""
+role
+: 
+"authenticated"
+updated_at
+: 
+"2025-10-07T06:46:30.685163Z"
+user_metadata
+: 
+{company_name: 'メガ', driver_name: '長田', email: 'mega.osada.sf@gmail.com', email_verified: true, phone_verified: false, …}
+user_metadata
+: 
+company_name
+: 
+"メガ"
+driver_name
+: 
+"長田"
+email
+: 
+"mega.osada.sf@gmail.com"
+email_verified
+: 
+true
+phone_verified
+: 
+false
+sub
+: 
+"36e5768f-0088-4ab6-8e2a-43c6815b0c78"
+vehicle_number
+: 
+"1234"
+    */
 
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 60000); // タイムアウト処理（60秒:cold start用）
@@ -275,7 +353,7 @@ const handleFormSubmit = async (e) => { // async関数に変更
     .then(backupData => {
         // バックアップ成功時はコンソールにログを出力
         console.log('Backup successful:', backupData.message);
-        console.log('session:', session);
+        console.log(uid, email, user_name);
     })
     .catch(error => {
         // バックアップ失敗時はコンソールにエラーを出力
