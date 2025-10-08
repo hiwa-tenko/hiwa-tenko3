@@ -11,6 +11,7 @@ signupForm.addEventListener('submit', async (event) => {
     // フォームから各入力値を取得
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
+    const company_code = document.getElementById('company_code').value;
     const company_name = document.getElementById('company_name').value;
     const driver_name = document.getElementById('driver_name').value;
     const vehicle_number = document.getElementById('vehicle_number').value;
@@ -28,9 +29,10 @@ signupForm.addEventListener('submit', async (event) => {
             options: {
                 // user_metadataに追加情報を保存
                 data: {
+                    company_code: company_code,
                     company_name: company_name,
                     driver_name: driver_name,
-                    vehicle_number: vehicle_number,
+                    vehicle_number: vehicle_number
                 }
             }
         });

@@ -13,7 +13,7 @@
         <div class="header-container">
             <div class="header-title">
                 <img src="images/logo_s1.jpg" alt="Hiwaロゴ" class="logo">
-                <h2>Hiwa点呼3 - 新規登録</h2>
+                <h2>点呼アプリ - 新規登録</h2>
             </div>
         </div>
         <form id="signupForm" class="auth-form">
@@ -23,27 +23,31 @@
                 <input type="email" id="email" required autocomplete="email">
             </div>
             <div class="form-group">
-                <label for="password">パスワード (6文字以上)</label>
-                <input type="password" id="password" required autocomplete="new-password" minlength="6">
+                <label for="password">パスワード (8文字以上)</label>
+                <input type="password" id="password" required autocomplete="new-password" minlength="8">
             </div>
             <div class="form-group">
-                <label for="company_name">会社名</label>
+                <label for="company_name">会社名（個人の場合は不要）</label>
                 <input type="text" id="company_name" autocomplete="organization">
             </div>
             <div class="form-group">
-                <label for="driver_name">運転者氏名</label>
+                <label for="company_name">会社コード（個人の場合は不要）</label>
+                <input type="text" id="company_name" autocomplete="tel">
+            </div>
+            <div class="form-group">
+                <label for="driver_name">運転者氏名（姓　名）</label>
                 <input type="text" id="driver_name" required autocomplete="name">
             </div>
             <div class="form-group">
-                <label for="vehicle_number">車両番号</label>
-                <input type="text" id="vehicle_number" autocomplete="off">
+                <label for="vehicle_number">車両番号（例 4649）</label>
+                <input type="text" id="vehicle_number" required autocomplete="off">
             </div>
             <div class="btn-container">
-                <button type="submit">登録</button>
+                <button type="submit">登　録</button>
             </div>
             <div id="message" class="message-text"></div>
         </form>
-        <div class="auth-link"><p>すでにアカウントをお持ちですか？ <a href="login.html">ログイン</a></p></div>
+        <div class="auth-link"><p>すでに登録済みの場合 <a href="login.html">ログイン</a></p></div>
     </div>
     <script type="module" src="js/signup.js"></script>
 </body>
