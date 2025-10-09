@@ -283,7 +283,7 @@ const handleFormSubmit = async (e) => { // async関数に変更
     .then(backupData => {
         // バックアップ成功時はコンソールにログを出力
         console.log('Backup successful:', backupData.message);
-        console.log(uid, email, user_name, company_name);
+        console.log(uid, email, user_name, companyName);
     })
     .catch(error => {
         // バックアップ失敗時はコンソールにエラーを出力
