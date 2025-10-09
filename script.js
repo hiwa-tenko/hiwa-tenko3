@@ -18,9 +18,9 @@ const currentDateDiv = document.getElementById('currentDate');
 const currentTimeDiv = document.getElementById('currentTime');
 const startTimeInput = document.getElementById('start');
 const endTimeInput = document.getElementById('end');
-const startTime = document.getElementById('start_time');
-const durationTime = document.getElementById('duration_time');
-const endTime = document.getElementById('end_time');
+const startTime = document.getElementById('s_time');
+const durationTime = document.getElementById('d_time');
+const endTime = document.getElementById('e_time');
 
 const nameInput = document.getElementById('name');
 const numberInput = document.getElementById('number');
@@ -213,13 +213,12 @@ const handleFormSubmit = async (e) => { // async関数に変更
         //startEnd.style.background = '#3968d4ff';
         
     }
-    console.log("startEnd = "+startEnd.textContent);
-
-    // 名前からスペース（全・半角）を削除
-    let name = nameInput.value.replace(/\s/g, '');
+    //console.log("startEnd = "+startEnd.textContent);
+    let name = nameInput.value.replace(/\s/g, '');  // 運転者氏名　スペース（全・半角）を削除
 
     // 車両番号から数字以外の文字を削除し、スプレッドシート用にシングルクォートを付与
-    let number = numberInput.value.replace(/\D/g, '');
+    //let number = numberInput.value.replace(/\D/g, '');
+    let number = numberInput.value; // 車両番号
 
     const { data: { session }, error: sessionError } = await supabase.auth.getSession();
 
@@ -234,6 +233,13 @@ const handleFormSubmit = async (e) => { // async関数に変更
         return;
     }
     const accessToken = session.access_token;
+    const user = session.user;  //現在のログインユーザObject
+    const uid = user.id;    //ユーザUID（登録時に自動生成されたユニークなID）
+    const email = user.email;    //ユーザemail
+    const user_data = user.user_metadata;  //ユーザメタデータ（詳細）
+    const companyCode = user_data.company_code;    //会社コード
+    const companyName = user_data.company_name;    //会社名
+    const user_name = user_data.driver_name;    //ユーザ名
 
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 60000); // タイムアウト処理（60秒:cold start用）
@@ -241,11 +247,14 @@ const handleFormSubmit = async (e) => { // async関数に変更
 
     // FormDataから直接データを取得する代わりに、各入力値を取得します
     const data = {
-        name: name,
-        number: number, // シングルクォートを削除
-        start: startTimeInput.value,
-        end: endTimeInput.value,
-        tenko: tenkoInput.value,
+        company_code: companyCode,
+        company_name: companyName,
+        driver_uid: uid,
+        driver_name: name,
+        vehicle_number: number, // シングルクォートを削除
+        start_time: startTimeInput.value,
+        end_time: endTimeInput.value,
+        tenko_method: tenkoInput.value,
         tenko_detail: tenko_detailInput.value,
         tenko_name: tenko_nameInput.value,
         alcohol_checker: alcohol_checkerInput.checked ? 'on' : null, // チェックボックスの値を 'on' or null に
@@ -258,11 +267,12 @@ const handleFormSubmit = async (e) => { // async関数に変更
         order_list: order_listInput.value
     };
 
-    // backup DB (rewritography.com/relait : MySQL)に保存　--start--
-    const backupAPI_URL = 'https://rewritography.com/relait/backupdb/backupdb_mysql.php';   // バックアップ用のURL
+    // backup DB (xserver : MySQL)に保存　--start--
+    //const backendPHP_URL = 'https://rewritography.com/relait/backupdb/backupdb_mysql.php';   // lolipopバックアップ用のURL
+    const backendPHP_URL = 'https://qrepo.site/tenko_db/backupdb_mysql.php';   // xserverバックアップ用のURL
 
     // バックアップAPIへの送信（メイン処理とは独立して実行）
-    fetch(backupAPI_URL, {
+    fetch(backendPHP_URL, {
         method: 'POST',
         body: JSON.stringify(data),
         headers: {
@@ -273,13 +283,14 @@ const handleFormSubmit = async (e) => { // async関数に変更
     .then(backupData => {
         // バックアップ成功時はコンソールにログを出力
         console.log('Backup successful:', backupData.message);
+        console.log(uid, email, user_name, company_name);
     })
     .catch(error => {
         // バックアップ失敗時はコンソールにエラーを出力
-        // これによってメインのGASへの送信処理は中断されない
+        // これによってメインのDBへの送信処理は中断されない
         console.error('Backup failed:', error);
     });
-    // backup DB (rewritography.com/relait : MySQL)に保存　--end--
+    // backup DB (tenko.qrepo.site : MySQL)に保存　--end--
 
     //supabase DB (API_URL) に保存  --start--  
     fetch(API_URL, {
@@ -524,18 +535,18 @@ const keepServerWarm = () => {
         });
 };
 
-// Renderの無料プランのスリープ対策。不要な場合はコメントアウトしてください。
+// Renderの無料プランのスリープ対策。不要な場合は次の行をコメントアウトしてください。
 setInterval(keepServerWarm, 13 * 60 * 1000);    // 13分ごとにserver スリープ防止を実行
 // ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 
 //ページがLOADされた後
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Renderの無料プランのスリープ対策。不要な場合はコメントアウトしてください。
-    keepServerWarm();   // ★★★server スリープ防止 ★★★
+    //ログイン情報（運転者氏名をUIDから取得する）
 
-    // ページアクセスログをDBに記録する
-    //recordUserAccess();
+
+    // Renderの無料プランのスリープ対策。不要な場合は次の行をコメントアウトしてください。
+    keepServerWarm();   // ★★★server スリープ防止 ★★★
 
     // ページ読み込み時にローディングオーバーレイを表示
     showAndHideLoadingOverlay();
@@ -550,10 +561,10 @@ document.addEventListener('DOMContentLoaded', () => {
         health_checkInput, daily_checkInput
     ];
     textInputsToSave.forEach(input => {
-        if (input) input.addEventListener('input', saveFormDataToLocalStorage);
+        if (input) input.addEventListener('input', saveFormDataToLocalStorage); //入力時にLS保存
     });
     choiceInputsToSave.forEach(input => {
-        if (input) input.addEventListener('change', saveFormDataToLocalStorage);
+        if (input) input.addEventListener('change', saveFormDataToLocalStorage); //変更時にLS保存
     });
     // 各種入力項目の変更を監視するイベントリスナーを登録
     tenkoInput.addEventListener('change', toggleTenkoDetailVisibility);
@@ -684,8 +695,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     */
-    // 履歴を表示
-    //displayHistory();
 
 });
 
@@ -756,7 +765,7 @@ const loadFormDataFromLocalStorage = () => {
 
     }
 };
-
+//時刻の形式フォーマット
 function getFormattedTime(savedTime) {
     const nowTime = new Date(savedTime);
     const year = nowTime.getFullYear();

@@ -23,12 +23,19 @@ body {
     margin: 0 auto;
 
 }
-.link-container h4 { 
-    font-size: 1.5em;
-    font-weight: bold;
+.link1 { 
+    margin-bottom: 0px;
     text-align: left;
     color: #fdfefe;
     background-color: #dc3603;
+}
+.link2 { 
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: left;
+    background-color: #eef3b0;
+    margin-top: 0;
+    margin-bottom: 10px;
 }
 .header-container {
     display:flex;
@@ -61,6 +68,10 @@ body {
     overflow: hidden; /* はみ出した部分を隠す */
     text-overflow: ellipsis; /* はみ出した部分を...で表示 */
 
+}
+.header-title span { 
+    font-size: 1.1em;
+    font-weight: bold;
 }
 .logo { /*モンキーロゴ*/
     height: 3.0em;

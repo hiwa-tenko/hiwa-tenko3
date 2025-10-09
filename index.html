@@ -20,7 +20,7 @@
     // !!!!!!メンテナンスモードがtrueならリダイレクト!!!!!!!!
         (function() {
             const isMaintenance = false; // ！通常時は、 false　に変更する！
-            const maintenanceUrl = 'https://rs-o.sakura.ne.jp/hiwa_tenko/';
+            const maintenanceUrl = 'https://tenko.qrepo.site/tenko2/';
 
             if(isMaintenance){
                 console.log("メンテナンス");
@@ -37,13 +37,13 @@
 
     <div class="container" id="page-top">
         <div class="link-container">
-            <h4>現在、「点呼3」は開発中です。<a href = "https://tenko.qrepo.site/tenko2/">「点呼2」をご利用ください。</a></h4>
-            
+            <div class="link1"><h4>「点呼3」は開発中です。</h4></div>
+            <div class="link2"><a href = "https://tenko.qrepo.site/tenko2/">「点呼2」をご利用ください。</a></div>            
         </div>
         <div class="header-container">
             <div class="header-title">
                 <img src="images/logo_s1.jpg" alt="Hiwaロゴ" class="logo">
-                <h2>Hiwa点呼3【開発版】</h2>
+                <h2 id="top_title">Hiwa点呼3</h2><span>開発版<span>
             </div>
             
             <div class="header-menu">
@@ -178,9 +178,9 @@
                     <div class="start-end-label">業務時間</div>
                     <div class="start-end-label">点呼終了</div>
  
-                    <div class="start-end-time" id="start_time"></div>
-                    <div class="start-end-time" id="duration_time"></div>
-                    <div class="start-end-time" id="end_time"></div>
+                    <div class="start-end-time" id="s_time"></div>
+                    <div class="start-end-time" id="d_time"></div>
+                    <div class="start-end-time" id="e_time"></div>
                 </div>
                 
                 <div>
