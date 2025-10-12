@@ -91,7 +91,7 @@ function displayCurrentTime() {
 
         //現在の業務時間（現在時刻ー点呼開始）を表示
         if (startTimeDiv) {
-            const sTime = new Date(startTime); //点呼開始（text）を日付に変換
+            const sTime = new Date(startTimeDiv.textContent); //点呼開始（text）を日付に変換
             const elapseTime = nowTime - sTime; //開始点呼からの経過時間
             const elapsedHours = Math.floor(elapseTime / 3600000);
             const elapsedMinutes = Math.floor((elapseTime % 3600000) / 60000);
