@@ -193,6 +193,10 @@ const handleFormSubmit = async (e) => { // async関数に変更
         startEnd.textContent = "終了";
         submitButton.textContent = "終了　点呼";
         submitButton.style.background = '#ff4b5c';
+
+        endTime.textContent = "";
+        durationTime.textContent = "0時間0分";
+
         
         //startEnd.style.left = 'auto';
         //startEnd.style.right = '11%';
