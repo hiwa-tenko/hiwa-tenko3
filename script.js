@@ -95,7 +95,7 @@ console.log("script.js:94",startTimeValue);
         if (startTimeValue) {
             const sTime = new Date(startTimeValue); //点呼開始をミリ秒に変換
 console.log("script.js:96",nowTime,sTime);
-            const elapseTime = nowTime - sTime; //開始点呼からの経過時間
+            const elapseTime = nowTime.getTime() - sTime.getTime(); //開始点呼からの経過時間
             const elapsedHours = Math.floor(elapseTime / 3600000);
             const elapsedMinutes = Math.floor((elapseTime % 3600000) / 60000);
             //const elapsedSeconds = Math.floor((elapseTime % 60000) / 1000);
@@ -385,18 +385,18 @@ const saveFormDataToLocalStorage = () => {
 // 今の状態と履歴をlocalStorageに保存する関数
 const saveStateAndHistory = (sentData) => {
     // 1. 次回入力補助用のデータを保存
-    if (sentData.name) localStorage.setItem(DRIVER_NAME_KEY, sentData.name);
+    if (sentData.driver_name) localStorage.setItem(DRIVER_NAME_KEY, sentData.driver_name);
     // シングルクォートを除去して保存
-    if (sentData.number) localStorage.setItem(VEHICLE_NUMBER_KEY, String(sentData.number).replace(/'/g, ''));
+    if (sentData.vehicle_number) localStorage.setItem(VEHICLE_NUMBER_KEY, String(sentData.vehicle_number).replace(/'/g, ''));
     if (sentData.tenko_name) localStorage.setItem(TENKO_NAME_KEY, sentData.tenko_name);
 
     // 2. 開始/終了の状態を更新
     if (sentData.start) { // 開始時刻があれば開始点呼
-        localStorage.setItem(START_TIME_KEY, sentData.start);
+        localStorage.setItem(START_TIME_KEY, sentData.start_time);
         localStorage.setItem(END_TIME_KEY, "");
     } else if (sentData.end) { // 終了時刻があれば終了点呼
         localStorage.setItem(START_TIME_KEY, "");
-        localStorage.setItem(END_TIME_KEY, sentData.end);
+        localStorage.setItem(END_TIME_KEY, sentData.end_time);
     }
 
     // 3. 履歴を保存
