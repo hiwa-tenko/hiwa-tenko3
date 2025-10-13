@@ -296,16 +296,17 @@ textarea {
   justify-content: center;
   align-items: center;
   padding: 1.2em;
+  /*border: 1px solid #0f0;*/
 }
 .start-end{
-    /*visibility: hidden; 本番では非表示（hidden）*/
-    visibility:visible; /*開発期間中だけ表示*/
+    visibility: hidden; /*本番では非表示（hidden）*/
+    /*visibility:visible; 開発期間中だけ表示*/
     color: #ccc;
-    border: 1px solid #0f0;
+
 }
 .start-end-left{
-    /*visibility: hidden; 本番では非表示（hidden）*/
-    visibility:visible; /*開発期間中だけ表示*/
+    visibility: hidden; /*本番では非表示（hidden）*/
+    /*visibility:visible; 開発期間中だけ表示*/
     color: #ccc;
     border: 1px solid #0f0;
     padding: 1.2em;
