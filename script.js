@@ -391,10 +391,10 @@ const saveStateAndHistory = (sentData) => {
     if (sentData.tenko_name) localStorage.setItem(TENKO_NAME_KEY, sentData.tenko_name);
 
     // 2. 開始/終了の状態を更新
-    if (sentData.start) { // 開始時刻があれば開始点呼
+    if (sentData.start_time) { // 開始時刻があれば開始点呼
         localStorage.setItem(START_TIME_KEY, sentData.start_time);
         localStorage.setItem(END_TIME_KEY, "");
-    } else if (sentData.end) { // 終了時刻があれば終了点呼
+    } else if (sentData.end_time) { // 終了時刻があれば終了点呼
         localStorage.setItem(START_TIME_KEY, "");
         localStorage.setItem(END_TIME_KEY, sentData.end_time);
     }
