@@ -203,7 +203,7 @@ const handleFormSubmit = async (e) => { // async関数に変更
     
 
     }else if (startEnd.textContent === "終了") {   //終了点呼の場合
-        endTime.textContent= getFormattedTime(current_time);  //終了時刻
+        endTimeDiv.textContent= getFormattedTime(current_time);  //終了時刻
         startTimeInput.value="";
         endTimeInput.value = current_time;
         
@@ -628,7 +628,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log("savedStartTime = "+savedStartTime);
         console.log("savedEndTime = "+savedEndTime);
         console.log("startEnd ="+startEnd.textContent);
-        //開始点呼ボタンがクリック
+ 
         if (startEnd.value === "開始" && savedStartTime) {
             //submitButton.textContent = "終了　点呼";
             //submitButton.classList.add('end-call'); // 終了ボタン用のクラスを追加
@@ -642,8 +642,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // 2. START_TIME_KEYが存在しない、または空文字列の場合は「開始点呼」(初期値)
             //submitButton.textContent = "開始　点呼";
             //submitButton.classList.remove('end-call'); // 終了ボタン用のクラスを削除
-            endTimeDiv.textContent = getFormattedTime(savedEndTime);
+            //endTimeDiv.textContent = getFormattedTime(savedEndTime);
             startEnd.textContent = "開始";
+            endTimeDiv.textContent = "";
+            durationTimeDiv.textContent = "0時間0分";
         }
     }
 
