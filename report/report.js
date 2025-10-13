@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const dailyRecords = {};
     history.forEach(record => {
         //console.log("report:29",record.start,record.end);
-        const dateTimeString = record.start || record.end;
+        const dateTimeString = record.start_time || record.end_end;
         if (!dateTimeString) return;
 
         const recordDateStr = dateTimeString.split('T')[0]; // "YYYY-MM-DD"
@@ -35,16 +35,16 @@ document.addEventListener('DOMContentLoaded', () => {
             dailyRecords[recordDateStr] = {};
         }
         // その日の最も早い開始時刻を記録する
-        if (record.start) {
-            if (!dailyRecords[recordDateStr].start || new Date(record.start) < new Date(dailyRecords[recordDateStr].start)) {
-                dailyRecords[recordDateStr].start = record.start;
+        if (record.start_time) {
+            if (!dailyRecords[recordDateStr].start_time || new Date(record.start_time) < new Date(dailyRecords[recordDateStr].start_time)) {
+                dailyRecords[recordDateStr].start_time = record.start_time;
                 //console.log("report:39:start=", recordDateStr, dailyRecords[recordDateStr].start);
             }
         }
         // その日の最も遅い終了時刻を記録する
-        if (record.end) {
-            if (!dailyRecords[recordDateStr].end || new Date(record.end) > new Date(dailyRecords[recordDateStr].end)) {
-                dailyRecords[recordDateStr].end = record.end;
+        if (record.end_time) {
+            if (!dailyRecords[recordDateStr].end_time || new Date(record.end_time) > new Date(dailyRecords[recordDateStr].end_time)) {
+                dailyRecords[recordDateStr].end_time = record.end_time;
                 //console.log("report:45:end=", recordDateStr, dailyRecords[recordDateStr].end);
             }        
         }
@@ -76,7 +76,7 @@ const tenkoTimeTable = (records) => {
             <th>月日</th>
             <th>開始</th>
             <th>終了</th>
-            <th>点呼時間</th>
+            <th>業務時間</th>
         </tr>
     `;
     table.appendChild(thead);
@@ -98,7 +98,7 @@ const tenkoTimeTable = (records) => {
         const record = records[dateKey];
 
         */
-    //15日間（LocalStorage保存分）をすべての点呼時間のテーブルを表示
+    //15日間（LocalStorage保存分）をすべての業務時間のテーブルを表示
     for(let dateKey in records){
 
         const record = records[dateKey];
@@ -120,9 +120,9 @@ const tenkoTimeTable = (records) => {
 
         //console.log("record:90",record.start,record.end)
         // データが存在し、開始と終了がペアになっている場合のみ時間を計算
-        if (record && record.start && record.end) {
-            const startDate = new Date(record.start);
-            const endDate = new Date(record.end);
+        if (record && record.start_time && record.end_time) {
+            const startDate = new Date(record.start_time);
+            const endDate = new Date(record.end_time);
 
             // 開始時間・終了時間 (例: 8時10分)
             startTime = `${startDate.getHours()}：${startDate.getMinutes().toString().padStart(2, '0')}`;

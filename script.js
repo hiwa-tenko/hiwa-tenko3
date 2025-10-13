@@ -90,11 +90,10 @@ function displayCurrentTime() {
         currentTimeDiv.textContent = `${hours}時${minutes}分`;
 
         //現在の業務時間（現在時刻ー点呼開始）を表示
-        const startTimeValue = localStorage.getItem(START_TIME_KEY);
-console.log("script.js:94",startTimeValue);
-        if (startTimeValue) {
+        const startTimeValue = startTimeDiv.textContent;
+        const endTimeValue = endTimeDiv.textContent;
+        if (startTimeValue != "" && endTimeValue == "") {
             const sTime = new Date(startTimeValue); //点呼開始をミリ秒に変換
-console.log("script.js:96",nowTime,sTime);
             const elapseTime = nowTime.getTime() - sTime.getTime(); //開始点呼からの経過時間
             const elapsedHours = Math.floor(elapseTime / 3600000);
             const elapsedMinutes = Math.floor((elapseTime % 3600000) / 60000);

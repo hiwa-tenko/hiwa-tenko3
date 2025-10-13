@@ -298,8 +298,8 @@ textarea {
   padding: 20px;
 }
 .start-end{
-    /*visibility: hidden; 本番では非表示（hidden）*/
-    visibility:visible; /*開発期間中だけ表示*/
+    visibility: hidden; /*本番では非表示（hidden）*/
+    /*visibility:visible; 開発期間中だけ表示*/
     color: #ccc;
 }
 
@@ -396,7 +396,7 @@ textarea {
     background-color: #238dff;
     color: #fff;
     padding: 4px 2px 4px 2px;
-    /*border: 4px solid  rgba(84, 84, 83, 0.7);*/
+    border: 1px solid  rgba(214, 214, 212, 0.7);
     border-radius: 35px;
     cursor: pointer;
     font-size: 1.2em;
