@@ -93,7 +93,7 @@ function displayCurrentTime() {
         const startTimeValue = startTimeDiv.textContent;
         const endTimeValue = endTimeDiv.textContent;
         if (startTimeValue != "" && endTimeValue == "") {
-            const sTime = new Date(startTimeValue); //点呼開始時間
+            const sTime = new Date(startTimeInput.value); //点呼開始時間
 console.log("script.js:97",sTime,sTime.getTime());
             const elapseTime = nowTime.getTime() - sTime.getTime(); //開始点呼からの経過時間
             const elapsedHours = Math.floor(elapseTime / 3600000);
