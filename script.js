@@ -16,8 +16,8 @@ const loadingOverlay = document.getElementById('loading-overlay');
 const overlayMessage = document.getElementById('overlay-message');
 const currentDateDiv = document.getElementById('currentDate');
 const currentTimeDiv = document.getElementById('currentTime');
-const startTimeInput = document.getElementById('start');
-const endTimeInput = document.getElementById('end');
+const startTimeInput = document.getElementById('start');    //点呼開始時間(hidden)
+const endTimeInput = document.getElementById('end');    //点呼終了時間(hidden)
 const startTimeDiv = document.getElementById('s_time');
 const durationTimeDiv = document.getElementById('d_time');
 const endTimeDiv = document.getElementById('e_time');
@@ -94,7 +94,7 @@ function displayCurrentTime() {
         const endTimeValue = endTimeDiv.textContent;
         if (startTimeValue != "" && endTimeValue == "") {
             const sTime = new Date(startTimeInput.value); //点呼開始時間
-console.log("script.js:97",sTime,sTime.getTime());
+
             const elapseTime = nowTime.getTime() - sTime.getTime(); //開始点呼からの経過時間
             const elapsedHours = Math.floor(elapseTime / 3600000);
             const elapsedMinutes = Math.floor((elapseTime % 3600000) / 60000);
@@ -286,7 +286,7 @@ const handleFormSubmit = async (e) => { // async関数に変更
     .then(backupData => {
         // バックアップ成功時はコンソールにログを出力
         console.log('Backup successful:', backupData.message);
-        console.log(uid, email, user_name, companyName);
+        //console.log(uid, email, user_name, companyName);
     })
     .catch(error => {
         // バックアップ失敗時はコンソールにエラーを出力
