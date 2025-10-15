@@ -16,8 +16,8 @@ const loadingOverlay = document.getElementById('loading-overlay');
 const overlayMessage = document.getElementById('overlay-message');
 const currentDateDiv = document.getElementById('currentDate');
 const currentTimeDiv = document.getElementById('currentTime');
-const startTimeInput = document.getElementById('start');    //点呼開始時間(hidden)
-const endTimeInput = document.getElementById('end');    //点呼終了時間(hidden)
+const startTimeInput = document.getElementById('start');    //点呼開始時間(input hidden)
+const endTimeInput = document.getElementById('end');    //点呼終了時間(input hidden)
 const startTimeDiv = document.getElementById('s_time');
 const durationTimeDiv = document.getElementById('d_time');
 const endTimeDiv = document.getElementById('e_time');
@@ -178,7 +178,7 @@ const handleFormSubmit = async (e) => { // async関数に変更
         overlay.classList.remove('hidden');
     }
 
-    const current_time = getFormattedCurrentDateTime();
+    const current_time = getFormattedCurrentDateTime(); //2025-10-14 10:10
 
     // ボタンを無効化
     submitButton.disabled = true;
@@ -210,10 +210,6 @@ const handleFormSubmit = async (e) => { // async関数に変更
         startEnd.textContent = "開始";
         submitButton.textContent = "開始　点呼";
         submitButton.style.background = '#3968d4ff';
-        
-        //startEnd.style.left = '11%';
-        //startEnd.style.right = 'auto';
-        //startEnd.style.background = '#3968d4ff';
         
     }
     //console.log("startEnd = "+startEnd.textContent);
@@ -586,39 +582,14 @@ document.addEventListener('DOMContentLoaded', () => {
     //toggleHealthDetailVisibility();
     //toggleDailyDetailVisibility();
     
-    //ページが読み込まれた時、LocalStorageから読み込む
+    //ページが読み込まれた時、LocalStorageからFormのデータを読み込む
     loadFormDataFromLocalStorage();
 
-        const tenkoButton = document.getElementById('tenkoButton');
+    //const tenkoButton = document.getElementById('tenkoButton');
 
     if (startEnd) {
         // 初期状態を「開始」に設定
-        
-        startEnd.textContent = '開始';
-
-        /*
-        startEnd.style.left = '11%';
-        startEnd.style.right = 'auto';
-        startEnd.style.background = '#3968d4ff';
-
-        startEnd.addEventListener('click', function() {
-            if (this.textContent === '開始') {
-                // 「終了」に変更
-                this.textContent = '終了';
-                this.style.left = 'auto';
-                this.style.right = '11%';
-                this.style.background = '#ff4b5c';
-            } else {    //「終了」だった場合
-                // 「開始」に変更
-                this.textContent = '開始';
-                this.style.left = '11%';
-                this.style.right = 'auto';
-                this.style.background = '#3968d4ff';
-            }
-        });
-        */
-
-        // localStorageの開始時刻/終了時刻の状態に応じて開始・終了点呼ボタンと開始・終了時間を切り替える
+        // localStorageの前回の開始時刻/終了時刻の状態に応じて開始・終了点呼ボタンと開始・終了を切り替える
         // style.css 372行をコメントアウト中（非表示を無効）
         const savedStartTime = localStorage.getItem(START_TIME_KEY);
         const savedEndTime = localStorage.getItem(END_TIME_KEY);
@@ -629,27 +600,42 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log("savedEndTime = "+savedEndTime);
         console.log("startEnd ="+startEnd.textContent);
  
-        if (startEnd.value === "開始" && savedStartTime) {
-            //submitButton.textContent = "終了　点呼";
-            //submitButton.classList.add('end-call'); // 終了ボタン用のクラスを追加
-            startTimeDiv.textContent = getFormattedTime(savedStartTime);
+        if (savedStartTime) {  //前回が開始点呼の場合
+            // 終了点呼ボタンに切り替える
+            submitButton.textContent = "終了　点呼";
+            submitButton.style.background = '#ff4b5c';
             startEnd.textContent = "終了";
-      
-
-        } else {
-        // 開始点呼ボタンに切り替えるOR条件
-        // 1. startEndが"END以外（"START" OR ""）
-        // 2. START_TIME_KEYが存在しない、または空文字列の場合は「開始点呼」(初期値)
+            startTimeDiv.textContent = getFormattedTime(savedStartTime);
+            endTimeDiv.textContent= "";  //終了時刻
+            startTimeInput.value= savedStartTime;
+            //durationTimeDiv.textContent = "0時間0分";
+            endTimeInput.value = "";
+            displayCurrentTime();   //現在のdurationTimeDivを表示
+        
+            //startEnd.textContent = "開始";
             //submitButton.textContent = "開始　点呼";
-            //submitButton.classList.remove('end-call'); // 終了ボタン用のクラスを削除
-            //endTimeDiv.textContent = getFormattedTime(savedEndTime);
+            //submitButton.style.background = '#3968d4ff';
+      
+        } else if(savedEndTime){  //前回が終了点呼の場合
+            // 開始点呼ボタンに切り替える
+            submitButton.textContent = "開始　点呼";
+            submitButton.style.background = '#3968d4ff';
             startEnd.textContent = "開始";
+            startTimeDiv.textContent = "";
+            endTimeDiv.textContent = "";
+            durationTimeDiv.textContent = "0時間0分";
+        } else {    //前回が初期の場合
+            // 開始点呼ボタンに切り替える
+            submitButton.textContent = "開始　点呼";
+            submitButton.style.background = '#3968d4ff';
+            startEnd.textContent = "開始";
+            startTimeDiv.textContent = "";
             endTimeDiv.textContent = "";
             durationTimeDiv.textContent = "0時間0分";
         }
     }
 
-    // menuがクリックされたときの処理
+    // navMenuがクリックされたときの処理
     const menuIcon = document.getElementById('list_menu');
     const navMenu = document.getElementById('nav_menu');
 
@@ -679,34 +665,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    //履歴の表示・非表示切り替え
-    /*
-    if (historyButton && historyList && buttonImage) {
-        historyButton.addEventListener('click', () => {
-            historyList.classList.toggle('visible');
-    
-            if (historyList.classList.contains('visible')) {
-                buttonImage.src = 'images/arrow-up1.svg';
-                buttonImage.alt = '非表示';
-                historyButton.setAttribute('aria-label', '履歴を非表示');
-                linkTop.style.display = 'block';
-
-            } else {
-                buttonImage.src = 'images/arrow-down1.svg';
-                buttonImage.alt = '表示';
-                historyButton.setAttribute('aria-label', '履歴を表示');
-                linkTop.style.display = 'none';
-            }
-        });
-    }
-    */
-
 });
 
 // バックグラウンドから復帰した際の処理
 document.addEventListener('visibilitychange', () => {
     // ページが再び表示された場合
+    console.log("673:visibilitychange");
     if (document.visibilityState === 'visible') {
+        console.log("675:visibilityState===visible");
         // ページアクセスログをDBに記録する
         //recordUserAccess();
         // ローディングオーバーレイを表示
@@ -714,6 +680,8 @@ document.addEventListener('visibilitychange', () => {
         // 時刻表示を即時更新
         displayCurrentDate();
         displayCurrentTime();
+        // LocalStorageの保存データを取得・表示
+        loadFormDataFromLocalStorage();
     }
 });
 
@@ -745,7 +713,6 @@ const loadFormDataFromLocalStorage = () => {
         if (daily_detailInput) daily_detailInput.value = data.daily_detail || '';
         if (order_listInput) order_listInput.value = data.order_list || '';
 
-
     } else {
         // 未送信データがない（送信に成功していた）場合は、前回送信成功時のデータ（氏名・ナンバー・点呼者）を読み込む
         if (nameInput) {
@@ -766,8 +733,6 @@ const loadFormDataFromLocalStorage = () => {
                 tenko_nameInput.value = savedTenkoName;
             }
         }
-
-
     }
 };
 //時刻の形式フォーマット
