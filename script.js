@@ -1,11 +1,10 @@
-﻿//test2_Hiwa点呼記録
+﻿//Hiwa点呼3
 
 // supabaseクライアントをインポート
 import { supabase } from './js/supabaseClient.js';
 
 //LocalStorageに保存する期間（日）
 const LSperiod = 15;
-
 
 const form = document.getElementById('reportForm');
 const submitButton = document.getElementById('submitButton');
@@ -47,10 +46,7 @@ const dailyDetailGroup = document.getElementById('daily-detail-group');
 
 const order_listInput = document.getElementById('order_list');
 
-//const historyList = document.getElementById('history_list'); // 履歴表示用のコンテナ
-//const historyButton = document.getElementById('history_button');
 const linkTop = document.getElementById('link_top');    //トップに戻る
-//const buttonImage = historyButton.querySelector('img'); // ボタン内の画像を取得
 
 const DRIVER_NAME_KEY = 'driverName';
 const VEHICLE_NUMBER_KEY = 'vehicleNumber';
@@ -58,96 +54,67 @@ const TENKO_NAME_KEY = 'tenkoName';
 const REPORT_HISTORY_KEY = 'reportHistory'; // 履歴保存用のキー
 const START_TIME_KEY = 'startTime';
 const END_TIME_KEY = 'endTime';
+const START_END_KEY = 'startEnd';
+const TENKO_START_KEY = 'tenkoStart';   //点呼開始時間
+const TENKO_TIME_KEY = 'tenkoDuration'; //業務時間
+const TENKO_END_KEY = 'tenkoEnd';   //点呼終了時間
 
 const FORM_DATA_KEY = 'unsentFormData'; // 未送信のフォームデータ保存用のキー
+
+
 // ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
-//const API_URL = 'http://localhost:3001/api/reports';// デプロイ後にRenderのURLに書き換える。
+
+// main DB (supabase : PostgreSQL）DataBase API URL
 const API_URL = 'https://hiwa-tenko-backend.onrender.com/api/reports';
 
-// デプロイしたGASのウェブアプリURL(受信記録２)mega.osada.sf@gmail.com
-//const GAS_APP_URL = 'https://script.google.com/macros/s/AKfycbw9WmBmnTBknedyvVgZ0HAyNYhTVzu9aesYue9GAP2GwMN_XbtzD9qJaHJC8SO_9yX8/exec';
+// backup DB (xserver : MySQL) DataBase API URL
+const backendPHP_URL = 'https://qrepo.site/tenko_db/backupdb_mysql.php';
+
 // ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 
-// 現在年月日を表示する関数
-function displayCurrentDate() {
-    if (currentDateDiv) {
-        const nowDay = new Date();
-        const year = nowDay.getFullYear();
-        const month = (nowDay.getMonth() + 1).toString().padStart(2, '0');
-        const day = nowDay.getDate().toString().padStart(2, '0');
-        const week = ['日', '月', '火', '水', '木', '金', '土'];
-        const dayOfWeek = week[nowDay.getDay()];
-        currentDateDiv.textContent = `${year}年${month}月${day}日（${dayOfWeek}）`;
-    }
-}
-// 現在時刻と開始から現在までの業務時間を表示する関数
-function displayCurrentTime() {
-    if (currentTimeDiv) {
-        
-        const nowTime = new Date();
-        const hours = nowTime.getHours().toString().padStart(2);
-        const minutes = nowTime.getMinutes().toString().padStart(2, '0');
-        currentTimeDiv.textContent = `${hours}時${minutes}分`;
-
-        //現在の業務時間（現在時刻ー点呼開始）を表示
-        const startTimeValue = startTimeDiv.textContent;
-        const endTimeValue = endTimeDiv.textContent;
-        if (startTimeValue != "" && endTimeValue == "") {
-            const sTime = new Date(startTimeInput.value); //点呼開始時間
-
-            const elapseTime = nowTime.getTime() - sTime.getTime(); //開始点呼からの経過時間
-            const elapsedHours = Math.floor(elapseTime / 3600000);
-            const elapsedMinutes = Math.floor((elapseTime % 3600000) / 60000);
-            //const elapsedSeconds = Math.floor((elapseTime % 60000) / 1000);
-            durationTimeDiv.textContent = `${elapsedHours}時間${elapsedMinutes}分`;
-        }
-    }
-}
-
-// ページ読み込み時と1分ごとに時刻を更新
+// ページ読み込み時と1分ごとに日付と時刻を更新
 displayCurrentDate();
 setInterval(displayCurrentDate, 60000); // 60000ミリ秒 = 1分
-
 displayCurrentTime();
 setInterval(displayCurrentTime, 60000); // 60000ミリ秒 = 1分
 
-// datetime-local input用のフォーマットで現在日時を返す関数
-function getFormattedCurrentDateTime() {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = (now.getMonth() + 1).toString().padStart(2, '0');
-    const day = now.getDate().toString().padStart(2, '0');
-    const hours = now.getHours().toString().padStart(2, '0');
-    const minutes = now.getMinutes().toString().padStart(2, '0');
-    return `${year}-${month}-${day} ${hours}:${minutes}`;
+//現在時刻を開始あるいは終了点呼の時刻にセット、開始、終了のステータスを変更
+function startEndSwitch() {
+    const current_time = getFormattedCurrentDateTime(); //2025-10-14 10:10
+    
+    if (startEnd.textContent === "開始") {   //開始点呼の場合
+        startTimeDiv.textContent= getFormattedTime(current_time);  //開始時刻
+        startTimeInput.value = current_time;
+        endTimeInput.value="";
+        
+        startEnd.textContent = "終了";
+        submitButton.textContent = "終了　点呼";
+        submitButton.style.background = '#ff4b5c';
+
+        endTimeDiv.textContent = "";
+        durationTimeDiv.textContent = "0時間0分";
+    
+    }else if (startEnd.textContent === "終了") {   //終了点呼の場合
+        endTimeDiv.textContent= getFormattedTime(current_time);  //終了時刻
+        startTimeInput.value="";
+        endTimeInput.value = current_time;
+        
+        startEnd.textContent = "開始";
+        submitButton.textContent = "開始　点呼";
+        submitButton.style.background = '#3968d4ff';
+        
+    }
 }
 
-// ローディングオーバーレイを非表示にする関数
-const hideLoadingOverlay = () => {
-    if (loadingOverlay) {
-        // フェードアウト効果のためにopacityを変更
-        loadingOverlay.style.opacity = '0';
-        // transitionの完了後にdisplay: noneを設定
-        setTimeout(() => {
-            loadingOverlay.classList.add('hidden');
-        }, 100); // 0.5秒のCSS transitionに合わせる
-    }
-};
-
-// ページ表示時にローディングオーバーレイを表示し、0.5秒後に非表示にする関数
-const showAndHideLoadingOverlay = () => {
-    if (loadingOverlay) {
-        loadingOverlay.classList.remove('hidden');
-        loadingOverlay.style.opacity = '1';
-        setTimeout(hideLoadingOverlay, 500); // 0.5秒後に非表示
-    }
-};
-
 //開始or終了 点呼ボタンがクリックされた
-const handleFormSubmit = async (e) => { // async関数に変更
+const handleFormSubmit = async (e) => {
+
     e.preventDefault(); // デフォルトのフォーム送信を停止
+  
+    submitButton.disabled = true;  // 送信ボタンを無効化
 
     //前回の送信からn時間以内だった場合は送信をブロック
+    const startEndText = startEnd.textContent;  // 開始or終了
     const nHours = 1; // n時間
     const limitTime = nHours * 60 * 60 * 1000; // n時間を表すミリ秒
     const lastSubmissionTimeValue = localStorage.getItem(START_TIME_KEY) || localStorage.getItem(END_TIME_KEY);
@@ -164,7 +131,10 @@ const handleFormSubmit = async (e) => { // async関数に変更
 
             // ユーザーが「キャンセル」を押した場合
             if (!isConfirmed) {
-                messageText.textContent = '送信をキャンセルしました。';
+
+
+                submitButton.disabled = false;// ボタンを再度有効化
+                messageText.textContent = startEndText + "　点呼をキャンセルしました。";
                 setTimeout(() => { messageText.textContent = ''; }, 3000);
                 return; // 処理を中断
             }
@@ -178,40 +148,11 @@ const handleFormSubmit = async (e) => { // async関数に変更
         overlay.classList.remove('hidden');
     }
 
-    const current_time = getFormattedCurrentDateTime(); //2025-10-14 10:10
-
-    // ボタンを無効化
-    submitButton.disabled = true;
-
-    //現在時刻を開始あるいは終了点呼の時刻にセット、開始、終了のステータスを変更
-    if (startEnd.textContent === "開始") {   //開始点呼の場合
-        startTimeDiv.textContent= getFormattedTime(current_time);  //開始時刻
-        startTimeInput.value = current_time;
-        endTimeInput.value="";
-        
-        startEnd.textContent = "終了";
-        submitButton.textContent = "終了　点呼";
-        submitButton.style.background = '#ff4b5c';
-
-        endTimeDiv.textContent = "";
-        durationTimeDiv.textContent = "0時間0分";
-
-        
-        //startEnd.style.left = 'auto';
-        //startEnd.style.right = '11%';
-        //startEnd.style.background = '#ff4b5c';
     
 
-    }else if (startEnd.textContent === "終了") {   //終了点呼の場合
-        endTimeDiv.textContent= getFormattedTime(current_time);  //終了時刻
-        startTimeInput.value="";
-        endTimeInput.value = current_time;
-        
-        startEnd.textContent = "開始";
-        submitButton.textContent = "開始　点呼";
-        submitButton.style.background = '#3968d4ff';
-        
-    }
+    startEndSwitch();   //開始、終了のステータスを変更
+
+
     //console.log("startEnd = "+startEnd.textContent);
     let name = nameInput.value.replace(/\s/g, '');  // 運転者氏名　スペース（全・半角）を削除
 
@@ -225,6 +166,7 @@ const handleFormSubmit = async (e) => { // async関数に変更
         console.error('セッションの取得に失敗しました:', sessionError);
         messageText.textContent = '認証エラーが発生しました。再ログインしてください。';
         messageText.className = 'error';
+        submitButton.disabled = false;// ボタンを再度有効化
         // 1秒後にログインページにリダイレクト
         setTimeout(() => {
             window.location.href = 'login.html';
@@ -266,11 +208,8 @@ const handleFormSubmit = async (e) => { // async関数に変更
         order_list: order_listInput.value
     };
 
-    // backup DB (xserver : MySQL)に保存　--start--
-    //const backendPHP_URL = 'https://rewritography.com/relait/backupdb/backupdb_mysql.php';   // lolipopバックアップ用のURL
-    const backendPHP_URL = 'https://qrepo.site/tenko_db/backupdb_mysql.php';   // xserverバックアップ用のURL
 
-    // バックアップAPIへの送信（メイン処理とは独立して実行）
+    // バックアップAPIへの送信（メイン処理とは独立して実行）--start--
     fetch(backendPHP_URL, {
         method: 'POST',
         body: JSON.stringify(data),
@@ -394,6 +333,10 @@ const saveStateAndHistory = (sentData) => {
         localStorage.setItem(START_TIME_KEY, "");
         localStorage.setItem(END_TIME_KEY, sentData.end_time);
     }
+    localStorage.setItem(START_END_KEY, startEnd.textContent);
+    localStorage.setItem(TENKO_START_KEY, startTimeDiv.textContent);
+    localStorage.setItem(TENKO_TIME_KEY, durationTimeDiv.textContent);
+    localStorage.setItem(TENKO_END_KEY, endTimeDiv.textContent);
 
     // 3. 履歴を保存
     const history = JSON.parse(localStorage.getItem(REPORT_HISTORY_KEY)) || [];
@@ -670,7 +613,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // バックグラウンドから復帰した際の処理
 document.addEventListener('visibilitychange', () => {
     // ページが再び表示された場合
-    console.log("673:visibilitychange");
+    //console.log("673:visibilitychange");
     if (document.visibilityState === 'visible') {
         console.log("675:visibilityState===visible");
         // ページアクセスログをDBに記録する
@@ -714,7 +657,7 @@ const loadFormDataFromLocalStorage = () => {
         if (order_listInput) order_listInput.value = data.order_list || '';
 
     } else {
-        // 未送信データがない（送信に成功していた）場合は、前回送信成功時のデータ（氏名・ナンバー・点呼者）を読み込む
+        // 未送信データがない（送信に成功していた）場合は、前回送信成功時のデータ（氏名・ナンバー・点呼方法・確認者）を読み込む
         if (nameInput) {
             const savedName = localStorage.getItem(DRIVER_NAME_KEY);
             if (savedName !== null) { // 値が存在する場合のみ設定
@@ -745,6 +688,85 @@ function getFormattedTime(savedTime) {
     const minutes = nowTime.getMinutes().toString().padStart(2, '0');
     return `${month}/${day} ${hours}:${minutes}`;
 }
+// datetime-local input用のフォーマットで現在日時を返す関数
+function getFormattedCurrentDateTime() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = (now.getMonth() + 1).toString().padStart(2, '0');
+    const day = now.getDate().toString().padStart(2, '0');
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    return `${year}-${month}-${day} ${hours}:${minutes}`;
+}
+
+// ローディングオーバーレイを非表示にする関数
+const hideLoadingOverlay = () => {
+    if (loadingOverlay) {
+        // フェードアウト効果のためにopacityを変更
+        loadingOverlay.style.opacity = '0';
+        // transitionの完了後にdisplay: noneを設定
+        setTimeout(() => {
+            loadingOverlay.classList.add('hidden');
+        }, 100); // 0.5秒のCSS transitionに合わせる
+    }
+};
+
+// ページ表示時にローディングオーバーレイを表示し、0.5秒後に非表示にする関数
+const showAndHideLoadingOverlay = () => {
+    if (loadingOverlay) {
+        loadingOverlay.classList.remove('hidden');
+        loadingOverlay.style.opacity = '1';
+        setTimeout(hideLoadingOverlay, 500); // 0.5秒後に非表示
+    }
+};
+// 現在年月日を表示する関数
+function displayCurrentDate() {
+    if (currentDateDiv) {
+        const nowDay = new Date();
+        const year = nowDay.getFullYear();
+        const month = (nowDay.getMonth() + 1).toString().padStart(2, '0');
+        const day = nowDay.getDate().toString().padStart(2, '0');
+        const week = ['日', '月', '火', '水', '木', '金', '土'];
+        const dayOfWeek = week[nowDay.getDay()];
+        currentDateDiv.textContent = `${year}年${month}月${day}日（${dayOfWeek}）`;
+    }
+}
+// 現在時刻と開始から現在までの業務時間を表示する関数
+function displayCurrentTime() {
+    if (currentTimeDiv) {
+        
+        const nowTime = new Date();
+        const hours = nowTime.getHours().toString().padStart(2);
+        const minutes = nowTime.getMinutes().toString().padStart(2, '0');
+        currentTimeDiv.textContent = `${hours}時${minutes}分`;
+
+        //現在の業務時間（現在時刻ー点呼開始）を表示
+        const startTimeValue = startTimeDiv.textContent;
+        const endTimeValue = endTimeDiv.textContent;
+        if (startTimeValue != "" && endTimeValue == "") {
+            const sTime = new Date(startTimeInput.value); //点呼開始時間
+
+            const elapseTime = nowTime.getTime() - sTime.getTime(); //開始点呼からの経過時間
+            const elapsedHours = Math.floor(elapseTime / 3600000);
+            const elapsedMinutes = Math.floor((elapseTime % 3600000) / 60000);
+            //const elapsedSeconds = Math.floor((elapseTime % 60000) / 1000);
+            durationTimeDiv.textContent = `${elapsedHours}時間${elapsedMinutes}分`;
+        }
+    }
+}
+//点呼ステータス（startEnd）、点呼開始、終了時間を表示
+function displayTenkoStatus() {
+    //start.value = savedTenkoName;
+
+
+}
+/*
+const startTimeInput = document.getElementById('start');    //点呼開始時間(input hidden)
+const endTimeInput = document.getElementById('end');    //点呼終了時間(input hidden)
+const startTimeDiv = document.getElementById('s_time');
+const durationTimeDiv = document.getElementById('d_time');
+const endTimeDiv = document.getElementById('e_time');
+*/
 /**
  * ページアクセスログをSupabaseに記録する関数
  * 他のsleep対策（5秒で強制タイムアウト）を実行中のため一旦コメントアウト
