@@ -78,11 +78,11 @@ setInterval(displayCurrentDate, 60000); // 60000ミリ秒 = 1分
 displayCurrentTime();
 setInterval(displayCurrentTime, 60000); // 60000ミリ秒 = 1分
 
-//現在時刻を開始あるいは終了点呼の時刻にセット、開始、終了のステータスを変更
-function startEndSwitch() {
+//現在時刻を開始あるいは終了点呼の時刻にセット、開始、終了のステータスを切り替え
+function startEndSwitch(start_end) {
     const current_time = getFormattedCurrentDateTime(); //2025-10-14 10:10
     
-    if (startEnd.textContent === "開始") {   //開始点呼の場合
+    if (start_end === "開始") {   //開始点呼の場合
         startTimeDiv.textContent= getFormattedTime(current_time);  //開始時刻
         startTimeInput.value = current_time;
         endTimeInput.value="";
@@ -94,7 +94,7 @@ function startEndSwitch() {
         endTimeDiv.textContent = "";
         durationTimeDiv.textContent = "0時間0分";
     
-    }else if (startEnd.textContent === "終了") {   //終了点呼の場合
+    }else if (start_end === "終了") {   //終了点呼の場合
         endTimeDiv.textContent= getFormattedTime(current_time);  //終了時刻
         startTimeInput.value="";
         endTimeInput.value = current_time;
@@ -126,15 +126,15 @@ const handleFormSubmit = async (e) => {
             //const passedMinutes = Math.floor(elapsedTime / (60 * 1000));
             // 確認ダイアログを表示
             const isConfirmed = confirm(
-                `本当に送信しますか？`
+                `本当に`+ startEndText + `を送信しますか？\n（キャンセルで点呼ボタンを切り替えます。）`
             );
 
             // ユーザーが「キャンセル」を押した場合
             if (!isConfirmed) {
 
-
+                startEndSwitch(startEndText);   //開始、終了点呼だけを切り替え
                 submitButton.disabled = false;// ボタンを再度有効化
-                messageText.textContent = startEndText + "　点呼をキャンセルしました。";
+                messageText.textContent = startEndText + "　点呼ボタンを切り替えました。";
                 setTimeout(() => { messageText.textContent = ''; }, 3000);
                 return; // 処理を中断
             }
@@ -148,10 +148,7 @@ const handleFormSubmit = async (e) => {
         overlay.classList.remove('hidden');
     }
 
-    
-
-    startEndSwitch();   //開始、終了のステータスを変更
-
+    startEndSwitch(startEndText);   //開始、終了のステータスを変更
 
     //console.log("startEnd = "+startEnd.textContent);
     let name = nameInput.value.replace(/\s/g, '');  // 運転者氏名　スペース（全・半角）を削除
@@ -754,12 +751,7 @@ function displayCurrentTime() {
         }
     }
 }
-//点呼ステータス（startEnd）、点呼開始、終了時間を表示
-function displayTenkoStatus() {
-    //start.value = savedTenkoName;
 
-
-}
 /*
 const startTimeInput = document.getElementById('start');    //点呼開始時間(input hidden)
 const endTimeInput = document.getElementById('end');    //点呼終了時間(input hidden)

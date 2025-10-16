@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 例: { "2024-07-21": { start: "...", end: "..." }, ... }
     const dailyRecords = {};
     history.forEach(record => {
-        console.log("report:29",record.start_time,record.end_time);
+        //console.log("report:29",record.start_time,record.end_time);
         const dateTimeString = record.start_time || record.end_time;
         if (!dateTimeString) return;
 
