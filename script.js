@@ -78,26 +78,25 @@ setInterval(displayCurrentDate, 60000); // 60000ミリ秒 = 1分
 displayCurrentTime();
 setInterval(displayCurrentTime, 60000); // 60000ミリ秒 = 1分
 
-//現在時刻を開始あるいは終了点呼の時刻にセット、開始、終了のステータスを切り替え
+//開始、終了のステータスを切り替え
 function startEndSwitch(start_end) {
-    const current_time = getFormattedCurrentDateTime(); //2025-10-14 10:10
-    
+
     if (start_end === "開始") {   //開始点呼の場合
-        startTimeDiv.textContent= getFormattedTime(current_time);  //開始時刻
-        startTimeInput.value = current_time;
-        endTimeInput.value="";
+        //startTimeDiv.textContent= getFormattedTime(current_time);  //開始時刻
+        //startTimeInput.value = current_time;
+        //endTimeInput.value="";
         
         startEnd.textContent = "終了";
         submitButton.textContent = "終了　点呼";
         submitButton.style.background = '#ff4b5c';
 
-        endTimeDiv.textContent = "";
-        durationTimeDiv.textContent = "0時間0分";
+        //endTimeDiv.textContent = "";
+        //durationTimeDiv.textContent = "0時間0分";
     
     }else if (start_end === "終了") {   //終了点呼の場合
-        endTimeDiv.textContent= getFormattedTime(current_time);  //終了時刻
-        startTimeInput.value="";
-        endTimeInput.value = current_time;
+        //endTimeDiv.textContent= getFormattedTime(current_time);  //終了時刻
+        //startTimeInput.value="";
+        //endTimeInput.value = current_time;
         
         startEnd.textContent = "開始";
         submitButton.textContent = "開始　点呼";
@@ -113,20 +112,37 @@ const handleFormSubmit = async (e) => {
   
     submitButton.disabled = true;  // 送信ボタンを無効化
 
-    //前回の送信からn時間以内だった場合は送信をブロック
-    const startEndText = startEnd.textContent;  // 開始or終了
+    //送信の確認ダイアログ（OK/キャンセル）を表示する条件
+        //１．前回の開始/終了点呼の時間からnHours時間以内（誤操作：連打防止）
+        //２．前回の開始と同日の場合（誤操作：重複送信チェック）
+        //３．前回の終了と同日の場合（誤操作：重複送信チェック）
+
+    let confirmFlag = false;    //確認ダイアログを非表示
+    const startEndText = startEnd.textContent;  // 開始or終了（点呼ボタン）
+
+    //１．前回の開始/終了点呼の時間からnHours時間以内
     const nHours = 1; // n時間
     const limitTime = nHours * 60 * 60 * 1000; // n時間を表すミリ秒
-    const lastSubmissionTimeValue = localStorage.getItem(START_TIME_KEY) || localStorage.getItem(END_TIME_KEY);
+    const lastStartTime = startTimeInput.value;
+    const lastEndTime = endTimeInput.value;
 
-    if (lastSubmissionTimeValue) { // 前回の送信記録がある場合のみチェック
-        const elapsedTime = new Date().getTime() - new Date(lastSubmissionTimeValue).getTime();
+    if (lastStartTime) { // 前回の開始送信記録がある場合のみチェック
+        const elapsedStartTime = new Date().getTime() - new Date(lastStartTime).getTime();
+        if (elapsedStartTime < limitTime) {
+            confirmFlag = true;
+        }
+    }
+    if (lastEndTime) { // 前回の終了送信記録がある場合のみチェック
+        const elapsedEndTime = new Date().getTime() - new Date(lastEndTime).getTime();
+        if (elapsedEndTime < limitTime) {
+            confirmFlag = true;
+        }
+    }
 
-        if (elapsedTime < limitTime) {
-            //const passedMinutes = Math.floor(elapsedTime / (60 * 1000));
+    if(confirmFlag){
             // 確認ダイアログを表示
             const isConfirmed = confirm(
-                `本当に`+ startEndText + `を送信しますか？\n（キャンセルで点呼ボタンを切り替えます。）`
+                `本当に`+ startEndText + `を送信しますか？\n（キャンセルで点呼ボタンだけを切り替えます。）`
             );
 
             // ユーザーが「キャンセル」を押した場合
@@ -138,7 +154,7 @@ const handleFormSubmit = async (e) => {
                 setTimeout(() => { messageText.textContent = ''; }, 3000);
                 return; // 処理を中断
             }
-        }
+        
     }
 
 
@@ -149,6 +165,31 @@ const handleFormSubmit = async (e) => {
     }
 
     startEndSwitch(startEndText);   //開始、終了のステータスを変更
+
+    //現在時刻を開始あるいは終了点呼の時刻にセット
+    const current_time = getFormattedCurrentDateTime(); //2025-10-14 10:10
+    if (startEndText === "開始") {   //開始点呼の場合
+        startTimeDiv.textContent= getFormattedTime(current_time);  //開始時刻
+        startTimeInput.value = current_time;
+        endTimeInput.value="";
+        
+        //startEnd.textContent = "終了";
+        //submitButton.textContent = "終了　点呼";
+        //submitButton.style.background = '#ff4b5c';
+
+        endTimeDiv.textContent = "";
+        durationTimeDiv.textContent = "0時間0分";
+    
+    }else if (startEndText === "終了") {   //終了点呼の場合
+        endTimeDiv.textContent= getFormattedTime(current_time);  //終了時刻
+        startTimeInput.value="";
+        endTimeInput.value = current_time;
+        
+        //startEnd.textContent = "開始";
+        //submitButton.textContent = "開始　点呼";
+        //submitButton.style.background = '#3968d4ff';
+        
+    }
 
     //console.log("startEnd = "+startEnd.textContent);
     let name = nameInput.value.replace(/\s/g, '');  // 運転者氏名　スペース（全・半角）を削除
@@ -323,11 +364,11 @@ const saveStateAndHistory = (sentData) => {
     if (sentData.tenko_name) localStorage.setItem(TENKO_NAME_KEY, sentData.tenko_name);
 
     // 2. 開始/終了の状態を更新
-    if (sentData.start_time) { // 開始時刻があれば開始点呼
+    if (sentData.start_time) { // 開始点呼時間を上書き
         localStorage.setItem(START_TIME_KEY, sentData.start_time);
-        localStorage.setItem(END_TIME_KEY, "");
-    } else if (sentData.end_time) { // 終了時刻があれば終了点呼
-        localStorage.setItem(START_TIME_KEY, "");
+        //localStorage.setItem(END_TIME_KEY, "");
+    } else if (sentData.end_time) { // 終了点呼時間を上書き
+        //localStorage.setItem(START_TIME_KEY, "");
         localStorage.setItem(END_TIME_KEY, sentData.end_time);
     }
     localStorage.setItem(START_END_KEY, startEnd.textContent);
@@ -527,12 +568,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //const tenkoButton = document.getElementById('tenkoButton');
 
-    if (startEnd) {
+    //if (startEnd) {
         // 初期状態を「開始」に設定
         // localStorageの前回の開始時刻/終了時刻の状態に応じて開始・終了点呼ボタンと開始・終了を切り替える
         // style.css 372行をコメントアウト中（非表示を無効）
-        const savedStartTime = localStorage.getItem(START_TIME_KEY);
-        const savedEndTime = localStorage.getItem(END_TIME_KEY);
+        const savedStartTime = localStorage.getItem(START_TIME_KEY);    //前回の開始点呼時間
+        const savedEndTime = localStorage.getItem(END_TIME_KEY);    //前回の終了点呼時間
+        const savedstartEnd = localStorage.getItem(START_END_KEY);    //前回の開始/点呼
         // 終了点呼ボタンに切り替えるAND条件
         // 1. startEndが"終了"
         // 2. START_TIME_KEYが存在する
@@ -540,7 +582,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log("savedEndTime = "+savedEndTime);
         console.log("startEnd ="+startEnd.textContent);
  
-        if (savedStartTime) {  //前回が開始点呼の場合
+        if (savedstartEnd === "開始") {  //前回が開始点呼の場合
             // 終了点呼ボタンに切り替える
             submitButton.textContent = "終了　点呼";
             submitButton.style.background = '#ff4b5c';
@@ -556,7 +598,7 @@ document.addEventListener('DOMContentLoaded', () => {
             //submitButton.textContent = "開始　点呼";
             //submitButton.style.background = '#3968d4ff';
       
-        } else if(savedEndTime){  //前回が終了点呼の場合
+        } else if(savedstartEnd === "終了"){  //前回が終了点呼の場合
             // 開始点呼ボタンに切り替える
             submitButton.textContent = "開始　点呼";
             submitButton.style.background = '#3968d4ff';
@@ -573,7 +615,7 @@ document.addEventListener('DOMContentLoaded', () => {
             endTimeDiv.textContent = "";
             durationTimeDiv.textContent = "0時間0分";
         }
-    }
+    //}
 
     // navMenuがクリックされたときの処理
     const menuIcon = document.getElementById('list_menu');
