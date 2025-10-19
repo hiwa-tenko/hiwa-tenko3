@@ -147,14 +147,12 @@ const handleFormSubmit = async (e) => {
 
             // ユーザーが「キャンセル」を押した場合
             if (!isConfirmed) {
-
                 startEndSwitch(startEndText);   //開始、終了点呼だけを切り替え
                 submitButton.disabled = false;// ボタンを再度有効化
-                messageText.textContent = startEndText + "　点呼ボタンを切り替えました。";
+                messageText.textContent = "点呼ボタンを切り替えました。";
                 setTimeout(() => { messageText.textContent = ''; }, 3000);
                 return; // 処理を中断
-            }
-        
+            }    
     }
 
 
@@ -580,7 +578,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // 2. START_TIME_KEYが存在する
         console.log("savedStartTime = "+savedStartTime);
         console.log("savedEndTime = "+savedEndTime);
-        console.log("startEnd ="+startEnd.textContent);
+        console.log("savedstartEnd ="+savedstartEnd);
  
         if (savedstartEnd === "開始") {  //前回が開始点呼の場合
             // 終了点呼ボタンに切り替える

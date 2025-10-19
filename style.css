@@ -299,8 +299,8 @@ textarea {
   /*border: 1px solid #0f0;*/
 }
 .start-end{
-    visibility: hidden; /*本番では非表示（hidden）*/
-    /*visibility:visible; 開発期間中だけ表示*/
+    /*visibility: hidden; 本番では非表示（hidden）*/
+    visibility:visible; /*開発期間中だけ表示*/
     color: #ccc;
 
 }
