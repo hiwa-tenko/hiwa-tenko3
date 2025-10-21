@@ -4,7 +4,7 @@
 import { supabase } from './js/supabaseClient.js';
 
 //LocalStorageに保存する期間（日）
-const LSperiod = 15;
+const LSperiod = 16;
 
 const form = document.getElementById('reportForm');
 const submitButton = document.getElementById('submitButton');
