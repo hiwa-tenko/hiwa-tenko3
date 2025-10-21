@@ -142,7 +142,7 @@ const handleFormSubmit = async (e) => {
     if(confirmFlag){
             // 確認ダイアログを表示
             const isConfirmed = confirm(
-                `本当に`+ startEndText + `を送信しますか？\n（キャンセルで点呼ボタンだけを切り替えます。）`
+                `本当に`+ startEndText + `　点呼を送信しますか？\n（キャンセルで点呼ボタンだけを切り替えます。）`
             );
 
             // ユーザーが「キャンセル」を押した場合
@@ -154,7 +154,6 @@ const handleFormSubmit = async (e) => {
                 return; // 処理を中断
             }    
     }
-
 
     // オーバーレイを表示
     if (overlay) {
