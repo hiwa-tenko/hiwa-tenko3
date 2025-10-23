@@ -57,13 +57,14 @@ body {
 
 }
 .header-title h2 { 
-    display: inline;
+    display: inline-block;
     font-size: 1.5em;
     font-weight: bold;
     text-align: left;
     color: #005ab3;
     margin-top: 0;
     margin-bottom: 0;
+    margin-right: 6px;
     white-space: nowrap; /* タイトルが改行しないようにする */
     overflow: hidden; /* はみ出した部分を隠す */
     text-overflow: ellipsis; /* はみ出した部分を...で表示 */
