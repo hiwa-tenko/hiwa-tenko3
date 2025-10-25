@@ -585,10 +585,11 @@ document.addEventListener('DOMContentLoaded', () => {
             submitButton.style.background = '#ff4b5c';
             startEnd.textContent = "終了";
             startTimeDiv.textContent = getFormattedTime(savedStartTime);
+            durationTimeDiv.textContent = "";
             endTimeDiv.textContent= "";  //終了時刻
-            startTimeInput.value= savedStartTime;
+            //startTimeInput.value= savedStartTime;
             //durationTimeDiv.textContent = "0時間0分";
-            endTimeInput.value = "";
+            //endTimeInput.value = "";
             displayCurrentTime();   //現在のdurationTimeDivを表示
         
             //startEnd.textContent = "開始";
@@ -651,7 +652,7 @@ document.addEventListener('visibilitychange', () => {
     // ページが再び表示された場合
     //console.log("673:visibilitychange");
     if (document.visibilityState === 'visible') {
-        console.log("675:visibilityState===visible");
+        console.log("visibilityState===visible");
         // ページアクセスログをDBに記録する
         //recordUserAccess();
         // ローディングオーバーレイを表示
