@@ -1,5 +1,5 @@
 ﻿//Hiwa点呼3
-//ver 1.02
+//ver 0.12 20251025
 // supabaseクライアントをインポート
 import { supabase } from './js/supabaseClient.js';
 
