@@ -1,10 +1,13 @@
 ﻿//Hiwa点呼3
-//ver 0.12 20251025
+//ver 0.13 20251026　by HP
+
 // supabaseクライアントをインポート
 import { supabase } from './js/supabaseClient.js';
 
 //LocalStorageに保存する期間（日）
 const LSperiod = 32;
+ // 前回の送信時刻からnHours（時間）以内の場合は、「確認」ダイアログを表示する経過時間
+const nHours = 3;
 
 const form = document.getElementById('reportForm');
 const submitButton = document.getElementById('submitButton');
@@ -88,7 +91,7 @@ function startEndSwitch(start_end) {
         
         startEnd.textContent = "終了";
         submitButton.textContent = "終了　点呼";
-        submitButton.style.background = '#ff4b5c';
+        submitButton.style.background = '#e53749ff';
 
         //endTimeDiv.textContent = "";
         //durationTimeDiv.textContent = "0時間0分";
@@ -112,16 +115,16 @@ const handleFormSubmit = async (e) => {
   
     submitButton.disabled = true;  // 送信ボタンを無効化
 
-    //送信の確認ダイアログ（OK/キャンセル）を表示する条件
+    //点呼の送信時に、確認ダイアログ（OK/キャンセル）を表示する条件
         //１．前回の開始/終了点呼の時間からnHours時間以内（誤操作：連打防止）
-        //２．前回の開始と同日の場合（誤操作：重複送信チェック）
-        //３．前回の終了と同日の場合（誤操作：重複送信チェック）
+        //２．前回の開始または、終了と同日の場合（誤操作：重複送信チェック）
+        //３．今日が日曜日だった場合（誤操作：休日送信チェック）
 
     let confirmFlag = false;    //確認ダイアログを非表示
     const startEndText = startEnd.textContent;  // 開始or終了（点呼ボタン）
 
     //１．前回の開始/終了点呼の時間からnHours時間以内
-    const nHours = 1; // n時間
+    
     const limitTime = nHours * 60 * 60 * 1000; // n時間を表すミリ秒
     const lastStartTime = startTimeInput.value;
     const lastEndTime = endTimeInput.value;
@@ -142,7 +145,7 @@ const handleFormSubmit = async (e) => {
     if(confirmFlag){
             // 確認ダイアログを表示
             const isConfirmed = confirm(
-                `本当に`+ startEndText + `　点呼を送信しますか？\n（キャンセルで点呼ボタンだけを切り替えます。）`
+                `本当に`+ startEndText + `点呼を送信しますか？\n（キャンセルで送信はしないで、点呼ボタンだけを切り替えます。）`
             );
 
             // ユーザーが「キャンセル」を押した場合
@@ -172,7 +175,7 @@ const handleFormSubmit = async (e) => {
         
         //startEnd.textContent = "終了";
         //submitButton.textContent = "終了　点呼";
-        //submitButton.style.background = '#ff4b5c';
+        //submitButton.style.background = '#e53749ff';
 
         endTimeDiv.textContent = "";
         durationTimeDiv.textContent = "0時間0分";
@@ -582,7 +585,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (savedstartEnd === "開始") {  //前回が開始点呼の場合
             // 終了点呼ボタンに切り替える
             submitButton.textContent = "終了　点呼";
-            submitButton.style.background = '#ff4b5c';
+            submitButton.style.background = '#e53749ff';
             startEnd.textContent = "終了";
             startTimeDiv.textContent = getFormattedTime(savedStartTime);
             durationTimeDiv.textContent = "";

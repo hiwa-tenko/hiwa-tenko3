@@ -299,19 +299,14 @@ textarea {
   /*border: 1px solid #0f0;*/
 }
 .start-end{
-    /*visibility: hidden; 本番では非表示（hidden）*/
-    visibility:visible; /*開発期間中だけ表示*/
-    color: #ccc;
-
-}
-.start-end-left{
     visibility: hidden; /*本番では非表示（hidden）*/
     /*visibility:visible; 開発期間中だけ表示*/
     color: #ccc;
-    border: 1px solid #0f0;
-    padding: 1.2em;
 }
-
+.start-end-left{
+    visibility: hidden; /*dammy（hidden）*/
+    color: #ccc;
+}
 
 /*
 .toggle-input {
@@ -395,8 +390,8 @@ textarea {
 }
 
 .btn-container {
-    margin-top: 16px;
-    margin-bottom: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     text-align: center;
 }
 
@@ -423,7 +418,7 @@ textarea {
 
 .message-container {
     width: 100%;
-    height: 1.6em;
+    height: 1.2em;
     font-size: 1.0em;
     text-align: center;
     margin: 12px auto;
