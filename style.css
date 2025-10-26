@@ -306,6 +306,7 @@ textarea {
 .start-end-left{
     visibility: hidden; /*dammy（hidden）*/
     color: #ccc;
+    padding: 1.2em;
 }
 
 /*
