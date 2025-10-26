@@ -1,5 +1,6 @@
 ﻿//Hiwa点呼3
 //ver 0.14.0 20251026　by HP
+//ver 0.14.1 20251026　by FJ
 
 // supabaseクライアントをインポート
 import { supabase } from './js/supabaseClient.js';
@@ -122,20 +123,20 @@ const handleFormSubmit = async (e) => {
 
     let confirmFlag = false;    //確認ダイアログを非表示
     const startEndText = startEnd.textContent;  // 開始or終了（点呼ボタン）
-
+    const nowDay = new Date().getDate();    // 今日の日付
     //１．前回の開始/終了点呼の時間からnHours時間以内
     
     const limitTime = nHours * 60 * 60 * 1000; // n時間を表すミリ秒
     const lastStartTime = startTimeInput.value;
     const lastEndTime = endTimeInput.value;
 
-    if (lastStartTime) { // 前回の開始送信記録がある場合のみチェック
+    if (lastStartTime) { // 前回の開始点呼がある場合のみチェック
         const elapsedStartTime = new Date().getTime() - new Date(lastStartTime).getTime();
         if (elapsedStartTime < limitTime) {
             confirmFlag = true;
         }
     }
-    if (lastEndTime) { // 前回の終了送信記録がある場合のみチェック
+    if (lastEndTime) { // 前回の終了点呼がある場合のみチェック
         const elapsedEndTime = new Date().getTime() - new Date(lastEndTime).getTime();
         if (elapsedEndTime < limitTime) {
             confirmFlag = true;
