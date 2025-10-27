@@ -1,6 +1,6 @@
-﻿//Hiwa点呼3
-//ver 0.14.0 20251026　by HP
-//ver 0.14.1 20251026　by FJ
+﻿// Hiwa点呼3
+// ver 0.14.2 20251027　by HP
+// ver 0.14.1 20251026　by FJ
 
 // supabaseクライアントをインポート
 import { supabase } from './js/supabaseClient.js';
@@ -108,7 +108,11 @@ function startEndSwitch(start_end) {
         
     }
 }
-
+// メッセージを3秒間だけ表示する
+function messageDisplay(message) {
+                messageText.textContent = message;
+                setTimeout(() => { messageText.textContent = ''; }, 3000);
+}
 //開始or終了 点呼ボタンがクリックされた
 const handleFormSubmit = async (e) => {
 
@@ -122,26 +126,38 @@ const handleFormSubmit = async (e) => {
         //３．今日が日曜日だった場合（誤操作：休日送信チェック）
 
     let confirmFlag = false;    //確認ダイアログを非表示
+    let message = "点呼ボタンを切り替えました。";   //確認メッセージ（初期値）
     const startEndText = startEnd.textContent;  // 開始or終了（点呼ボタン）
     const nowDay = new Date().getDate();    // 今日の日付
-    //１．前回の開始/終了点呼の時間からnHours時間以内
+    const nowTime = new Date().getTime();  // 現在時刻
     
     const limitTime = nHours * 60 * 60 * 1000; // n時間を表すミリ秒
     const lastStartTime = startTimeInput.value;
     const lastEndTime = endTimeInput.value;
 
     if (lastStartTime) { // 前回の開始点呼がある場合のみチェック
-        const elapsedStartTime = new Date().getTime() - new Date(lastStartTime).getTime();
-        if (elapsedStartTime < limitTime) {
+        const elapsedStartTime = nowTime - new Date(lastStartTime).getTime();
+        if (elapsedStartTime < limitTime) {     //前回の開始点呼の時間からnHours時間以内
             confirmFlag = true;
+        }
+        if (startEndText == "開始") {   //前回の開始点呼と同日の場合
+            if (nowDay == new Date(lastStartTime).getDate()){
+                confirmFlag = true;
+            }
         }
     }
     if (lastEndTime) { // 前回の終了点呼がある場合のみチェック
-        const elapsedEndTime = new Date().getTime() - new Date(lastEndTime).getTime();
-        if (elapsedEndTime < limitTime) {
+        const elapsedEndTime = nowTime - new Date(lastEndTime).getTime();
+        if (elapsedEndTime < limitTime) {     //前回の終了点呼の時間からnHours時間以内
             confirmFlag = true;
         }
+        if (startEndText == "終了") {   //前回の終了点呼と同日の場合
+            if (nowDay == new Date(lastEndTime).getDate()){
+                confirmFlag = true;
+            }
+        }
     }
+
 
     if(confirmFlag){
             // 確認ダイアログを表示
@@ -153,8 +169,7 @@ const handleFormSubmit = async (e) => {
             if (!isConfirmed) {
                 startEndSwitch(startEndText);   //開始、終了点呼だけを切り替え
                 submitButton.disabled = false;// ボタンを再度有効化
-                messageText.textContent = "点呼ボタンを切り替えました。";
-                setTimeout(() => { messageText.textContent = ''; }, 3000);
+                messageDisplay(message);
                 return; // 処理を中断
             }    
     }
