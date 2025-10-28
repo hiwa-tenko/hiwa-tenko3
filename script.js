@@ -1,5 +1,5 @@
 ﻿// Hiwa点呼3
-// ver 0.14.2 20251027　by HP
+// ver 0.14.4 20251028　by HP
 // ver 0.14.1 20251026　by FJ
 
 // supabaseクライアントをインポート
@@ -598,8 +598,8 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log("savedEndTime = "+savedEndTime);
         console.log("savedstartEnd ="+savedstartEnd);
  
-        if (savedstartEnd === "開始") {  //前回が開始点呼の場合
-            // 終了点呼ボタンに切り替える
+        if (savedstartEnd === "終了") {  //前回が開始点呼の場合
+            // 終了点呼をセット
             submitButton.textContent = "終了　点呼";
             submitButton.style.background = '#e53749ff';
             startEnd.textContent = "終了";
@@ -609,14 +609,14 @@ document.addEventListener('DOMContentLoaded', () => {
             //startTimeInput.value= savedStartTime;
             //durationTimeDiv.textContent = "0時間0分";
             //endTimeInput.value = "";
-            displayCurrentTime();   //現在のdurationTimeDivを表示
+            //displayCurrentTime();   //現在のdurationTimeDivを表示
         
             //startEnd.textContent = "開始";
             //submitButton.textContent = "開始　点呼";
             //submitButton.style.background = '#3968d4ff';
       
-        } else if(savedstartEnd === "終了"){  //前回が終了点呼の場合
-            // 開始点呼ボタンに切り替える
+        } else if(savedstartEnd === "開始"){  //前回が終了点呼の場合
+            // 開始点呼をセット
             submitButton.textContent = "開始　点呼";
             submitButton.style.background = '#3968d4ff';
             startEnd.textContent = "開始";
@@ -795,8 +795,10 @@ function displayCurrentTime() {
         const hours = nowTime.getHours().toString().padStart(2);
         const minutes = nowTime.getMinutes().toString().padStart(2, '0');
         currentTimeDiv.textContent = `${hours}時${minutes}分`;
-
-        //現在の業務時間（現在時刻ー点呼開始）を表示
+    }
+}
+//現在の業務時間（現在時刻ー点呼開始）を表示
+function displayDurationTime() {
         const startTimeValue = startTimeDiv.textContent;
         const endTimeValue = endTimeDiv.textContent;
         if (startTimeValue != "" && endTimeValue == "") {
@@ -808,7 +810,7 @@ function displayCurrentTime() {
             //const elapsedSeconds = Math.floor((elapseTime % 60000) / 1000);
             durationTimeDiv.textContent = `${elapsedHours}時間${elapsedMinutes}分`;
         }
-    }
+    
 }
 
 /*
