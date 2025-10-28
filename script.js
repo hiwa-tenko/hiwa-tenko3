@@ -1,5 +1,5 @@
 ﻿// Hiwa点呼3
-// ver 0.14.4 20251028　by HP
+// ver 0.14.6 20251029　by HP
 // ver 0.14.1 20251026　by FJ
 
 // supabaseクライアントをインポート
@@ -60,7 +60,7 @@ const START_TIME_KEY = 'startTime';
 const END_TIME_KEY = 'endTime';
 const START_END_KEY = 'startEnd';
 const TENKO_START_KEY = 'tenkoStart';   //点呼開始時間
-const TENKO_TIME_KEY = 'tenkoDuration'; //業務時間
+const TENKO_DURATION_KEY = 'tenkoDuration'; //業務時間
 const TENKO_END_KEY = 'tenkoEnd';   //点呼終了時間
 
 const FORM_DATA_KEY = 'unsentFormData'; // 未送信のフォームデータ保存用のキー
@@ -389,7 +389,7 @@ const saveStateAndHistory = (sentData) => {
     }
     localStorage.setItem(START_END_KEY, startEnd.textContent);
     localStorage.setItem(TENKO_START_KEY, startTimeDiv.textContent);
-    localStorage.setItem(TENKO_TIME_KEY, durationTimeDiv.textContent);
+    localStorage.setItem(TENKO_DURATION_KEY, durationTimeDiv.textContent);
     localStorage.setItem(TENKO_END_KEY, endTimeDiv.textContent);
 
     // 3. 履歴を保存
@@ -585,27 +585,36 @@ document.addEventListener('DOMContentLoaded', () => {
     //const tenkoButton = document.getElementById('tenkoButton');
 
     //if (startEnd) {
-        // 初期状態を「開始」に設定
+
         // localStorageの前回の開始時刻/終了時刻の状態に応じて開始・終了点呼ボタンと開始・終了を切り替える
-        // style.css 372行をコメントアウト中（非表示を無効）
+        // 1. startEndが"開始"：
+            //A:
+        // 2. startEndが"終了"：
+
+        // 2. START_TIME_KEYが存在する
         const savedStartTime = localStorage.getItem(START_TIME_KEY);    //前回の開始点呼時間
         const savedEndTime = localStorage.getItem(END_TIME_KEY);    //前回の終了点呼時間
-        const savedstartEnd = localStorage.getItem(START_END_KEY);    //前回の開始/点呼
+        const savedStartEnd = localStorage.getItem(START_END_KEY);    //前回の開始/点呼
+        const savedTenkoStart = localStorage.getItem(TENKO_START_KEY);    //開始時間
+        const savedTenkoDuration = localStorage.getItem(TENKO_DURATION_KEY);    //業務時間
+        const savedTenkoEnd = localStorage.getItem(TENKO_END_KEY);    //終了時間
         // 終了点呼ボタンに切り替えるAND条件
-        // 1. startEndが"終了"
-        // 2. START_TIME_KEYが存在する
+
         console.log("savedStartTime = "+savedStartTime);
         console.log("savedEndTime = "+savedEndTime);
-        console.log("savedstartEnd ="+savedstartEnd);
+        console.log("savedstartEnd ="+savedStartEnd);
+        console.log("savedTenkoStart ="+savedTenkoStart);
+        console.log("savedTenkoDuration ="+savedTenkoDuration);
+        console.log("savedTenkoEnd ="+savedTenkoEnd);
  
-        if (savedstartEnd === "終了") {  //前回が開始点呼の場合
+        if (savedStartEnd === "終了") {  //前回が終了点呼の場合
             // 終了点呼をセット
             submitButton.textContent = "終了　点呼";
             submitButton.style.background = '#e53749ff';
             startEnd.textContent = "終了";
-            startTimeDiv.textContent = getFormattedTime(savedStartTime);
-            durationTimeDiv.textContent = "";
-            endTimeDiv.textContent= "";  //終了時刻
+            startTimeDiv.textContent = savedTenkoStart;
+            durationTimeDiv.textContent = savedTenkoDuration;
+            endTimeDiv.textContent= savedTenkoEnd;
             //startTimeInput.value= savedStartTime;
             //durationTimeDiv.textContent = "0時間0分";
             //endTimeInput.value = "";
@@ -615,14 +624,14 @@ document.addEventListener('DOMContentLoaded', () => {
             //submitButton.textContent = "開始　点呼";
             //submitButton.style.background = '#3968d4ff';
       
-        } else if(savedstartEnd === "開始"){  //前回が終了点呼の場合
+        } else if(savedstartEnd === "開始"){  //前回が開始点呼の場合
             // 開始点呼をセット
             submitButton.textContent = "開始　点呼";
             submitButton.style.background = '#3968d4ff';
             startEnd.textContent = "開始";
-            startTimeDiv.textContent = "";
-            endTimeDiv.textContent = "";
-            durationTimeDiv.textContent = "0時間0分";
+            startTimeDiv.textContent = savedTenkoStart;
+            durationTimeDiv.textContent = savedTenkoDuration;
+            endTimeDiv.textContent= savedTenkoEnd;
         } else {    //前回が初期の場合
             // 開始点呼ボタンに切り替える
             submitButton.textContent = "開始　点呼";
