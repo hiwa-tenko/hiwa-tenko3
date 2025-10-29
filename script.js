@@ -1,6 +1,6 @@
 ﻿// Hiwa点呼3
 // ver 0.14.6 20251029　by HP
-// ver 0.14.7 20251030　by FJ
+// ver 0.14.9 20251030　by FJ
 
 // supabaseクライアントをインポート
 import { supabase } from './js/supabaseClient.js';
@@ -624,7 +624,7 @@ document.addEventListener('DOMContentLoaded', () => {
             //submitButton.textContent = "開始　点呼";
             //submitButton.style.background = '#3968d4ff';
       
-        } else if(savedstartEnd === "開始"){  //前回が開始点呼の場合
+        } else if(savedStartEnd === "開始"){  //前回が開始点呼の場合
             // 開始点呼をセット
             submitButton.textContent = "開始　点呼";
             submitButton.style.background = '#3968d4ff';
