@@ -1,5 +1,5 @@
 ﻿// Hiwa点呼3
-// ver 0.14.10 20251031　by HP
+// ver 0.14.12 20251031　by HP
 // ver 0.14.9 20251030　by FJ
 
 // supabaseクライアントをインポート
@@ -798,7 +798,7 @@ function displayDurationTime() {
         if (startTimeValue != "" && endTimeValue == "") {
             const sTime = new Date(startTimeInput.value); //点呼開始時間
 
-            const elapseTime = nowTime.getTime() - sTime.getTime(); //開始点呼からの経過時間
+            const elapseTime = new Date().getTime() - sTime.getTime(); //開始点呼からの経過時間
             const elapsedHours = Math.floor(elapseTime / 3600000);
             const elapsedMinutes = Math.floor((elapseTime % 3600000) / 60000);
             //const elapsedSeconds = Math.floor((elapseTime % 60000) / 1000);
