@@ -1,5 +1,5 @@
 ﻿// Hiwa点呼3
-// ver 0.14.12 20251031　by HP
+// ver 0.14.14 20251031　by HP
 // ver 0.14.9 20251030　by FJ
 
 // supabaseクライアントをインポート
@@ -793,12 +793,9 @@ function displayCurrentTime() {
 }
 //現在の業務時間（現在時刻ー点呼開始）を表示
 function displayDurationTime() {
-        const startTimeValue = startTimeDiv.textContent;
-        const endTimeValue = endTimeDiv.textContent;
-        if (startTimeValue != "" && endTimeValue == "") {
-            const sTime = new Date(startTimeInput.value); //点呼開始時間
-
-            const elapseTime = new Date().getTime() - sTime.getTime(); //開始点呼からの経過時間
+        const savedStartTime = localStorage.getItem(START_TIME_KEY);    //前回の開始点呼時間
+        if (startTimeDiv.textContent != "" && endTimeDiv.textContent == "") {
+            const elapseTime = new Date().getTime() - new Date(savedStartTime).getTime(); //開始点呼からの経過時間
             const elapsedHours = Math.floor(elapseTime / 3600000);
             const elapsedMinutes = Math.floor((elapseTime % 3600000) / 60000);
             //const elapsedSeconds = Math.floor((elapseTime % 60000) / 1000);
