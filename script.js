@@ -1,5 +1,5 @@
 ﻿// Hiwa点呼3
-// ver 0.14.6 20251029　by HP
+// ver 0.14.10 20251031　by HP
 // ver 0.14.9 20251030　by FJ
 
 // supabaseクライアントをインポート
@@ -120,6 +120,20 @@ const handleFormSubmit = async (e) => {
   
     submitButton.disabled = true;  // 送信ボタンを無効化
 
+    //ログインチェック（ログインしていなければ、ログイン画面に遷移）
+    const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+    if (sessionError || !session) {
+        console.error('セッションの取得に失敗しました:', sessionError);
+        messageText.textContent = '認証エラーが発生しました。再ログインしてください。';
+        messageText.className = 'error';
+        submitButton.disabled = false;// ボタンを再度有効化
+        // 1秒後にログインページにリダイレクト
+        setTimeout(() => {
+            window.location.href = 'login.html';
+        }, 1000);
+        return;
+    }
+
     //点呼の送信時に、確認ダイアログ（OK/キャンセル）を表示する条件
         //１．前回の開始/終了点呼の時間からnHours時間以内（誤操作：連打防止）
         //２．前回の開始または、終了と同日の場合（誤操作：重複送信チェック）
@@ -188,22 +202,13 @@ const handleFormSubmit = async (e) => {
         startTimeDiv.textContent= getFormattedTime(current_time);  //開始時刻
         startTimeInput.value = current_time;
         endTimeInput.value="";
-        
-        //startEnd.textContent = "終了";
-        //submitButton.textContent = "終了　点呼";
-        //submitButton.style.background = '#e53749ff';
-
-        endTimeDiv.textContent = "";
         durationTimeDiv.textContent = "0時間0分";
+        endTimeDiv.textContent = "";
     
     }else if (startEndText === "終了") {   //終了点呼の場合
         endTimeDiv.textContent= getFormattedTime(current_time);  //終了時刻
         startTimeInput.value="";
         endTimeInput.value = current_time;
-        
-        //startEnd.textContent = "開始";
-        //submitButton.textContent = "開始　点呼";
-        //submitButton.style.background = '#3968d4ff';
         
     }
 
@@ -214,19 +219,7 @@ const handleFormSubmit = async (e) => {
     //let number = numberInput.value.replace(/\D/g, '');
     let number = numberInput.value; // 車両番号
 
-    const { data: { session }, error: sessionError } = await supabase.auth.getSession();
 
-    if (sessionError || !session) {
-        console.error('セッションの取得に失敗しました:', sessionError);
-        messageText.textContent = '認証エラーが発生しました。再ログインしてください。';
-        messageText.className = 'error';
-        submitButton.disabled = false;// ボタンを再度有効化
-        // 1秒後にログインページにリダイレクト
-        setTimeout(() => {
-            window.location.href = 'login.html';
-        }, 1000);
-        return;
-    }
     const accessToken = session.access_token;
     const user = session.user;  //現在のログインユーザObject
     const uid = user.id;    //ユーザUID（登録時に自動生成されたユニークなID）
@@ -615,14 +608,6 @@ document.addEventListener('DOMContentLoaded', () => {
             startTimeDiv.textContent = savedTenkoStart;
             durationTimeDiv.textContent = savedTenkoDuration;
             endTimeDiv.textContent= savedTenkoEnd;
-            //startTimeInput.value= savedStartTime;
-            //durationTimeDiv.textContent = "0時間0分";
-            //endTimeInput.value = "";
-            //displayCurrentTime();   //現在のdurationTimeDivを表示
-        
-            //startEnd.textContent = "開始";
-            //submitButton.textContent = "開始　点呼";
-            //submitButton.style.background = '#3968d4ff';
       
         } else if(savedStartEnd === "開始"){  //前回が開始点呼の場合
             // 開始点呼をセット
@@ -799,12 +784,12 @@ function displayCurrentDate() {
 // 現在時刻と開始から現在までの業務時間を表示する関数
 function displayCurrentTime() {
     if (currentTimeDiv) {
-        
         const nowTime = new Date();
         const hours = nowTime.getHours().toString().padStart(2);
         const minutes = nowTime.getMinutes().toString().padStart(2, '0');
         currentTimeDiv.textContent = `${hours}時${minutes}分`;
     }
+    displayDurationTime();
 }
 //現在の業務時間（現在時刻ー点呼開始）を表示
 function displayDurationTime() {
