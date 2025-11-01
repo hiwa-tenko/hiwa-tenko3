@@ -1,6 +1,8 @@
 ﻿// Hiwa点呼3
-// ver 0.14.14 20251031　by HP
-// ver 0.14.9 20251030　by FJ
+
+const version = "0160H";
+//version H: HP, F: Fujitsu
+document.getElementById('title_ver').textContent= "ver " + version;
 
 // supabaseクライアントをインポート
 import { supabase } from './js/supabaseClient.js';
@@ -85,34 +87,25 @@ setInterval(displayCurrentTime, 60000); // 60000ミリ秒 = 1分
 //開始、終了のステータスを切り替え
 function startEndSwitch(start_end) {
 
-    if (start_end === "開始") {   //開始点呼の場合
-        //startTimeDiv.textContent= getFormattedTime(current_time);  //開始時刻
-        //startTimeInput.value = current_time;
-        //endTimeInput.value="";
-        
+    if (start_end === "開始") {   //開始点呼の場合        
         startEnd.textContent = "終了";
         submitButton.textContent = "終了　点呼";
         submitButton.style.background = '#e53749ff';
-
-        //endTimeDiv.textContent = "";
-        //durationTimeDiv.textContent = "0時間0分";
     
-    }else if (start_end === "終了") {   //終了点呼の場合
-        //endTimeDiv.textContent= getFormattedTime(current_time);  //終了時刻
-        //startTimeInput.value="";
-        //endTimeInput.value = current_time;
-        
+    }else if (start_end === "終了") {   //終了点呼の場合        
         startEnd.textContent = "開始";
         submitButton.textContent = "開始　点呼";
         submitButton.style.background = '#3968d4ff';
         
     }
 }
+
 // メッセージを3秒間だけ表示する
 function messageDisplay(message) {
                 messageText.textContent = message;
                 setTimeout(() => { messageText.textContent = ''; }, 3000);
 }
+
 //開始or終了 点呼ボタンがクリックされた
 const handleFormSubmit = async (e) => {
 
@@ -267,7 +260,7 @@ const handleFormSubmit = async (e) => {
     .then(response => response.json())
     .then(backupData => {
         // バックアップ成功時はコンソールにログを出力
-        console.log('Backup successful:', backupData.message);
+        console.log('Backup DB に保存成功:', backupData.message);
         //console.log(uid, email, user_name, companyName);
     })
     .catch(error => {
@@ -301,6 +294,7 @@ const handleFormSubmit = async (e) => {
             //if (overlayMessage) overlayMessage.textContent = resData.message;
             messageText.textContent = resData.message;
             messageText.className = 'success';
+            console.log('Supabase DB に保存成功:', resData.message);
             saveStateAndHistory(data); // 送信成功時に状態と履歴を保存
 
             //displayHistory(); // 履歴テーブルを更新
@@ -565,68 +559,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // フォーム送信のイベントリスナーを登録
     form.addEventListener('submit', handleFormSubmit);
-
-    // 1. ページが読み込まれた時点で、現在の選択状態に合わせて表示を初期化
-    //toggleTenkoDetailVisibility();
-    //toggleAlcoholDetailVisibility();
-    //toggleHealthDetailVisibility();
-    //toggleDailyDetailVisibility();
     
     //ページが読み込まれた時、LocalStorageからFormのデータを読み込む
     loadFormDataFromLocalStorage();
-
-    //const tenkoButton = document.getElementById('tenkoButton');
-
-    //if (startEnd) {
-
-        // localStorageの前回の開始時刻/終了時刻の状態に応じて開始・終了点呼ボタンと開始・終了を切り替える
-        // 1. startEndが"開始"：
-            //A:
-        // 2. startEndが"終了"：
-
-        // 2. START_TIME_KEYが存在する
-        const savedStartTime = localStorage.getItem(START_TIME_KEY);    //前回の開始点呼時間
-        const savedEndTime = localStorage.getItem(END_TIME_KEY);    //前回の終了点呼時間
-        const savedStartEnd = localStorage.getItem(START_END_KEY);    //前回の開始/点呼
-        const savedTenkoStart = localStorage.getItem(TENKO_START_KEY);    //開始時間
-        const savedTenkoDuration = localStorage.getItem(TENKO_DURATION_KEY);    //業務時間
-        const savedTenkoEnd = localStorage.getItem(TENKO_END_KEY);    //終了時間
-        // 終了点呼ボタンに切り替えるAND条件
-
-        console.log("savedStartTime = "+savedStartTime);
-        console.log("savedEndTime = "+savedEndTime);
-        console.log("savedstartEnd ="+savedStartEnd);
-        console.log("savedTenkoStart ="+savedTenkoStart);
-        console.log("savedTenkoDuration ="+savedTenkoDuration);
-        console.log("savedTenkoEnd ="+savedTenkoEnd);
- 
-        if (savedStartEnd === "終了") {  //前回が終了点呼の場合
-            // 終了点呼をセット
-            submitButton.textContent = "終了　点呼";
-            submitButton.style.background = '#e53749ff';
-            startEnd.textContent = "終了";
-            startTimeDiv.textContent = savedTenkoStart;
-            durationTimeDiv.textContent = savedTenkoDuration;
-            endTimeDiv.textContent= savedTenkoEnd;
-      
-        } else if(savedStartEnd === "開始"){  //前回が開始点呼の場合
-            // 開始点呼をセット
-            submitButton.textContent = "開始　点呼";
-            submitButton.style.background = '#3968d4ff';
-            startEnd.textContent = "開始";
-            startTimeDiv.textContent = savedTenkoStart;
-            durationTimeDiv.textContent = savedTenkoDuration;
-            endTimeDiv.textContent= savedTenkoEnd;
-        } else {    //前回が初期の場合
-            // 開始点呼ボタンに切り替える
-            submitButton.textContent = "開始　点呼";
-            submitButton.style.background = '#3968d4ff';
-            startEnd.textContent = "開始";
-            startTimeDiv.textContent = "";
-            endTimeDiv.textContent = "";
-            durationTimeDiv.textContent = "0時間0分";
-        }
-    //}
+    //ページが読み込まれた時、点呼ボタンの表示を設定
+    setTenkoButton();
 
     // navMenuがクリックされたときの処理
     const menuIcon = document.getElementById('list_menu');
@@ -665,7 +602,7 @@ document.addEventListener('visibilitychange', () => {
     // ページが再び表示された場合
     //console.log("673:visibilitychange");
     if (document.visibilityState === 'visible') {
-        console.log("visibilityState===visible");
+        console.log("バックグラウンドから復帰");
         // ページアクセスログをDBに記録する
         //recordUserAccess();
         // ローディングオーバーレイを表示
@@ -675,6 +612,7 @@ document.addEventListener('visibilitychange', () => {
         displayCurrentTime();
         // LocalStorageの保存データを取得・表示
         loadFormDataFromLocalStorage();
+        setTenkoButton();
     }
 });
 
@@ -728,6 +666,59 @@ const loadFormDataFromLocalStorage = () => {
         }
     }
 };
+
+// localStorageの前回の開始時刻/終了時刻の状態に応じて開始・終了点呼ボタンと開始・終了を切り替え
+const setTenkoButton = () => {
+
+        // localStorageの前回の開始時刻/終了時刻の状態に応じて開始・終了点呼ボタンと開始・終了を切り替える
+        // 1. startEndが"開始"：
+            //A:
+        // 2. startEndが"終了"：
+
+        // 2. START_TIME_KEYが存在する
+        const savedStartTime = localStorage.getItem(START_TIME_KEY);    //前回の開始点呼時間
+        const savedEndTime = localStorage.getItem(END_TIME_KEY);    //前回の終了点呼時間
+        const savedStartEnd = localStorage.getItem(START_END_KEY);    //前回の開始/点呼
+        const savedTenkoStart = localStorage.getItem(TENKO_START_KEY);    //開始時間
+        const savedTenkoDuration = localStorage.getItem(TENKO_DURATION_KEY);    //業務時間
+        const savedTenkoEnd = localStorage.getItem(TENKO_END_KEY);    //終了時間
+        // 終了点呼ボタンに切り替えるAND条件
+
+        console.log("savedStartTime = "+savedStartTime);
+        console.log("savedEndTime = "+savedEndTime);
+        console.log("savedstartEnd ="+savedStartEnd);
+        console.log("savedTenkoStart ="+savedTenkoStart);
+        console.log("savedTenkoDuration ="+savedTenkoDuration);
+        console.log("savedTenkoEnd ="+savedTenkoEnd);
+ 
+        if (savedStartEnd === "終了") {  //前回が終了点呼の場合
+            // 終了点呼をセット
+            submitButton.textContent = "終了　点呼";
+            submitButton.style.background = '#e53749ff';
+            startEnd.textContent = "終了";
+            startTimeDiv.textContent = savedTenkoStart;
+            durationTimeDiv.textContent = savedTenkoDuration;
+            endTimeDiv.textContent= savedTenkoEnd;
+      
+        } else if(savedStartEnd === "開始"){  //前回が開始点呼の場合
+            // 開始点呼をセット
+            submitButton.textContent = "開始　点呼";
+            submitButton.style.background = '#3968d4ff';
+            startEnd.textContent = "開始";
+            startTimeDiv.textContent = savedTenkoStart;
+            durationTimeDiv.textContent = savedTenkoDuration;
+            endTimeDiv.textContent= savedTenkoEnd;
+        } else {    //前回が初期の場合
+            // 開始点呼ボタンに切り替える
+            submitButton.textContent = "開始　点呼";
+            submitButton.style.background = '#3968d4ff';
+            startEnd.textContent = "開始";
+            startTimeDiv.textContent = "";
+            endTimeDiv.textContent = "";
+            durationTimeDiv.textContent = "0時間0分";
+        }
+}
+
 //時刻の形式フォーマット
 function getFormattedTime(savedTime) {
     const nowTime = new Date(savedTime);
@@ -781,12 +772,13 @@ function displayCurrentDate() {
         currentDateDiv.textContent = `${year}年${month}月${day}日（${dayOfWeek}）`;
     }
 }
-// 現在時刻と開始から現在までの業務時間を表示する関数
+// 現在時刻を表示する関数
 function displayCurrentTime() {
     if (currentTimeDiv) {
         const nowTime = new Date();
         const hours = nowTime.getHours().toString().padStart(2);
-        const minutes = nowTime.getMinutes().toString().padStart(2, '0');
+        //const minutes = nowTime.getMinutes().toString().padStart(2, '0'); //0埋め込み
+        const minutes = nowTime.getMinutes().toString().padStart(2);
         currentTimeDiv.textContent = `${hours}時${minutes}分`;
     }
     displayDurationTime();
@@ -794,14 +786,13 @@ function displayCurrentTime() {
 //現在の業務時間（現在時刻ー点呼開始）を表示
 function displayDurationTime() {
         const savedStartTime = localStorage.getItem(START_TIME_KEY);    //前回の開始点呼時間
-        if (startTimeDiv.textContent != "" && endTimeDiv.textContent == "") {
+        if (startTimeDiv.textContent != "" && endTimeDiv.textContent == "") {   //開始時刻だけがある場合
             const elapseTime = new Date().getTime() - new Date(savedStartTime).getTime(); //開始点呼からの経過時間
             const elapsedHours = Math.floor(elapseTime / 3600000);
             const elapsedMinutes = Math.floor((elapseTime % 3600000) / 60000);
             //const elapsedSeconds = Math.floor((elapseTime % 60000) / 1000);
             durationTimeDiv.textContent = `${elapsedHours}時間${elapsedMinutes}分`;
         }
-    
 }
 
 /*
