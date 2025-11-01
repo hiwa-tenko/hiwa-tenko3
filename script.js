@@ -1,6 +1,6 @@
 ﻿// Hiwa点呼3
 
-const version = "0160H";
+const version = "0161F";
 //version H: HP, F: Fujitsu
 document.getElementById('title_ver').textContent= "ver " + version;
 
@@ -190,13 +190,28 @@ const handleFormSubmit = async (e) => {
     startEndSwitch(startEndText);   //開始、終了のステータスを変更
 
     //現在時刻を開始あるいは終了点呼の時刻にセット
+        //開始の場合：現在時刻の日付が前回の開始点呼の日付と同じなら上書きしない
+        //const currentDate = new Date().getDate()
+        //const savedStartDate  = new Date(lastStartTime).getDate();
+    const lastStartTime = localStorage.getItem(START_TIME_KEY); // 前回の開始点呼の日付 
+    const lastStartDate  = new Date(lastStartTime).getDate();
+    const currentDate = new Date().getDate(); //2025-10-14
     const current_time = getFormattedCurrentDateTime(); //2025-10-14 10:10
+
+    console.log("201: lastStartTime= ",lastStartTime);
+    console.log("202: lastStartDate= ",lastStartDate);
+    console.log("203: currentDate= ",currentDate);
+    console.log("204: current_time= ",current_time);
+
+
     if (startEndText === "開始") {   //開始点呼の場合
-        startTimeDiv.textContent= getFormattedTime(current_time);  //開始時刻
-        startTimeInput.value = current_time;
-        endTimeInput.value="";
-        durationTimeDiv.textContent = "0時間0分";
-        endTimeDiv.textContent = "";
+        if(currentDate != lastStartDate){
+            startTimeDiv.textContent= getFormattedTime(current_time);  //開始時刻
+            startTimeInput.value = current_time;
+            endTimeInput.value="";
+            durationTimeDiv.textContent = "0時間0分";
+            endTimeDiv.textContent = "";
+        }
     
     }else if (startEndText === "終了") {   //終了点呼の場合
         endTimeDiv.textContent= getFormattedTime(current_time);  //終了時刻
