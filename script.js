@@ -1,6 +1,6 @@
 ﻿// Hiwa点呼3
 
-const version = "0165F";
+const version = "0167F";
 //version H: HP, F: Fujitsu
 document.getElementById('title_ver').textContent= "ver " + version;
 
@@ -214,9 +214,9 @@ const handleFormSubmit = async (e) => {
         }
     
     }else if (startEndText === "終了") {   //終了点呼の場合
-        endTimeDiv.textContent= getFormattedTime(current_time);  //終了時刻
+        endTimeDiv.textContent= getFormattedTime(current_time1);  //終了時刻
         startTimeInput.value="";
-        endTimeInput.value = current_time;
+        endTimeInput.value = current_time1;
         
     }
 
