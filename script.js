@@ -1,6 +1,6 @@
 ﻿// Hiwa点呼3
 
-const version = "0176H";//20251103
+const version = "0178H";//20251103
 //version H: HP, F: Fujitsu
 document.getElementById('title_ver').textContent= "ver " + version;
 
@@ -807,7 +807,7 @@ function displayCurrentTime() {
 //現在の業務時間（現在時刻ー点呼開始）を表示
 function displayDurationTime() {
         const savedStartTime = localStorage.getItem(START_TIME_KEY);    //前回の開始点呼時間
-        if (startTimeDiv.textContent != "" && endTimeDiv.textContent == "") {   //開始時刻だけがある場合
+        if (startTimeDiv.textContent != "") {   //開始時刻だけがある場合
             const elapseTime = new Date().getTime() - new Date(savedStartTime).getTime(); //開始点呼からの経過時間
             const elapsedHours = Math.floor(elapseTime / 3600000);
             const elapsedMinutes = Math.floor((elapseTime % 3600000) / 60000);
