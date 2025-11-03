@@ -1,6 +1,6 @@
 ﻿// Hiwa点呼3
 
-const version = "0169F";    //20251102
+const version = "0170H";//20251103
 //version H: HP, F: Fujitsu
 document.getElementById('title_ver').textContent= "ver " + version;
 
@@ -194,18 +194,16 @@ const handleFormSubmit = async (e) => {
         //const currentDate = new Date().getDate()
         //const savedStartDate  = new Date(lastStartTime).getDate();
     const lastStartTime1 = localStorage.getItem(START_TIME_KEY); // 前回の開始点呼の日付 
-    const lastStartDate1  = new Date(lastStartTime).getDate();
-    const currentDate1 = new Date().getDate(); //2025-10-14
+    const currentDate1 = getCurrentDate(); // 10/14
     const current_time1 = getFormattedCurrentDateTime(); //2025-10-14 10:10
 
     console.log("201: lastStartTime1= ",lastStartTime1);
-    console.log("202: lastStartDate1= ",lastStartDate1);
     console.log("203: currentDate1= ",currentDate1);
     console.log("204: current_time1= ",current_time1);
 
 
     if (startEndText === "開始") {   //開始点呼の場合
-        if(currentDate1 != lastStartDate1){
+        if( lastStartTime1.indexOf(currentDate1) < 0){
             startTimeDiv.textContent= getFormattedTime(current_time1);  //開始時刻
             startTimeInput.value = current_time1;
             endTimeInput.value="";
@@ -734,17 +732,17 @@ const setTenkoButton = () => {
         }
 }
 
-//時刻の形式フォーマット
+//点呼の開始、終了の時刻の形式フォーマットで日時(11/3 10:29)を返す関数
 function getFormattedTime(savedTime) {
     const nowTime = new Date(savedTime);
-    const year = nowTime.getFullYear();
+    //const year = nowTime.getFullYear();
     const month = (nowTime.getMonth() + 1).toString();
     const day = nowTime.getDate().toString();
     const hours = nowTime.getHours().toString();
     const minutes = nowTime.getMinutes().toString().padStart(2, '0');
     return `${month}/${day} ${hours}:${minutes}`;
 }
-// datetime-local input用のフォーマットで現在日時を返す関数
+// datetime-local input用のフォーマットで現在日時(2025-11-03 10:15)を返す関数
 function getFormattedCurrentDateTime() {
     const now = new Date();
     const year = now.getFullYear();
@@ -753,6 +751,13 @@ function getFormattedCurrentDateTime() {
     const hours = now.getHours().toString().padStart(2, '0');
     const minutes = now.getMinutes().toString().padStart(2, '0');
     return `${year}-${month}-${day} ${hours}:${minutes}`;
+}
+// 月/日(11/3)の形式で今日の日を返す関数
+function getCurrentDate() {
+    const now = new Date();
+    const month = (now.getMonth() + 1).toString().padStart(2, '0');
+    const day = now.getDate().toString().padStart(2, '0');
+    return `${month}/${day}`;
 }
 
 // ローディングオーバーレイを非表示にする関数
