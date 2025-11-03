@@ -1,6 +1,6 @@
 ﻿// Hiwa点呼3
 
-const version = "0172H";//20251103
+const version = "0174H";//20251103
 //version H: HP, F: Fujitsu
 document.getElementById('title_ver').textContent= "ver " + version;
 
@@ -193,9 +193,9 @@ const handleFormSubmit = async (e) => {
         //開始の場合：現在時刻の日付が前回の開始点呼の日付と同じなら上書きしない
         //const currentDate = new Date().getDate()
         //const savedStartDate  = new Date(lastStartTime).getDate();
-    const lastStartTime1 = localStorage.getItem(START_TIME_KEY); // 前回の開始点呼の日付 
-    const currentDate1 = getCurrentDate(); // 10/14
-    const current_time1 = getFormattedCurrentDateTime(); //2025-10-14 10:10
+    const lastStartTime1 = localStorage.getItem(START_TIME_KEY); // 前回の開始点呼の日付(2025-11-02 11:10) 
+    const currentDate1 = getCurrentDate(); // 2025-11-03
+    const current_time1 = getFormattedCurrentDateTime(); //2025-11-03 10:10
 
     console.log("201: lastStartTime1= ",lastStartTime1);
     console.log("203: currentDate1= ",currentDate1);
@@ -752,12 +752,13 @@ function getFormattedCurrentDateTime() {
     const minutes = now.getMinutes().toString().padStart(2, '0');
     return `${year}-${month}-${day} ${hours}:${minutes}`;
 }
-// 月/日(11/3)の形式で今日の日を返す関数
+// 年-月-日(2025-11-03)の形式で今日の日を返す関数
 function getCurrentDate() {
     const now = new Date();
+    const year = now.getFullYear();
     const month = (now.getMonth() + 1).toString().padStart(2, '0');
-    const day = now.getDate().toString();
-    return `${month}/${day}`;
+    const day = now.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
 }
 
 // ローディングオーバーレイを非表示にする関数
