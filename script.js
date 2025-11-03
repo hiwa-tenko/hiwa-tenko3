@@ -1,6 +1,6 @@
 ﻿// Hiwa点呼3
 
-const version = "0174H";//20251103
+const version = "0176H";//20251103
 //version H: HP, F: Fujitsu
 document.getElementById('title_ver').textContent= "ver " + version;
 
@@ -190,9 +190,7 @@ const handleFormSubmit = async (e) => {
     startEndSwitch(startEndText);   //開始、終了のステータスを変更
 
     //現在時刻を開始あるいは終了点呼の時刻にセット
-        //開始の場合：現在時刻の日付が前回の開始点呼の日付と同じなら上書きしない
-        //const currentDate = new Date().getDate()
-        //const savedStartDate  = new Date(lastStartTime).getDate();
+
     const lastStartTime1 = localStorage.getItem(START_TIME_KEY); // 前回の開始点呼の日付(2025-11-02 11:10) 
     const currentDate1 = getCurrentDate(); // 2025-11-03
     const current_time1 = getFormattedCurrentDateTime(); //2025-11-03 10:10
@@ -201,8 +199,8 @@ const handleFormSubmit = async (e) => {
     console.log("203: currentDate1= ",currentDate1);
     console.log("204: current_time1= ",current_time1);
 
-
-    if (startEndText === "開始") {   //開始点呼の場合
+    //開始の場合：現在時刻の日付が前回の開始点呼の日付と同じなら上書きしない
+    if (startEndText === "開始") { 
         if( lastStartTime1.indexOf(currentDate1) < 0){
             startTimeDiv.textContent= getFormattedTime(current_time1);  //開始時刻
             startTimeInput.value = current_time1;
@@ -210,11 +208,13 @@ const handleFormSubmit = async (e) => {
             durationTimeDiv.textContent = "0時間0分";
             endTimeDiv.textContent = "";
         }
-    
+    //終了の場合：
     }else if (startEndText === "終了") {   //終了点呼の場合
-        endTimeDiv.textContent= getFormattedTime(current_time1);  //終了時刻
-        startTimeInput.value="";
-        endTimeInput.value = current_time1;
+
+            endTimeDiv.textContent= getFormattedTime(current_time1);  //終了時刻
+            startTimeInput.value="";
+            displayDurationTime();  //業務時間を再計算して表示
+            endTimeInput.value = current_time1;
         
     }
 
