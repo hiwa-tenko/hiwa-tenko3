@@ -1,6 +1,6 @@
 ﻿// Hiwa点呼3
 
-const version = "0170H";//20251103
+const version = "0172H";//20251103
 //version H: HP, F: Fujitsu
 document.getElementById('title_ver').textContent= "ver " + version;
 
@@ -756,7 +756,7 @@ function getFormattedCurrentDateTime() {
 function getCurrentDate() {
     const now = new Date();
     const month = (now.getMonth() + 1).toString().padStart(2, '0');
-    const day = now.getDate().toString().padStart(2, '0');
+    const day = now.getDate().toString();
     return `${month}/${day}`;
 }
 
