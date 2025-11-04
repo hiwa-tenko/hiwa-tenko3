@@ -34,14 +34,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (record.start_time) {
             if (!dailyRecords[recordDateStr].start_time || new Date(record.start_time) < new Date(dailyRecords[recordDateStr].start_time)) {
                 dailyRecords[recordDateStr].start_time = record.start_time;
-                //console.log("report:39:start=", recordDateStr, dailyRecords[recordDateStr].start);
+                console.log("report:37:start=", recordDateStr, dailyRecords[recordDateStr].start);
             }
         }
         // その日の最も遅い終了時刻を記録する
         if (record.end_time) {
             if (!dailyRecords[recordDateStr].end_time || new Date(record.end_time) > new Date(dailyRecords[recordDateStr].end_time)) {
                 dailyRecords[recordDateStr].end_time = record.end_time;
-                //console.log("report:45:end=", recordDateStr, dailyRecords[recordDateStr].end);
+                console.log("report:44:end=", recordDateStr, dailyRecords[recordDateStr].end);
             }        
         }
     });
