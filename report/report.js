@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
-// 点呼時間のテーブルを出力
+// 点呼時間の1か月のテーブルを出力
 const tenkoTimeTable = (records) => {
 
     //---function start---
@@ -109,7 +109,7 @@ const tenkoTimeTable = (records) => {
         let tenkoDuration = '-';
 
         let record = records[dateKey];
-        //console.log("record:90",record.start,record.end)
+        console.log(dateKey,record.start,record.end)
         // データが存在し、開始と終了がペアになっている場合のみ時間を計算
         if (record && record.start_time && record.end_time) {
             const startDate = new Date(record.start_time);
