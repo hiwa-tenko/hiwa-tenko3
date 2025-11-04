@@ -1,7 +1,8 @@
 ﻿// Hiwa点呼3
-
-const version = "0193F";//20251104
 //version H: HP, F: Fujitsu
+const version = "0195F";//20251104
+console.log("version=",version);
+
 document.getElementById('title_ver').textContent= "ver " + version;
 
 // supabaseクライアントをインポート

@@ -79,8 +79,8 @@ const tenkoTimeTable = (records) => {
 
     // 今月の1日から月末までの日付（例：11/1～11/30）のテーブル行のデータを生成
     const today = new Date();   //今日
-    const year = today.getFullYear();   //年
-    const month = today.getMonth() + 1; //月
+    const year = today.getFullYear().toString().padStart(2, '0');   //年
+    const month = (today.getMonth() + 1).toString().padStart(2, '0'); //月
 
     const daysInMonth = new Date(year, month, 0).getDate(); //月末の日付
     //const monCale = [];
@@ -92,7 +92,7 @@ const tenkoTimeTable = (records) => {
     //for(let dateKey in records){
     for (let day = 1; day <= daysInMonth; day++) {
 
-        let dateKey = year + "-" + month + "-" + day;
+        let dateKey = year + "-" + month + "-" + day.toString().padStart(2, '0');
         let currentDate = new Date(dateKey);
 
             //const year = currentDate.getFullYear();
