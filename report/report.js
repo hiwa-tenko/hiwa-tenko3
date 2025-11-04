@@ -1,3 +1,4 @@
+// 点呼レポートJS
 document.addEventListener('DOMContentLoaded', () => {
     const REPORT_HISTORY_KEY = 'reportHistory';
     const tableContainer = document.getElementById('table-container');
@@ -7,14 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // 1. 先週の日曜日と土曜日の日付を取得
-    //const today = new Date();
-    //const lastSunday = new Date(today);
-    // 今日の曜日番号(0=日, 1=月...)を引いて今週の日曜を求め、さらに7日引いて先週の日曜を計算
-    //lastSunday.setDate(today.getDate() - today.getDay() - 7);
-    //lastSunday.setHours(0, 0, 0, 0);
 
-    // 2. localStorageから履歴全データ（過去15日間）を取得
+    
+    // 2. localStorageから履歴全データ（過去32日間）を取得
     const history = JSON.parse(localStorage.getItem(REPORT_HISTORY_KEY)) || [];
 
     if (history.length === 0) {
@@ -63,11 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
 const tenkoTimeTable = (records) => {
 
     //---function start---
-    //先週の日曜日の月を取得
-    //const nextSundayDate = new Date(nextSunday);
-    //const nextSundayMonth = nextSundayDate.getMonth() + 1;
+    const week = ['(日)', '(月)', '(火)', '(水)', '(木)', '(金)', '(土)'];
 
-    // 4. テーブル要素を生成
+    // テーブル要素と先頭行（項目）を生成
     const table = document.createElement('table');
     table.className = 'report-table';
     const thead = document.createElement('thead');
@@ -83,41 +77,38 @@ const tenkoTimeTable = (records) => {
 
     const tbody = document.createElement('tbody');
 
-    // 5. 先週の日曜日から7日間ループしてテーブルの行を作成
-    //for (let i = 0; i < 7; i++) {
-    //records.forEach(record => {
-        /*
-        const currentDate = new Date(nextSunday);
-        currentDate.setDate(nextSunday.getDate() + i);
+    // 今月の1日から月末までの日付（例：11/1～11/30）のテーブル行のデータを生成
+    const today = new Date();   //今日
+    const year = today.getFullYear();   //年
+    const month = today.getMonth() + 1; //月
 
-        const year = currentDate.getFullYear();
-        const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
-        const day = currentDate.getDate().toString().padStart(2, '0');
-        const dateKey = `${year}-${month}-${day}`; // "YYYY-MM-DD"
+    const daysInMonth = new Date(year, month, 0).getDate(); //月末の日付
+    //const monCale = [];
+    //for (let day = 1; day <= daysInMonth; day++) {
+        //monCale.push(`${month}/${day}`);
+    //}
 
-        const record = records[dateKey];
+    //n日間（LocalStorage保存分）の業務時間を追加した、今月分のテーブルを表示
+    //for(let dateKey in records){
+    for (let day = 1; day <= daysInMonth; day++) {
 
-        */
-    //15日間（LocalStorage保存分）をすべての業務時間のテーブルを表示
-    for(let dateKey in records){
+        let dateKey = year + "-" + month + "-" + day;
+        let currentDate = new Date(dateKey);
 
-        const record = records[dateKey];
-        const currentDate = new Date(dateKey);
-        //const year = currentDate.getFullYear();
-        //const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
-        //const day = currentDate.getDate().toString().padStart(2, '0');
+            //const year = currentDate.getFullYear();
+            //const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+            //const day = currentDate.getDate().toString().padStart(2, '0');
 
-        const tr = document.createElement('tr');
+        let tr = document.createElement('tr');
 
-        // 月日 (例: 6/23 (日))
-        const week = ['(日)', '(月)', '(火)', '(水)', '(木)', '(金)', '(土)'];
-        const dayOfWeek = week[currentDate.getDay()];
-        const formattedDate = `${currentDate.getMonth() + 1}/${currentDate.getDate()} ${dayOfWeek}`;
+        let dayOfWeek = week[currentDate.getDay()]; // 曜日
+        let formattedDate = `${currentDate.getMonth() + 1}/${currentDate.getDate()} ${dayOfWeek}`;
 
         let startTime = '-';
         let endTime = '-';
         let tenkoDuration = '-';
 
+        let record = records[dateKey];
         //console.log("record:90",record.start,record.end)
         // データが存在し、開始と終了がペアになっている場合のみ時間を計算
         if (record && record.start_time && record.end_time) {

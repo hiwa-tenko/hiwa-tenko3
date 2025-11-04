@@ -1,6 +1,6 @@
 ﻿// Hiwa点呼3
 
-const version = "0180H";//20251103
+const version = "0182H";//20251104
 //version H: HP, F: Fujitsu
 document.getElementById('title_ver').textContent= "ver " + version;
 
@@ -697,12 +697,12 @@ const setTenkoButton = () => {
         const savedTenkoEnd = localStorage.getItem(TENKO_END_KEY);    //終了時間
         // 終了点呼ボタンに切り替えるAND条件
 
-        console.log("savedStartTime = "+savedStartTime);
-        console.log("savedEndTime = "+savedEndTime);
-        console.log("savedstartEnd ="+savedStartEnd);
-        console.log("savedTenkoStart ="+savedTenkoStart);
-        console.log("savedTenkoDuration ="+savedTenkoDuration);
-        console.log("savedTenkoEnd ="+savedTenkoEnd);
+        //console.log("savedStartTime = "+savedStartTime);
+        //console.log("savedEndTime = "+savedEndTime);
+        //console.log("savedstartEnd ="+savedStartEnd);
+        //console.log("savedTenkoStart ="+savedTenkoStart);
+        //console.log("savedTenkoDuration ="+savedTenkoDuration);
+        //console.log("savedTenkoEnd ="+savedTenkoEnd);
  
         if (savedStartEnd === "終了") {  //前回が終了点呼の場合
             // 終了点呼をセット
@@ -786,8 +786,8 @@ function displayCurrentDate() {
     if (currentDateDiv) {
         const nowDay = new Date();
         const year = nowDay.getFullYear();
-        const month = (nowDay.getMonth() + 1).toString().padStart(2, '0');
-        const day = nowDay.getDate().toString().padStart(2, '0');
+        const month = (nowDay.getMonth() + 1).toString();
+        const day = nowDay.getDate().toString();
         const week = ['日', '月', '火', '水', '木', '金', '土'];
         const dayOfWeek = week[nowDay.getDay()];
         currentDateDiv.textContent = `${year}年${month}月${day}日（${dayOfWeek}）`;
@@ -807,7 +807,7 @@ function displayCurrentTime() {
 //現在の業務時間（現在時刻ー点呼開始）を表示
 function displayDurationTime() {
         const savedStartTime = localStorage.getItem(START_TIME_KEY);    //前回の開始点呼時間
-        console.log("savedStartTime= "+savedStartTime);
+        //console.log("savedStartTime= "+savedStartTime);
         
         if (startTimeDiv.textContent != "") {   //開始時刻だけがある場合
             const elapseTime = new Date().getTime() - new Date(savedStartTime).getTime(); //開始点呼からの経過時間
