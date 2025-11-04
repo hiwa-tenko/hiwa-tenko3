@@ -109,7 +109,7 @@ const tenkoTimeTable = (records) => {
         let tenkoDuration = '-';
 
         let record = records[dateKey];
-        console.log(dateKey,record.start_time,record.end_time)
+        console.log(dateKey,record)
         // データが存在し、開始と終了がペアになっている場合のみ時間を計算
         if (record && record.start_time && record.end_time) {
             const startDate = new Date(record.start_time);

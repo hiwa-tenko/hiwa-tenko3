@@ -1,6 +1,6 @@
 ﻿// Hiwa点呼3
 
-const version = "0187F";//20251104
+const version = "0189F";//20251104
 //version H: HP, F: Fujitsu
 document.getElementById('title_ver').textContent= "ver " + version;
 
