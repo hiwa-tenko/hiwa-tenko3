@@ -1,6 +1,6 @@
 ﻿// Hiwa点呼3
 //version H: HP, F: Fujitsu
-const version = "0195F";//20251104
+const version = "0197F";//20251105
 console.log("version=",version);
 
 document.getElementById('title_ver').textContent= "ver " + version;
@@ -538,9 +538,8 @@ setInterval(keepServerWarm, 13 * 60 * 1000);    // 13分ごとにserver スリ�
 
 //ページがLOADされた後
 document.addEventListener('DOMContentLoaded', () => {
-
+    console.log("ページがLOAD");
     //ログイン情報（運転者氏名をUIDから取得する）
-
 
     // Renderの無料プランのスリープ対策。不要な場合は次の行をコメントアウトしてください。
     keepServerWarm();   // ★★★server スリープ防止 ★★★
@@ -702,7 +701,7 @@ const setTenkoButton = () => {
         //console.log("savedEndTime = "+savedEndTime);
         //console.log("savedstartEnd ="+savedStartEnd);
         //console.log("savedTenkoStart ="+savedTenkoStart);
-        //console.log("savedTenkoDuration ="+savedTenkoDuration);
+        console.log("savedTenkoDuration ="+savedTenkoDuration);
         //console.log("savedTenkoEnd ="+savedTenkoEnd);
  
         if (savedStartEnd === "終了") {  //前回が終了点呼の場合
