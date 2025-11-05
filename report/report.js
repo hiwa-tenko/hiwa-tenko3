@@ -112,7 +112,7 @@ const tenkoTimeTable = (records) => {
         if (record) {
             const startDate = new Date(record.start_time);
             const endDate = new Date(record.end_time);
-            if (startDate && endDate) {
+            if (record.start_time && record.end_time) {
                 // 開始時間・終了時間 (例: 8時10分)
                 startTime = `${startDate.getHours()}：${startDate.getMinutes().toString().padStart(2, '0')}`;
                 endTime = `${endDate.getHours()}：${endDate.getMinutes().toString().padStart(2, '0')}`;
@@ -123,6 +123,10 @@ const tenkoTimeTable = (records) => {
                     const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
                     tenkoDuration = `${diffHours}時間${diffMinutes.toString().padStart(2, '0')}分`;
                 }
+            }else if(record.start_time){
+                startTime = `${startDate.getHours()}：${startDate.getMinutes().toString().padStart(2, '0')}`;
+            }else if(record.end_time){
+                endTime = `${endDate.getHours()}：${endDate.getMinutes().toString().padStart(2, '0')}`;
             }
         }
 
