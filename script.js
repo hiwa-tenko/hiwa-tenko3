@@ -1,6 +1,6 @@
 ﻿// Hiwa点呼3
 //version H: HP, F: Fujitsu
-const version = "0198H";//20251105
+const version = "020H";//20251105
 console.log("version=",version);
 
 document.getElementById('title_ver').textContent= "ver " + version;
@@ -702,7 +702,7 @@ const setTenkoButton = () => {
         //console.log("savedEndTime = "+savedEndTime);
         //console.log("savedstartEnd ="+savedStartEnd);
         //console.log("savedTenkoStart ="+savedTenkoStart);
-        console.log("savedTenkoDuration ="+savedTenkoDuration);
+        //console.log("savedTenkoDuration ="+savedTenkoDuration);
         //console.log("savedTenkoEnd ="+savedTenkoEnd);
  
         if (savedStartEnd === "終了") {  //前回が終了点呼の場合

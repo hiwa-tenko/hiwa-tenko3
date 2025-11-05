@@ -8,8 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-
-    
     // 2. localStorageから履歴全データ（過去32日間）を取得
     const history = JSON.parse(localStorage.getItem(REPORT_HISTORY_KEY)) || [];
 
@@ -111,20 +109,20 @@ const tenkoTimeTable = (records) => {
         let record = records[dateKey];
         console.log(dateKey,record)
         // データが存在し、開始と終了がペアになっている場合のみ時間を計算
-        if (record && record.start_time && record.end_time) {
+        if (record) {
             const startDate = new Date(record.start_time);
             const endDate = new Date(record.end_time);
-
-            // 開始時間・終了時間 (例: 8時10分)
-            startTime = `${startDate.getHours()}：${startDate.getMinutes().toString().padStart(2, '0')}`;
-            endTime = `${endDate.getHours()}：${endDate.getMinutes().toString().padStart(2, '0')}`;
-
-            // 拘束時間計算 (例: 5：00)
-            const diffMs = endDate - startDate;
-            if (diffMs >= 0) {
-                const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-                const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
-                tenkoDuration = `${diffHours}時間${diffMinutes.toString().padStart(2, '0')}分`;
+            if (startDate && endDate) {
+                // 開始時間・終了時間 (例: 8時10分)
+                startTime = `${startDate.getHours()}：${startDate.getMinutes().toString().padStart(2, '0')}`;
+                endTime = `${endDate.getHours()}：${endDate.getMinutes().toString().padStart(2, '0')}`;
+                // 業務時間計算 (例: 5：00)
+                const diffMs = endDate - startDate;
+                if (diffMs >= 0) {
+                    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+                    const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+                    tenkoDuration = `${diffHours}時間${diffMinutes.toString().padStart(2, '0')}分`;
+                }
             }
         }
 
