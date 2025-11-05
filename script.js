@@ -1,6 +1,6 @@
 ﻿// Hiwa点呼3
 //version H: HP, F: Fujitsu
-const version = "0197F";//20251105
+const version = "0198H";//20251105
 console.log("version=",version);
 
 document.getElementById('title_ver').textContent= "ver " + version;
@@ -577,6 +577,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loadFormDataFromLocalStorage();
     //ページが読み込まれた時、点呼ボタンの表示を設定
     setTenkoButton();
+    
 
     // navMenuがクリックされたときの処理
     const menuIcon = document.getElementById('list_menu');
@@ -710,7 +711,8 @@ const setTenkoButton = () => {
             submitButton.style.background = '#e53749ff';
             startEnd.textContent = "終了";
             startTimeDiv.textContent = savedTenkoStart;
-            durationTimeDiv.textContent = savedTenkoDuration;
+            //durationTimeDiv.textContent = savedTenkoDuration;
+            displayDurationTime();
             endTimeDiv.textContent= savedTenkoEnd;
       
         } else if(savedStartEnd === "開始"){  //前回が開始点呼の場合
