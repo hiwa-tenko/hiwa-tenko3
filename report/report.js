@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
         //          
         if (record.end_time) {
             let nowDate = new Date(recordDateStr);
-            let lastDate = getFormattedTime(nowDate.getDate()-1);
+            let lastDate = getFormattedDate(nowDate.getDate()-1);
            
             console.log("lastDate=",recordDateStr,lastDate);
             if (!dailyRecords[recordDateStr].end_time || new Date(record.end_time) > new Date(dailyRecords[recordDateStr].end_time)) {
@@ -59,6 +59,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 });
+
+function getFormattedDate(dateTime) {
+    const now = new Date(dateTime);
+    const year = now.getFullYear();
+    const month = (now.getMonth() + 1).toString().padStart(2, '0');
+    const day = now.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
 
 // 点呼時間の1か月のテーブルを出力
 const tenkoTimeTable = (records) => {
