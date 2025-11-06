@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
         //          
         if (record.end_time) {
             let nowDate = new Date(recordDateStr);
-            let lastDate = dateTimeString.setDate(nowDate.getDate() - 1);
+            let lastDate = nowDate.setDate(nowDate.getDate() - 1);
            
             console.log("lastDate=",recordDateStr,lastDate);
             if (!dailyRecords[recordDateStr].end_time || new Date(record.end_time) > new Date(dailyRecords[recordDateStr].end_time)) {
