@@ -36,15 +36,17 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         // 終了点呼 ：その日の最も遅い終了時刻を記録する（つまり、常に最後の時刻で上書きされる）
-        // 例外１   ：日付の連想配列が無い（つまり、開始時間が無い、あるいは開始時刻より終了時刻が早い）場合、かつ
-        //          前日の日付の終了時刻が無い（-）場合は、前日の終了時刻とする（終了時刻が前日の深夜0時を超えた例外）
+        // 例外１   ：その日の開始時間が無い場合、かつ前日の日付の終了時刻が無い（-）場合は、
+        //          前日の終了時刻とする（終了時刻が前日の深夜0時を超えた例外）
         //          
         if (record.end_time) {
             let nowDate = new Date(recordDateStr);
             let lastDate = nowDate.setDate(nowDate.getDate() - 1);
-           
-            console.log("lastDate=",recordDateStr,getFormattedDate(lastDate));
-            if (!dailyRecords[recordDateStr].end_time || new Date(record.end_time) > new Date(dailyRecords[recordDateStr].end_time)) {
+            let lastDateStr = getFormattedDate(lastDate);
+            //console.log("lastDate=",recordDateStr,getFormattedDate(lastDate));
+            if (!dailyRecords[recordDateStr].start_time && dailyRecords[lastDateStr].end_time === "-") {
+                dailyRecords[lastDateStr].end_time = record.end_time;
+            }else if (!dailyRecords[recordDateStr].end_time || new Date(record.end_time) > new Date(dailyRecords[recordDateStr].end_time)) {
                 dailyRecords[recordDateStr].end_time = record.end_time;
                 console.log("report:44:end=", recordDateStr, dailyRecords[recordDateStr].end_time);
             }        
