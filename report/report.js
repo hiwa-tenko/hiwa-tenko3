@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (record.start_time) {
             if (!dailyRecords[recordDateStr].start_time || new Date(record.start_time) < new Date(dailyRecords[recordDateStr].start_time)) {
                 dailyRecords[recordDateStr].start_time = record.start_time;
-                console.log("report:37:start=", recordDateStr, dailyRecords[recordDateStr].start_time);
+                console.log("recordDateStr=", recordDateStr, dailyRecords[recordDateStr].start_time);
             }
         }
         // 終了点呼 ：その日の最も遅い終了時刻を記録する（つまり、常に最後の時刻で上書きされる）
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let nowDate = new Date(recordDateStr);
             let lastDate = nowDate.setDate(nowDate.getDate() - 1);
             let lastDateStr = getFormattedDate(lastDate);
-            //console.log("lastDate=",recordDateStr,getFormattedDate(lastDate));
+            console.log("lastDateStr=",lastDateStr);
             if (!dailyRecords[recordDateStr].start_time && !dailyRecords[lastDateStr].end_time) {
                 dailyRecords[lastDateStr].end_time = record.end_time;
             }else if (!dailyRecords[recordDateStr].end_time || new Date(record.end_time) > new Date(dailyRecords[recordDateStr].end_time)) {
