@@ -1,9 +1,17 @@
 ﻿// Hiwa点呼3
 //version H: HP, F: Fujitsu
-const version = "022H";//20251105
+const version = "024H";//20251106
 console.log("version=",version);
-
 document.getElementById('title_ver').textContent= "ver " + version;
+
+/*
+【未修正箇所】
+20251105 ：script.js    ・業務時間が停止しない（開始時間、終了時間がある場合でも）
+20251105 ：script.js    ・
+20251105 ：report.js    ・土、日の月日の色変更
+20251105 ：report.js    ・終了時間が次の日になった場合の例外対応
+20251105 ：　・
+*/
 
 // supabaseクライアントをインポート
 import { supabase } from './js/supabaseClient.js';

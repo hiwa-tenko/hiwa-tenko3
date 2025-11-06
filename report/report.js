@@ -24,19 +24,26 @@ document.addEventListener('DOMContentLoaded', () => {
         const dateTimeString = record.start_time || record.end_time;
         if (!dateTimeString) return;
 
-        const recordDateStr = dateTimeString.split(' ')[0]; // "YYYY-MM-DD"
-        if (!dailyRecords[recordDateStr]) {
+        const recordDateStr = dateTimeString.split(' ')[0]; // 記録データの日付を抽出　"YYYY-MM-DD"
+        if (!dailyRecords[recordDateStr]) { //日付の連想配列がなければ新規追加
             dailyRecords[recordDateStr] = {};
         }
-        // その日の最も早い開始時刻を記録する
+        // 開始点呼：その日の最も早い開始時刻を記録する（つまり、2回目以降の時刻は無視される）
         if (record.start_time) {
             if (!dailyRecords[recordDateStr].start_time || new Date(record.start_time) < new Date(dailyRecords[recordDateStr].start_time)) {
                 dailyRecords[recordDateStr].start_time = record.start_time;
                 console.log("report:37:start=", recordDateStr, dailyRecords[recordDateStr].start_time);
             }
         }
-        // その日の最も遅い終了時刻を記録する
+        // 終了点呼 ：その日の最も遅い終了時刻を記録する（つまり、常に最後の時刻で上書きされる）
+        // 例外１   ：日付の連想配列が無い（つまり、開始時間が無い、あるいは開始時刻より終了時刻が早い）場合、かつ
+        //          前日の日付の終了時刻が無い（-）場合は、前日の終了時刻とする（終了時刻が前日の深夜0時を超えた例外）
+        //          
         if (record.end_time) {
+            let nowDate = new Date(recordDateStr);
+            let lastDate = getFormattedTime(nowDate.getDate()-1);
+           
+            console.log("lastDate=",recordDateStr,lastDate);
             if (!dailyRecords[recordDateStr].end_time || new Date(record.end_time) > new Date(dailyRecords[recordDateStr].end_time)) {
                 dailyRecords[recordDateStr].end_time = record.end_time;
                 console.log("report:44:end=", recordDateStr, dailyRecords[recordDateStr].end_time);
