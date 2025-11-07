@@ -1,13 +1,12 @@
 ﻿// Hiwa点呼3
 //version H: HP, F: Fujitsu
-const version = "048H";//20251107
+const version = "050H";//20251108
 console.log("version=",version);
 document.getElementById('title_ver').textContent= "ver " + version;
 
 /*
 【未修正箇所】◎：修正済
-20251105 ：script.js    ・業務時間が停止しない（開始時間、終了時間がある場合でも）
-20251105 ：script.js    ・
+◎20251105 ：script.js    ・20251107完了：業務時間が停止しない（開始時間、終了時間がある場合でも）
 20251105 ：report.js    ・土、日の月日の色変更
 ◎20251105 ：report.js    ・20251107完了：終了時間が次の日になった場合の例外対応
 20251107 : script.js    ・業務時間（終了－開始）が15時間を超える場合の表示
@@ -142,7 +141,8 @@ const handleFormSubmit = async (e) => {
         //３．今日が日曜日だった場合（誤操作：休日送信チェック）
 
     let confirmFlag = false;    //確認ダイアログを非表示
-    let message = "点呼ボタンを切り替えました。";   //確認メッセージ（初期値）
+    let confirmMessage = "点呼ボタンを切り替えました。";   //確認メッセージ（初期値）
+    let cancelMessage = "送信はキャンセルされました。\n点呼ボタンのみ切り替えます。"; //キャンセルメッセージ（初期値）
     const startEndText = startEnd.textContent;  // 開始or終了（点呼ボタン）
     const nowDay = new Date().getDate();    // 今日の日付
     const nowTime = new Date().getTime();  // 現在時刻
@@ -159,6 +159,7 @@ const handleFormSubmit = async (e) => {
         if (startEndText == "開始") {   //前回の開始点呼と同日の場合
             if (nowDay == new Date(lastStartTime).getDate()){
                 confirmFlag = true;
+                confirmMessage = "すでに開始点呼が送信されています。\n";
             }
         }
     }
@@ -170,6 +171,7 @@ const handleFormSubmit = async (e) => {
         if (startEndText == "終了") {   //前回の終了点呼と同日の場合
             if (nowDay == new Date(lastEndTime).getDate()){
                 confirmFlag = true;
+                confirmMessage = "すでに終了点呼が送信されています。\n";
             }
         }
     }
@@ -178,6 +180,7 @@ const handleFormSubmit = async (e) => {
     if(confirmFlag){
             // 確認ダイアログを表示
             const isConfirmed = confirm(
+                confirmMessage +
                 `本当に`+ startEndText + `点呼を送信しますか？\n（キャンセルで送信はしないで、点呼ボタンだけを切り替えます。）`
             );
 
@@ -185,7 +188,7 @@ const handleFormSubmit = async (e) => {
             if (!isConfirmed) {
                 startEndSwitch(startEndText);   //開始、終了点呼だけを切り替え
                 submitButton.disabled = false;// ボタンを再度有効化
-                messageDisplay(message);
+                messageDisplay(cancelMessage);
                 return; // 処理を中断
             }    
     }

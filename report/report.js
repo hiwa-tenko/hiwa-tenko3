@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let startTime;   // <= start_time : "2025-11-05 10:20"
     let firstDay = fandlDay[0];   // 月初　"2025-11-01" のDateオブジェクト
     //let lastDay = fandlDay[1];   // 月末　"2025-11-30" のDateオブジェクト
-    console.log("firstDate=",firstDay);
+    //console.log("firstDate=",firstDay);
     //console.log("lastDate=",lastDay);
 
     for (let i = history.length - 1; i >= 0; i--) {
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
         endTime = new Date(history[i].end_time);
         if(firstDay <= startTime || firstDay <= endTime){
             rHistory[r] = history[i];
-            console.log(r,"=",rHistory[r]);
+            //console.log(r,"=",rHistory[r]);
             r++;
         }
     }
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (record.start_time) {
             if (!dailyRecords[recordDateStr].start_time || new Date(record.start_time) < new Date(dailyRecords[recordDateStr].start_time)) {
                 dailyRecords[recordDateStr].start_time = record.start_time;
-                console.log("recordDateStr=", recordDateStr, dailyRecords[recordDateStr].start_time);
+                //console.log("recordDateStr=", recordDateStr, dailyRecords[recordDateStr].start_time);
             }
         }
         // 終了点呼 ：その日の最も遅い終了時刻を記録する（つまり、常に最後の時刻で上書きされる）
@@ -64,13 +64,13 @@ document.addEventListener('DOMContentLoaded', () => {
             let nowDate = new Date(recordDateStr);
             let lastDate = nowDate.setDate(nowDate.getDate() - 1);
             let lastDateStr = getFormattedDate(lastDate);
-            console.log("lastDateStr=",lastDateStr);
+            //console.log("lastDateStr=",lastDateStr);
             if (!dailyRecords[recordDateStr].start_time && dailyRecords[lastDateStr] && !dailyRecords[lastDateStr].end_time) {
                 dailyRecords[lastDateStr].end_time = record.end_time;
             //通常処理
             }else if (!dailyRecords[recordDateStr].end_time || new Date(record.end_time) > new Date(dailyRecords[recordDateStr].end_time)) {
                 dailyRecords[recordDateStr].end_time = record.end_time;
-                console.log("end=", recordDateStr, dailyRecords[recordDateStr].end_time);
+                //console.log("end=", recordDateStr, dailyRecords[recordDateStr].end_time);
             }        
         }
     });
@@ -155,7 +155,7 @@ const tenkoTimeTable = (records) => {
         let tenkoDuration = '-';
 
         let record = records[dateKey];
-        console.log(dateKey,record)
+            //console.log(dateKey,record)
         // データが存在し、開始と終了がペアになっている場合のみ時間を計算
         if (record) {
             const startDate = new Date(record.start_time);
