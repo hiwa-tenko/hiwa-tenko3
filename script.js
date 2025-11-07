@@ -1,16 +1,16 @@
 ﻿// Hiwa点呼3
 //version H: HP, F: Fujitsu
-const version = "046H";//20251107
+const version = "048H";//20251107
 console.log("version=",version);
 document.getElementById('title_ver').textContent= "ver " + version;
 
 /*
-【未修正箇所】
+【未修正箇所】◎：修正済
 20251105 ：script.js    ・業務時間が停止しない（開始時間、終了時間がある場合でも）
 20251105 ：script.js    ・
 20251105 ：report.js    ・土、日の月日の色変更
-20251105 ：report.js    ・終了時間が次の日になった場合の例外対応
-20251105 ：　・
+◎20251105 ：report.js    ・20251107完了：終了時間が次の日になった場合の例外対応
+20251107 : script.js    ・業務時間（終了－開始）が15時間を超える場合の表示
 */
 
 // supabaseクライアントをインポート
@@ -814,12 +814,12 @@ function displayCurrentTime() {
     }
     displayDurationTime();
 }
-//現在の業務時間（現在時刻ー点呼開始）を表示
+//現在の業務時間（現在時刻ー開始時間）を更新して表示
 function displayDurationTime() {
         const savedStartTime = localStorage.getItem(START_TIME_KEY);    //前回の開始点呼時間
         //console.log("savedStartTime= "+savedStartTime);
-        
-        if (startTimeDiv.textContent != "") {   //開始時刻だけがある場合
+        //開始時刻が有り、かつ終了時刻が無い場合は業務時間を更新
+        if (startTimeDiv.textContent != "" && endTimeDiv.textContent == "") { 
             const elapseTime = new Date().getTime() - new Date(savedStartTime).getTime(); //開始点呼からの経過時間
             const elapsedHours = Math.floor(elapseTime / 3600000);
             const elapsedMinutes = Math.floor((elapseTime % 3600000) / 60000);
