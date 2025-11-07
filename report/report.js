@@ -15,12 +15,12 @@ document.addEventListener('DOMContentLoaded', () => {
         tableContainer.innerHTML = '<p>履歴がありません。</p>';
         return;
     }
-
+    console.log("history=",history);
     // 3. 履歴データを日付ごとに開始・終了時刻をまとめる
     // 例: { "2024-07-21": { start: "...", end: "..." }, ... }
     const dailyRecords = {};
     history.forEach(record => {
-        //console.log("report:29",record.start_time,record.end_time);
+
         const dateTimeString = record.start_time || record.end_time;
         if (!dateTimeString) return;
 
@@ -40,15 +40,17 @@ document.addEventListener('DOMContentLoaded', () => {
         //          前日の終了時刻とする（終了時刻が前日の深夜0時を超えた例外）
         //          
         if (record.end_time) {
+            //例外1の処理
             let nowDate = new Date(recordDateStr);
             let lastDate = nowDate.setDate(nowDate.getDate() - 1);
             let lastDateStr = getFormattedDate(lastDate);
             console.log("lastDateStr=",lastDateStr);
             if (!dailyRecords[recordDateStr].start_time && dailyRecords[lastDateStr] && !dailyRecords[lastDateStr].end_time) {
                 dailyRecords[lastDateStr].end_time = record.end_time;
+            //通常処理
             }else if (!dailyRecords[recordDateStr].end_time || new Date(record.end_time) > new Date(dailyRecords[recordDateStr].end_time)) {
                 dailyRecords[recordDateStr].end_time = record.end_time;
-                console.log("report:44:end=", recordDateStr, dailyRecords[recordDateStr].end_time);
+                console.log("end=", recordDateStr, dailyRecords[recordDateStr].end_time);
             }        
         }
     });
@@ -117,7 +119,7 @@ const tenkoTimeTable = (records) => {
         let tr = document.createElement('tr');
 
         let dayOfWeek = week[currentDate.getDay()]; // 曜日
-        let formattedDate = `${currentDate.getMonth() + 1}/${currentDate.getDate()} ${dayOfWeek}`;
+        let formattedDate = `${currentDate.getMonth() + 1}/${currentDate.getDate()} ${dayOfWeek}`;  //月日
 
         let startTime = '-';
         let endTime = '-';
@@ -129,6 +131,7 @@ const tenkoTimeTable = (records) => {
         if (record) {
             const startDate = new Date(record.start_time);
             const endDate = new Date(record.end_time);
+            //開始時間と終了時間の両方が存在する場合
             if (record.start_time && record.end_time) {
                 // 開始時間・終了時間 (例: 8時10分)
                 startTime = `${startDate.getHours()}：${startDate.getMinutes().toString().padStart(2, '0')}`;
@@ -140,8 +143,10 @@ const tenkoTimeTable = (records) => {
                     const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
                     tenkoDuration = `${diffHours}時間${diffMinutes.toString().padStart(2, '0')}分`;
                 }
+            //開始時間だけが存在する場合
             }else if(record.start_time){
                 startTime = `${startDate.getHours()}：${startDate.getMinutes().toString().padStart(2, '0')}`;
+            //終了時間だけが存在する場合
             }else if(record.end_time){
                 endTime = `${endDate.getHours()}：${endDate.getMinutes().toString().padStart(2, '0')}`;
             }
