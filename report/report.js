@@ -8,18 +8,37 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // 2. localStorageから履歴全データ（過去32日間）を取得
+    // 2. localStorageから履歴全データ（過去32日間、日付の新しい順）を取得（ => history[]）
     const history = JSON.parse(localStorage.getItem(REPORT_HISTORY_KEY)) || [];
 
     if (history.length === 0) {
         tableContainer.innerHTML = '<p>履歴がありません。</p>';
         return;
     }
-    console.log("history=",history);
-    // 3. 履歴データを日付ごとに開始・終了時刻をまとめる
+    //履歴全データから表示する今月のデータだけを日付の古い順（1日→31日）で抽出、保存（ => rHistory）
+    const rHistory = [];
+    let r = 0;
+    let fandlDay = getfandlMonthDay();
+    let startTime;   // <= start_time : "2025-11-05 10:20"
+    let firstDay = fandlDay[0];   // 月初　"2025-11-01" のDateオブジェクト
+    //let lastDay = fandlDay[1];   // 月末　"2025-11-30" のDateオブジェクト
+    console.log("firstDate=",firstDay);
+    //console.log("lastDate=",lastDay);
+
+    for (let i = history.length - 1; i >= 0; i--) {
+        startTime = new Date(history[i].start_time)
+        if(firstDay <= startTime){
+            rHistory[r] = history[i];
+            console.log(r,"=",rHistory[r]);
+            r++;
+        }
+    }
+    //console.log("rHistory=",rHistory);
+
+    // 3. 履歴データを日付ごとに開始・終了時刻をまとめる（=> dailyRekords）
     // 例: { "2024-07-21": { start: "...", end: "..." }, ... }
     const dailyRecords = {};
-    history.forEach(record => {
+    rHistory.forEach(record => {
 
         const dateTimeString = record.start_time || record.end_time;
         if (!dateTimeString) return;
@@ -63,6 +82,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 });
+
+function getfandlMonthDay(){
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth() + 1;
+    const firstDay = new Date(year, month - 1, 1);
+    const lastDay = new Date(year, month, 0);
+    return [firstDay, lastDay];
+}
 
 function getFormattedDate(dateTime) {
     const now = new Date(dateTime);
