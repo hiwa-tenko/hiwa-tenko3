@@ -26,8 +26,9 @@ document.addEventListener('DOMContentLoaded', () => {
     //console.log("lastDate=",lastDay);
 
     for (let i = history.length - 1; i >= 0; i--) {
-        startTime = new Date(history[i].start_time)
-        if(firstDay <= startTime){
+        startTime = new Date(history[i].start_time);
+        endTime = new Date(history[i].end_time);
+        if(firstDay <= startTime || firstDay <= endTime){
             rHistory[r] = history[i];
             console.log(r,"=",rHistory[r]);
             r++;
