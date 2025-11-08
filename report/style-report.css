@@ -135,7 +135,7 @@ body {
 }
 
 .report-table th {
-    background-color: #f2f2f2;
+    background-color: #d8ffff;
     font-weight: bold;
 }
 
@@ -151,5 +151,19 @@ body {
 /* 1列目を太字にする*/
 .report-table td:first-child {
     font-weight: bold;
+}
+
+/* 日曜と土曜のテーブルセル（1列目）の背景色を設定*/
+.weekColor-0 {  /* 日曜 */
+    background-color: #f28989;
+    color: #000;
+}
+.weekColor-6 {  /* 土曜 */
+    background-color: #e3faa3;
+    color: #000;
+}
+.weekColor-ta {  /* 日曜 土曜以外*/
+    background-color: #666;
+    color: #fff;
 }
 

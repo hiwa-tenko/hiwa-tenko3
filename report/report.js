@@ -146,10 +146,13 @@ const tenkoTimeTable = (records) => {
             //const day = currentDate.getDate().toString().padStart(2, '0');
 
         let tr = document.createElement('tr');
-
-        let dayOfWeek = week[currentDate.getDay()]; // 曜日
+        let weekNum = currentDate.getDay(); // 曜日番号
+        let dayOfWeek = week[weekNum]; // 曜日：（日）
         let formattedDate = `${currentDate.getMonth() + 1}/${currentDate.getDate()} ${dayOfWeek}`;  //月日
-
+        let weekColor = "weekColor-ta";
+        if(weekNum == 0 || weekNum == 6){
+            weekColor = "weekColor-" + String(weekNum); // 日曜・土曜の背景色のクラス
+        }
         let startTime = '-';
         let endTime = '-';
         let tenkoDuration = '-';
@@ -182,7 +185,7 @@ const tenkoTimeTable = (records) => {
         }
 
         tr.innerHTML = `
-            <td>${formattedDate}</td>
+            <td class="${weekColor}">${formattedDate}</td>
             <td>${startTime}</td>
             <td>${endTime}</td>
             <td>${tenkoDuration}</td>
