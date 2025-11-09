@@ -1,6 +1,6 @@
 ﻿// Hiwa点呼3
 //version H: HP, F: Fujitsu
-const version = "060H";//20251109
+const version = "062H";//20251109
 console.log("version=",version);
 document.getElementById('title_ver').textContent= "ver " + version;
 
@@ -149,18 +149,20 @@ const handleFormSubmit = async (e) => {
     const nowTime = new Date().getTime();  // 現在時刻
     
     const limitTime = nHours * 60 * 60 * 1000; // n時間を表すミリ秒
-    const lastStartTime = startTimeInput.value;
-    const lastEndTime = endTimeInput.value;
-        console.log("lastStartTime=",lastStartTime);
-        //console.log("lastStartTime=",new Date(lastStartTime));
+    //const lastStartTime = startTimeInput.value;
+    lastStartTime1 = localStorage.getItem(START_TIME_KEY); // 前回の開始点呼の日付(2025-11-02 11:10) 
+    const lastEndTime1 = localStorage.getItem(END_TIME_KEY); // 前回の開始点呼の日付(2025-11-02 11:10) 
+    //const lastEndTime = endTimeInput.value;
+        console.log("lastStartTime1=",lastStartTime1);
+        console.log("lastStartTimeDate=",new Date(lastStartTime1).getDate());
 
-    if (lastStartTime) { // 前回の開始点呼がある場合のみチェック
+    if (lastStartTime1) { // 前回の開始点呼がある場合のみチェック
         //const elapsedStartTime = nowTime - new Date(lastStartTime).getTime();
         //if (elapsedStartTime < limitTime) {     //前回の開始点呼の時間からnHours時間以内
             //confirmFlag = true;
         //}
         if (startEndText == "開始") {   //前回の開始点呼と同日の場合
-            if (nowDay == new Date(lastStartTime).getDate()){
+            if (nowDay == new Date(lastStartTime1).getDate()){
                 //confirmFlag = true;
                 confirmMessage = "すでに開始点呼が送信されています。\n";
                 return;
@@ -207,7 +209,7 @@ const handleFormSubmit = async (e) => {
 
     //現在時刻を開始あるいは終了点呼の時刻にセット
 
-    const lastStartTime1 = localStorage.getItem(START_TIME_KEY); // 前回の開始点呼の日付(2025-11-02 11:10) 
+
     const currentDate1 = getCurrentDate(); // 2025-11-03
     const current_time1 = getFormattedCurrentDateTime(); //2025-11-03 10:10
 
