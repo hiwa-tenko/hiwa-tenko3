@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // 終了点呼 ：その日の最も遅い終了時刻を記録する（つまり、常に最後の時刻で上書きされる）
         // 例外１   ：その日の開始時間が無い場合、かつ前日の日付の終了時刻が無い（-）場合は、
         //          前日の終了時刻とする（終了時刻が前日の深夜0時を超えた例外）
-        //          
+        // 例外２   ：
         if (record.end_time) {
             //例外1の処理
             let nowDate = new Date(recordDateStr);

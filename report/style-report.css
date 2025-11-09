@@ -135,7 +135,7 @@ body {
 }
 
 .report-table th {
-    background-color: #d8ffff;
+    /*background-color: #d8ffff;*/
     font-weight: bold;
 }
 
@@ -159,7 +159,7 @@ body {
     color: #000;
 }
 .weekColor-6 {  /* 土曜 */
-    background-color: #e3faa3;
+    background-color: #c2ff82;
     color: #000;
 }
 .weekColor-ta {  /* 日曜 土曜以外*/

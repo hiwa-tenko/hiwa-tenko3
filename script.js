@@ -1,15 +1,16 @@
 ﻿// Hiwa点呼3
 //version H: HP, F: Fujitsu
-const version = "052H";//20251108
+const version = "054H";//20251109
 console.log("version=",version);
 document.getElementById('title_ver').textContent= "ver " + version;
 
 /*
 【未修正箇所】◎：修正済
 ◎20251105 ：script.js    ・20251107完了：業務時間が停止しない（開始時間、終了時間がある場合でも）
-20251105 ：report.js    ・土、日の月日の色変更
+◎20251105 ：report.js    ・20251108完了：土、日の月日の色変更
 ◎20251105 ：report.js    ・20251107完了：終了時間が次の日になった場合の例外対応
 20251107 : script.js    ・業務時間（終了－開始）が15時間を超える場合の表示
+◎20251109 ：report.js    ・20251109完了：前回の開始時間が前日以前になった場合背景色をグレー
 */
 
 // supabaseクライアントをインポート
@@ -164,16 +165,16 @@ const handleFormSubmit = async (e) => {
         }
     }
     if (lastEndTime) { // 前回の終了点呼がある場合のみチェック
-        const elapsedEndTime = nowTime - new Date(lastEndTime).getTime();
-        if (elapsedEndTime < limitTime) {     //前回の終了点呼の時間からnHours時間以内
-            confirmFlag = true;
-        }
-        if (startEndText == "終了") {   //前回の終了点呼と同日の場合
-            if (nowDay == new Date(lastEndTime).getDate()){
+        //const elapsedEndTime = nowTime - new Date(lastEndTime).getTime();
+        //if (elapsedEndTime < limitTime) {     //前回の終了点呼の時間からnHours時間以内
+            //confirmFlag = true;
+        //}
+        //if (startEndText == "終了") {   //前回の終了点呼と同日の場合
+            //if (nowDay == new Date(lastEndTime).getDate()){
                 confirmFlag = true;
                 confirmMessage = "すでに終了点呼が送信されています。\n";
-            }
-        }
+            //}
+        //}
     }
 
 
@@ -236,7 +237,6 @@ const handleFormSubmit = async (e) => {
     // 車両番号から数字以外の文字を削除し、スプレッドシート用にシングルクォートを付与
     //let number = numberInput.value.replace(/\D/g, '');
     let number = numberInput.value; // 車両番号
-
 
     const accessToken = session.access_token;
     const user = session.user;  //現在のログインユーザObject
@@ -727,13 +727,30 @@ const setTenkoButton = () => {
             endTimeDiv.textContent= savedTenkoEnd;
       
         } else if(savedStartEnd === "開始"){  //前回が開始点呼の場合
-            // 開始点呼をセット
+            // 開始点呼ボタンをセット
             submitButton.textContent = "開始　点呼";
             submitButton.style.background = '#3968d4ff';
             startEnd.textContent = "開始";
+            // 開始・終了・業務時間をセット
             startTimeDiv.textContent = savedTenkoStart;
             durationTimeDiv.textContent = savedTenkoDuration;
             endTimeDiv.textContent= savedTenkoEnd;
+            //開始時刻が前日以前だった場合は背景色をグレー
+            const currentDay = getCurrentDay();
+            const lastStartDay = getFormattedDay(savedStartTime);
+                console.log("currentDay = "+currentDay);
+                console.log("lastStartDay = "+lastStartDay);
+            if(currentDay === lastStartDay){
+                startTimeDiv.style.backgroundColor = '#000' ;
+                durationTimeDiv.style.backgroundColor = '#000';
+                endTimeDiv.style.backgroundColor = '#000';
+            }else{
+                startTimeDiv.style.backgroundColor = '#aaa' ;
+                durationTimeDiv.style.backgroundColor = '#aaa';
+                endTimeDiv.style.backgroundColor = '#aaa';
+
+            }
+
         } else {    //前回が初期の場合
             // 開始点呼ボタンに切り替える
             submitButton.textContent = "開始　点呼";
@@ -743,6 +760,22 @@ const setTenkoButton = () => {
             endTimeDiv.textContent = "";
             durationTimeDiv.textContent = "0時間0分";
         }
+}
+
+//現在の日付けを形式フォーマット(11/3)を返す関数
+function getCurrentDay() {
+    const nowTime = new Date();
+    const month = (nowTime.getMonth() + 1).toString();
+    const day = nowTime.getDate().toString();
+    return `${month}/${day}`;
+}
+
+//点呼の開始、終了の時刻の形式フォーマット(11/3)を返す関数
+function getFormattedDay(savedTime) {
+    const nowTime = new Date(savedTime);
+    const month = (nowTime.getMonth() + 1).toString();
+    const day = nowTime.getDate().toString();
+    return `${month}/${day}`;
 }
 
 //点呼の開始、終了の時刻の形式フォーマットで日時(11/3 10:29)を返す関数
