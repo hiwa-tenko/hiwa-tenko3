@@ -1,6 +1,6 @@
 ﻿// Hiwa点呼3
 //version H: HP, F: Fujitsu
-const version = "054H";//20251109
+const version = "056H";//20251109
 console.log("version=",version);
 document.getElementById('title_ver').textContent= "ver " + version;
 
@@ -343,6 +343,8 @@ const handleFormSubmit = async (e) => {
         //console.error('Error:', error);
     })
     .finally(() => {
+        //ページが読み込まれた時、点呼ボタンの表示を設定
+        setTenkoButton();
         // 送信完了後、ユーザーがメッセージを確認する時間を考慮し、
         // オーバーレイの非表示とボタンの有効化のタイミングを分離します。
 
