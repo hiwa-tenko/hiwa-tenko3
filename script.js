@@ -1,6 +1,6 @@
 ﻿// Hiwa点呼3
 //version H: HP, F: Fujitsu
-const version = "056H";//20251109
+const version = "058H";//20251109
 console.log("version=",version);
 document.getElementById('title_ver').textContent= "ver " + version;
 
@@ -151,16 +151,19 @@ const handleFormSubmit = async (e) => {
     const limitTime = nHours * 60 * 60 * 1000; // n時間を表すミリ秒
     const lastStartTime = startTimeInput.value;
     const lastEndTime = endTimeInput.value;
+        console.log("nowDay=",nowDay);
+        console.log("lastStartTime=",new Date(lastStartTime));
 
     if (lastStartTime) { // 前回の開始点呼がある場合のみチェック
-        const elapsedStartTime = nowTime - new Date(lastStartTime).getTime();
-        if (elapsedStartTime < limitTime) {     //前回の開始点呼の時間からnHours時間以内
-            confirmFlag = true;
-        }
+        //const elapsedStartTime = nowTime - new Date(lastStartTime).getTime();
+        //if (elapsedStartTime < limitTime) {     //前回の開始点呼の時間からnHours時間以内
+            //confirmFlag = true;
+        //}
         if (startEndText == "開始") {   //前回の開始点呼と同日の場合
             if (nowDay == new Date(lastStartTime).getDate()){
-                confirmFlag = true;
+                //confirmFlag = true;
                 confirmMessage = "すでに開始点呼が送信されています。\n";
+                return;
             }
         }
     }
@@ -208,9 +211,9 @@ const handleFormSubmit = async (e) => {
     const currentDate1 = getCurrentDate(); // 2025-11-03
     const current_time1 = getFormattedCurrentDateTime(); //2025-11-03 10:10
 
-    console.log("201: lastStartTime1= ",lastStartTime1);
-    console.log("203: currentDate1= ",currentDate1);
-    console.log("204: current_time1= ",current_time1);
+    //console.log("201: lastStartTime1= ",lastStartTime1);
+    //console.log("203: currentDate1= ",currentDate1);
+    //console.log("204: current_time1= ",current_time1);
 
     //開始の場合：現在時刻の日付が前回の開始点呼の日付と同じなら上書きしない
     if (startEndText === "開始") { 
@@ -534,14 +537,14 @@ const keepServerWarm = () => {
     fetch(PING_URL)
         .then(response => {
             if (response.ok) {
-                console.log('サーバーは起動中です。');
+                console.log('サーバーは起動中');
             } else {
-                console.warn('サーバーへのpingに失敗しました。', response.status);
+                console.warn('サーバーへのpingに失敗:', response.status);
             }
         })
         .catch(error => {
             // ネットワークエラーなどでリクエスト自体が失敗した場合
-            console.error('サーバーへのping送信中にエラーが発生しました:', error);
+            console.error('サーバーへのping送信中にエラーが発生:', error);
         });
 };
 
@@ -740,8 +743,8 @@ const setTenkoButton = () => {
             //開始時刻が前日以前だった場合は背景色をグレー
             const currentDay = getCurrentDay();
             const lastStartDay = getFormattedDay(savedStartTime);
-                console.log("currentDay = "+currentDay);
-                console.log("lastStartDay = "+lastStartDay);
+                //console.log("currentDay = "+currentDay);
+                //console.log("lastStartDay = "+lastStartDay);
             if(currentDay === lastStartDay){
                 startTimeDiv.style.backgroundColor = '#000' ;
                 durationTimeDiv.style.backgroundColor = '#000';

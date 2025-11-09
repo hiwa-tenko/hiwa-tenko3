@@ -135,7 +135,8 @@ body {
 }
 
 .report-table th {
-    /*background-color: #d8ffff;*/
+    background-color: #000;
+    color: #fff;
     font-weight: bold;
 }
 
