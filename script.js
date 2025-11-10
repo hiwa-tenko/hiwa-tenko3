@@ -1,6 +1,6 @@
 ﻿// Hiwa点呼3
 //version H: HP, F: Fujitsu
-const version = "072H";//20251109
+const version = "074H";//20251109
 console.log("version=",version);
 document.getElementById('title_ver').textContent= "ver " + version;
 
@@ -152,8 +152,8 @@ const handleFormSubmit = async (e) => {
     const lastStartTime1 = localStorage.getItem(START_TIME_KEY); // 前回の開始点呼の日付(2025-11-02 11:10) 
     const lastEndTime1 = localStorage.getItem(END_TIME_KEY); // 前回の開始点呼の日付(2025-11-02 11:10) 
     //const lastEndTime = endTimeInput.value;
-        console.log("lastStartTime1=",lastStartTime1);
-        console.log("lastStartTimeDate=",new Date(lastStartTime1).getDate());
+        //console.log("lastStartTime1=",lastStartTime1);
+        //console.log("lastStartTimeDate=",new Date(lastStartTime1).getDate());
 
     //if (lastStartTime1) { // 前回の開始点呼がある場合のみチェック
         //const elapsedStartTime = nowTime - new Date(lastStartTime).getTime();
@@ -179,10 +179,10 @@ const handleFormSubmit = async (e) => {
             //confirmFlag = true;
         //}
         //if (startEndText == "終了") {   //前回の終了点呼と同日の場合
-            //if (nowDay == new Date(lastEndTime).getDate()){
+            if (nowDay == new Date(lastEndTime1).getDate()){
                 confirmFlag = true;
                 confirmMessage = "すでに終了点呼が送信されています。\n";
-            //}
+            }
         //}
         }
     }
@@ -229,6 +229,9 @@ const handleFormSubmit = async (e) => {
             endTimeInput.value="";
             durationTimeDiv.textContent = "0時間0分";
             endTimeDiv.textContent = "";
+            startTimeDiv.style.backgroundColor = '#000' ;
+            durationTimeDiv.style.backgroundColor = '#000';
+            endTimeDiv.style.backgroundColor = '#000';
         }
     //終了の場合：
     }else if (startEndText === "終了") {   //終了点呼の場合
