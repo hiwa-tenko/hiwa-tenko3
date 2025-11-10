@@ -1,6 +1,6 @@
 ﻿// Hiwa点呼3
 //version H: HP, F: Fujitsu
-const version = "074H";//20251109
+const version = "075F";//20251111
 console.log("version=",version);
 document.getElementById('title_ver').textContent= "ver " + version;
 
@@ -173,7 +173,8 @@ const handleFormSubmit = async (e) => {
             }
         }
     }else if (startEndText == "終了") {   //前回の終了点呼と同日の場合
-        if (lastEndTime1) { // 前回の終了点呼がある場合のみチェック
+        const endTime1 = endTimeDiv.textContent;
+        if (endTime1 != "") { // 終了時刻がある場合のみチェック
         //const elapsedEndTime = nowTime - new Date(lastEndTime).getTime();
         //if (elapsedEndTime < limitTime) {     //前回の終了点呼の時間からnHours時間以内
             //confirmFlag = true;
@@ -212,8 +213,6 @@ const handleFormSubmit = async (e) => {
     startEndSwitch(startEndText);   //開始、終了のステータスを変更
 
     //現在時刻を開始あるいは終了点呼の時刻にセット
-
-
     const currentDate1 = getCurrentDate(); // 2025-11-03
     const current_time1 = getFormattedCurrentDateTime(); //2025-11-03 10:10
 
@@ -329,7 +328,7 @@ const handleFormSubmit = async (e) => {
     .then(resData => {
         if (resData.status === 'success') {
             //if (overlayMessage) overlayMessage.textContent = resData.message;
-            messageText.textContent = resData.message;
+            messageText.textContent = startEndText + resData.message;
             messageText.className = 'success';
             console.log('Supabase DB に保存成功:', resData.message);
             saveStateAndHistory(data); // 送信成功時に状態と履歴を保存
