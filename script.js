@@ -1,6 +1,6 @@
 ﻿// Hiwa点呼3
 //version H: HP, F: Fujitsu
-const version = "070H";//20251109
+const version = "072H";//20251109
 console.log("version=",version);
 document.getElementById('title_ver').textContent= "ver " + version;
 
@@ -9,7 +9,6 @@ document.getElementById('title_ver').textContent= "ver " + version;
 ◎20251105 ：script.js    ・20251107完了：業務時間が停止しない（開始時間、終了時間がある場合でも）
 ◎20251105 ：report.js    ・20251108完了：土、日の月日の色変更
 ◎20251105 ：report.js    ・20251107完了：終了時間が次の日になった場合の例外対応
-20251107 : script.js    ・業務時間（終了－開始）が15時間を超える場合の表示
 ◎20251109 ：report.js    ・20251109完了：前回の開始時間が前日以前になった場合背景色をグレー
 */
 
@@ -156,24 +155,25 @@ const handleFormSubmit = async (e) => {
         console.log("lastStartTime1=",lastStartTime1);
         console.log("lastStartTimeDate=",new Date(lastStartTime1).getDate());
 
-    if (lastStartTime1) { // 前回の開始点呼がある場合のみチェック
+    //if (lastStartTime1) { // 前回の開始点呼がある場合のみチェック
         //const elapsedStartTime = nowTime - new Date(lastStartTime).getTime();
         //if (elapsedStartTime < limitTime) {     //前回の開始点呼の時間からnHours時間以内
             //confirmFlag = true;
         //}
-        if (startEndText == "開始") {   //前回の開始点呼と同日の場合
+    if (startEndText == "開始") {   //前回の開始点呼と同日の場合
+        if (lastStartTime1) { // 前回の開始点呼がある場合のみチェック
             if (nowDay == new Date(lastStartTime1).getDate()){   //前回の開始点呼と同日の場合
                 //confirmFlag = true;
                 startEndSwitch(startEndText);   //開始、終了点呼だけを切り替え
-                submitButton.disabled = false;// ボタンを再度有効化
+                submitButton.disabled = false;  // ボタンを再度有効化
                 
                 confirmMessage += "すでに開始点呼が送信されています。";
                 messageDisplay(confirmMessage);
                 return;
             }
         }
-    }
-    if (lastEndTime1) { // 前回の終了点呼がある場合のみチェック
+    }else if (startEndText == "終了") {   //前回の終了点呼と同日の場合
+        if (lastEndTime1) { // 前回の終了点呼がある場合のみチェック
         //const elapsedEndTime = nowTime - new Date(lastEndTime).getTime();
         //if (elapsedEndTime < limitTime) {     //前回の終了点呼の時間からnHours時間以内
             //confirmFlag = true;
@@ -184,8 +184,8 @@ const handleFormSubmit = async (e) => {
                 confirmMessage = "すでに終了点呼が送信されています。\n";
             //}
         //}
+        }
     }
-
 
     if(confirmFlag){
             // 確認ダイアログを表示
