@@ -1,6 +1,6 @@
 ﻿// Hiwa点呼3
 //version H: HP, F: Fujitsu
-const version = "080H";//20251111
+const version = "082H";//20251111
 console.log("version=",version);
 document.getElementById('title_ver').textContent= "ver " + version;
 
@@ -872,13 +872,13 @@ function displayDurationTime() {
         const savedStartTime = localStorage.getItem(START_TIME_KEY);    //前回の開始点呼時間
         //console.log("savedStartTime= "+savedStartTime);
         //開始時刻が有り、かつ終了時刻が無い場合は業務時間を更新
-        if (startTimeDiv.textContent != "" && endTimeDiv.textContent == "") { 
+        //if (startTimeDiv.textContent != "" && endTimeDiv.textContent == "") { 
             const elapseTime = new Date().getTime() - new Date(savedStartTime).getTime(); //開始点呼からの経過時間
             const elapsedHours = Math.floor(elapseTime / 3600000);
             const elapsedMinutes = Math.floor((elapseTime % 3600000) / 60000);
             //const elapsedSeconds = Math.floor((elapseTime % 60000) / 1000);
             durationTimeDiv.textContent = `${elapsedHours}時間${elapsedMinutes}分`;
-        }
+        //}
 }
 
 /*
