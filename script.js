@@ -1,6 +1,6 @@
 ﻿// Hiwa点呼3
 //version H: HP, F: Fujitsu
-const version = "075F";//20251111
+const version = "076H";//20251111
 console.log("version=",version);
 document.getElementById('title_ver').textContent= "ver " + version;
 
@@ -160,6 +160,7 @@ const handleFormSubmit = async (e) => {
         //if (elapsedStartTime < limitTime) {     //前回の開始点呼の時間からnHours時間以内
             //confirmFlag = true;
         //}
+        console.log("startEndText=",startEndText);
     if (startEndText == "開始") {   //前回の開始点呼と同日の場合
         if (lastStartTime1) { // 前回の開始点呼がある場合のみチェック
             if (nowDay == new Date(lastStartTime1).getDate()){   //前回の開始点呼と同日の場合
