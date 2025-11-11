@@ -1,6 +1,6 @@
 ﻿// Hiwa点呼3
 //version H: HP, F: Fujitsu
-const version = "076H";//20251111
+const version = "078H";//20251111
 console.log("version=",version);
 document.getElementById('title_ver').textContent= "ver " + version;
 
@@ -193,7 +193,7 @@ const handleFormSubmit = async (e) => {
             // 確認ダイアログを表示
             const isConfirmed = confirm(
                 confirmMessage +
-                `本当に`+ startEndText + `点呼を送信しますか？\n（キャンセルで送信はしないで、点呼ボタンだけを切り替えます。）`
+                `本当に`+ startEndText + `点呼を送信しますか？\n（キャンセルで点呼ボタンだけを切り替えます。）`
             );
 
             // ユーザーが「キャンセル」を押した場合
@@ -211,7 +211,7 @@ const handleFormSubmit = async (e) => {
         overlay.classList.remove('hidden');
     }
 
-    startEndSwitch(startEndText);   //開始、終了のステータスを変更
+   
 
     //現在時刻を開始あるいは終了点呼の時刻にセット
     const currentDate1 = getCurrentDate(); // 2025-11-03
@@ -242,6 +242,8 @@ const handleFormSubmit = async (e) => {
             endTimeInput.value = current_time1;
         
     }
+
+    startEndSwitch(startEndText);   //開始、終了のステータスを変更
 
     //console.log("startEnd = "+startEnd.textContent);
     let name = nameInput.value.replace(/\s/g, '');  // 運転者氏名　スペース（全・半角）を削除
@@ -366,12 +368,12 @@ const handleFormSubmit = async (e) => {
         if (overlay) {
             overlay.classList.add('hidden');
         }
-        // 5秒後にメッセージを非表示
+        // 6秒後にメッセージを非表示
         setTimeout(() => {
             messageText.textContent = '';
             submitButton.disabled = false;// ボタンを再度有効化
             loadFormDataFromLocalStorage(); // LocalStorageの保存データを取得・表示
-        }, 5000); // 5秒
+        }, 6000); // 6秒
     });
     //supabase DB (API_URL) に保存  --end--  
 };
