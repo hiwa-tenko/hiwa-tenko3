@@ -1,6 +1,6 @@
 ﻿// Hiwa点呼3
 //version H: HP, F: Fujitsu
-const version = "078H";//20251111
+const version = "080H";//20251111
 console.log("version=",version);
 document.getElementById('title_ver').textContent= "ver " + version;
 
@@ -238,7 +238,7 @@ const handleFormSubmit = async (e) => {
 
             endTimeDiv.textContent= getFormattedTime(current_time1);  //終了時刻
             startTimeInput.value="";
-            displayDurationTime();  //業務時間を再計算して表示
+            //displayDurationTime();  //業務時間を再計算して表示
             endTimeInput.value = current_time1;
         
     }
@@ -373,6 +373,7 @@ const handleFormSubmit = async (e) => {
             messageText.textContent = '';
             submitButton.disabled = false;// ボタンを再度有効化
             loadFormDataFromLocalStorage(); // LocalStorageの保存データを取得・表示
+            displayDurationTime();
         }, 6000); // 6秒
     });
     //supabase DB (API_URL) に保存  --end--  
