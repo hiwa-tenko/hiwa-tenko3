@@ -1,6 +1,6 @@
 ﻿// Hiwa点呼3
 //version H: HP, F: Fujitsu
-const version = "0.866H";//20251112
+const version = "0.868H";//20251112
 console.log("version=",version);
 document.getElementById('title_ver').textContent= "ver. " + version;
 
@@ -152,7 +152,7 @@ const handleFormSubmit = async (e) => {
     const lastStartTime1 = localStorage.getItem(START_TIME_KEY); // 前回の開始点呼の日付(2025-11-02 11:10) 
     const lastEndTime1 = localStorage.getItem(END_TIME_KEY); // 前回の開始点呼の日付(2025-11-02 11:10) 
     //const lastEndTime = endTimeInput.value;
-        //console.log("lastStartTime1=",lastStartTime1);
+        console.log("lastStartTime1=",lastStartTime1);
         //console.log("lastStartTimeDate=",new Date(lastStartTime1).getDate());
 
     //if (lastStartTime1) { // 前回の開始点呼がある場合のみチェック
