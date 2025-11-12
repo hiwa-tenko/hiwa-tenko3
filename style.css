@@ -628,7 +628,7 @@ textarea {
     padding: 10px 15px;
     color: #333;
     text-decoration: none;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #888;
     white-space: nowrap; /* テキストが折り返さないようにする */
 }
 
@@ -641,9 +641,11 @@ textarea {
 }
 
 .nav-menu li span {
-    padding: 5px 10px;
-    color: #fff;
-    background-color: #333;
+    display: block;
+    padding: 5px 15px;
+    font-size: 0.9em;
+    color: #333;
+    text-align: right;
 }
 
 /* --- 認証フォームのスタイル --- */
