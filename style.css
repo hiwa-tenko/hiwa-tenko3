@@ -418,11 +418,9 @@ textarea {
 
 .message-container {
     width: 100%;
-    height: 1.2em;
     font-size: 1.0em;
     text-align: center;
     margin: 12px auto;
-    font-weight: bold;
     color: #000;
 }
 
@@ -603,10 +601,10 @@ textarea {
     position: absolute; /* 絶対位置で配置 */
     top: calc(100% + 5px); /* アイコンの真下 (5pxの余白) */
     right: 0; /* 右端に配置 */
-    background-color: #fff;
-    border: 1px solid #ddd;
+    background-color: #eef3b0;
+    border: 1px solid #aaa;
     border-radius: 4px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
     z-index: 1000; /* 他の要素より手前に表示 */
     width: 140px; /* メニューの幅を適宜設定 */
     display: none; /* 初期状態では非表示 */
@@ -640,6 +638,12 @@ textarea {
 
 .nav-menu li a:hover {
     background-color: #f5f5f5;
+}
+
+.nav-menu li span {
+    padding: 5px 10px;
+    color: #fff;
+    background-color: #333;
 }
 
 /* --- 認証フォームのスタイル --- */
