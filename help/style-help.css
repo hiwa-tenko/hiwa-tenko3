@@ -74,11 +74,28 @@ body {
     color: #005ab3;
     margin: 0;
 }
-
+.link-back {
+    text-align: center;
+    margin-top: 30px;
+}
+.back-button img { /*arrow_back1.svg*/
+    width: 2.5em;
+    height: 2.5em;
+    margin-right: 0;
+    cursor: pointer; /* クリックできることを示すカーソル */
+}
+.top-button img { /*arrow_top1.svg*/
+    width: 2.5em;
+    height: 2.5em;
+    margin-right: 0;
+    cursor: pointer; /* クリックできることを示すカーソル */
+}
+/*
 .help-back {
     text-align: center;
     margin-top: 30px;
 }
+
 .back-button {
     display: inline-block;
     padding: 6px 8px;
@@ -94,7 +111,7 @@ body {
 .back-button:hover {
     background-color: #c9dff3;
 }
-
+*/
 .help-content {
     background-color: #fff;
     padding: 20px;
