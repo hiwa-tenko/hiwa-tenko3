@@ -1,6 +1,6 @@
 ﻿// Hiwa点呼3
 //version H: HP, F: Fujitsu
-const version = "0.870H";//20251112
+const version = "0.872H";//20251112
 console.log("version=",version);
 document.getElementById('title_ver').textContent= "ver. " + version;
 
@@ -223,15 +223,26 @@ const handleFormSubmit = async (e) => {
 
     //開始の場合：現在時刻の日付が前回の開始点呼の日付と同じなら上書きしない
     if (startEndText === "開始") { 
-        if( lastStartTime1.indexOf(currentDate1) < 0 || lastStartTime1 == ""){
-            startTimeDiv.textContent= getFormattedTime(current_time1);  //開始時刻
-            startTimeInput.value = current_time1;
-            endTimeInput.value="";
-            durationTimeDiv.textContent = "0時間0分";
-            endTimeDiv.textContent = "";
-            startTimeDiv.style.backgroundColor = '#000' ;
-            durationTimeDiv.style.backgroundColor = '#000';
-            endTimeDiv.style.backgroundColor = '#000';
+        if(lastStartTime1){  //前回の開始点呼の日付 がある場合
+            if( lastStartTime1.indexOf(currentDate1) < 0){  //同日ではない場合
+                startTimeDiv.textContent= getFormattedTime(current_time1);  //開始時刻
+                startTimeInput.value = current_time1;
+                endTimeInput.value="";
+                durationTimeDiv.textContent = "0時間0分";
+                endTimeDiv.textContent = "";
+                startTimeDiv.style.backgroundColor = '#000' ;
+                durationTimeDiv.style.backgroundColor = '#000';
+                endTimeDiv.style.backgroundColor = '#000';
+            }
+        }else{  //前回の開始点呼の日付 が nullの場合
+                startTimeDiv.textContent= getFormattedTime(current_time1);  //開始時刻
+                startTimeInput.value = current_time1;
+                endTimeInput.value="";
+                durationTimeDiv.textContent = "0時間0分";
+                endTimeDiv.textContent = "";
+                startTimeDiv.style.backgroundColor = '#000' ;
+                durationTimeDiv.style.backgroundColor = '#000';
+                endTimeDiv.style.backgroundColor = '#000';
         }
     //終了の場合：
     }else if (startEndText === "終了") {   //終了点呼の場合
