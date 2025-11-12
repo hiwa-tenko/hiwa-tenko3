@@ -71,7 +71,6 @@ body {
 }
 .header-title span { 
     font-size: 1.1em;
-    font-weight: bold;
 }
 .logo { /*モンキーロゴ*/
     height: 3.0em;
@@ -557,43 +556,43 @@ textarea {
     margin-top: 10px;
 }
 
-/* --- メニューのスタイル --- */
+/* --- メニューのスタイル --- 
 .nav-menu {
-    display: none; /* デフォルトでは非表示 */
-    position: absolute; /* ページに対する絶対位置 */
-    top: 65px; /* ヘッダーの高さに応じて調整してください */
-    right: 20px; /* 画面の右端からの距離 */
+    display: none;
+    position: absolute;
+    top: 65px;
+    right: 20px;
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    z-index: 1000; /* 他の要素より手前に表示 */
+    z-index: 1000;
     border: 1px solid #eee;
 }
 
-/* JavaScriptでこのクラスを付け外しします */
+
 .nav-menu.visible {
     display: block;
 }
 
 .nav-menu ul {
-    list-style: none; /*箇条書きの黒丸を消す*/
+    list-style: none;
     margin: 0;
-    padding: 8px 0; /* 上下のpadding */
+    padding: 8px 0;
 }
 
 .nav-menu li a {
     display: block;
     padding: 10px 25px;
     color: #333;
-    text-decoration: none; /* リンクの下線を消す */
+    text-decoration: none;
     font-size: 16px;
     transition: background-color 0.2s ease-in-out;
 }
 
 .nav-menu li a:hover {
-    background-color: #f4f7f6; /* ホバー時の背景色 */
+    background-color: #f4f7f6;
 }
-
+*/
 /* メニューアイコンのコンテナを相対位置の基準にする */
 .header-menu {
     position: relative;
