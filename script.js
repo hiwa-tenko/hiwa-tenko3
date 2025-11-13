@@ -1,6 +1,6 @@
 ﻿// Hiwa点呼3
 //version H: HP, F: Fujitsu, A: AORUS, S: sykFujitsu
-const version = "0.875H";//20251113
+const version = "0.876H";//20251113
 //コミット例：　version = "0.873H";//20251113
 console.log("version=",version);
 document.getElementById('title_ver').textContent= "ver. " + version;
@@ -28,6 +28,7 @@ const form = document.getElementById('reportForm');
 const submitButton = document.getElementById('submitButton');
 const startEnd = document.getElementById('start_end');
 const messageText = document.getElementById('message_text');
+const statusText = document.getElementById('status_text');
 const overlay = document.getElementById('overlay');
 const loadingOverlay = document.getElementById('loading-overlay');
 const overlayMessage = document.getElementById('overlay-message');
@@ -754,9 +755,11 @@ const setTenkoButton = () => {
             submitButton.style.background = '#e53749ff';
             startEnd.textContent = "終了";
             startTimeDiv.textContent = savedTenkoStart;
-            //durationTimeDiv.textContent = savedTenkoDuration;
             displayDurationTime();
             endTimeDiv.textContent= savedTenkoEnd;
+            if(savedTenkoEnd === ""){   //終了時刻が無い場合（業務中ステータス）
+                statusText = "業務中"
+            }
       
         } else if(savedStartEnd === "開始"){  //前回が開始点呼の場合
             // 開始点呼ボタンをセット

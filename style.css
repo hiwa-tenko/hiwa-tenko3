@@ -418,9 +418,16 @@ textarea {
 
 .message-container {
     width: 100%;
+    margin: 12px auto;
+}
+.message-text {
     font-size: 1.0em;
     text-align: center;
-    margin: 12px auto;
+    color: #000;
+}
+.message-text {
+    font-size: 1.2em;
+    text-align: center;
     color: #000;
 }
 
