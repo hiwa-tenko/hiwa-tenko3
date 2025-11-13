@@ -1,6 +1,6 @@
 ﻿// Hiwa点呼3
 //version H: HP, F: Fujitsu, A: AORUS, S: sykFujitsu
-const version = "0.888F";//20251113
+const version = "0.889F";//20251114
 //コミット例：　version = "0.873H";//20251113
 console.log("version=",version);
 document.getElementById('title_ver').textContent= "ver. " + version;
@@ -91,11 +91,13 @@ const backendPHP_URL = 'https://qrepo.site/tenko_db/backupdb_mysql.php';
 
 // ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 
-// ページ読み込み時と1分ごとに日付と時刻を更新
+// ページ読み込み時と1分ごとに日付と時刻と業務時間を更新
 displayCurrentDate();
 setInterval(displayCurrentDate, 60000); // 60000ミリ秒 = 1分
 displayCurrentTime();
 setInterval(displayCurrentTime, 60000); // 60000ミリ秒 = 1分
+displayDurationTime();
+setInterval(displayDurationTime, 60000); // 60000ミリ秒 = 1分
 
 //開始、終了のステータスを切り替え
 function startEndSwitch(start_end) {
@@ -398,7 +400,7 @@ const handleFormSubmit = async (e) => {
             messageText.textContent = '';
             submitButton.disabled = false;// ボタンを再度有効化
             loadFormDataFromLocalStorage(); // LocalStorageの保存データを取得・表示
-            displayDurationTime();
+            durationTime();
         }, 6000); // 6秒
     });
     //supabase DB (API_URL) に保存  --end--  
@@ -764,7 +766,7 @@ const setTenkoButton = () => {
             submitButton.style.background = '#e53749ff';
             startEnd.textContent = "終了";
             startTimeDiv.textContent = savedTenkoStart;
-            displayDurationTime();
+            durationTime();
             endTimeDiv.textContent= savedTenkoEnd;
             if(savedTenkoEnd === ""){   //終了時刻が無い場合（業務中ステータス）
                 statusText.textContent = "業務中...";
@@ -902,11 +904,24 @@ function displayCurrentTime() {
     }
     //displayDurationTime();
 }
-//現在の業務時間（現在時刻ー開始時間）を更新して表示
+//現在の業務時間（現在時刻ー開始時間）を定期的に更新して表示
 function displayDurationTime() {
         const savedStartTime = localStorage.getItem(START_TIME_KEY);    //前回の開始点呼時間
         //console.log("savedStartTime= "+savedStartTime);
-        //開始時刻が有り、かつ終了時刻が無い場合は業務時間を更新
+        //開始時刻が有り、かつ終了時刻が無い場合()は業務時間を更新
+        if (startTimeDiv.textContent != "" && endTimeDiv.textContent == "") { 
+            const elapseTime = new Date().getTime() - new Date(savedStartTime).getTime(); //開始点呼からの経過時間
+            const elapsedHours = Math.floor(elapseTime / 3600000);
+            const elapsedMinutes = Math.floor((elapseTime % 3600000) / 60000);
+            //const elapsedSeconds = Math.floor((elapseTime % 60000) / 1000);
+            durationTimeDiv.textContent = `${elapsedHours}時間${elapsedMinutes}分`;
+        }
+}
+//現在の業務時間（現在時刻ー開始時間）を（１回だけ）更新
+function durationTime() {
+        const savedStartTime = localStorage.getItem(START_TIME_KEY);    //前回の開始点呼時間
+        //console.log("savedStartTime= "+savedStartTime);
+        //開始時刻が有り、かつ終了時刻が無い場合()は業務時間を更新
         //if (startTimeDiv.textContent != "" && endTimeDiv.textContent == "") { 
             const elapseTime = new Date().getTime() - new Date(savedStartTime).getTime(); //開始点呼からの経過時間
             const elapsedHours = Math.floor(elapseTime / 3600000);
