@@ -1,6 +1,6 @@
 ﻿// Hiwa点呼3
 //version H: HP, F: Fujitsu, A: AORUS, S: sykFujitsu
-const version = "0.874H";//20251113
+const version = "0.875H";//20251113
 //コミット例：　version = "0.873H";//20251113
 console.log("version=",version);
 document.getElementById('title_ver').textContent= "ver. " + version;
@@ -12,7 +12,7 @@ document.getElementById('title_ver').textContent= "ver. " + version;
 ◎20251105 ：report.js    ・20251107完了：終了時間が次の日になった場合の例外対応
 ◎20251109 ：report.js    ・20251109完了：前回の開始時間が前日以前になった場合背景色をグレー
 20251112：終了点呼ボタンが表示されている間は「業務中」みたいな表示
-20251112：終了点呼ボタンが表示されている間はチェックボックスをON(OFFにしないと上書き不可)
+20251112：開始・終了点呼終了後は、チェックボックスをON(終了点呼は、OFFにしないと上書き不可)
 
 */
 
