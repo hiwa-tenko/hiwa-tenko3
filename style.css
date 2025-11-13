@@ -421,11 +421,13 @@ textarea {
     margin: 12px auto;
 }
 .message-text {
+    width: 100%;
     font-size: 1.0em;
     text-align: center;
     color: #000;
 }
 .message-text {
+    width: 100%;
     font-size: 1.2em;
     text-align: center;
     color: #000;
