@@ -1,6 +1,6 @@
 ﻿// Hiwa点呼3
 //version H: HP, F: Fujitsu, A: AORUS, S: sykFujitsu
-const version = "0.881H";//20251113
+const version = "0.882H";//20251113
 //コミット例：　version = "0.873H";//20251113
 console.log("version=",version);
 document.getElementById('title_ver').textContent= "ver. " + version;
@@ -156,6 +156,9 @@ const handleFormSubmit = async (e) => {
     //const lastStartTime = startTimeInput.value;
     const lastStartTime1 = localStorage.getItem(START_TIME_KEY); // 前回の開始点呼の日付(2025-11-02 11:10) 
     const lastEndTime1 = localStorage.getItem(END_TIME_KEY); // 前回の開始点呼の日付(2025-11-02 11:10) 
+
+    const startTime1 = startTimeDiv.textContent;
+    const endTime1 = endTimeDiv.textContent;
     //const lastEndTime = endTimeInput.value;
         console.log("lastStartTime1=",lastStartTime1);
         //console.log("lastStartTimeDate=",new Date(lastStartTime1).getDate());
@@ -179,7 +182,7 @@ const handleFormSubmit = async (e) => {
             }
         }
     }else if (startEndText == "終了") {   //前回の終了点呼と同日の場合
-        const endTime1 = endTimeDiv.textContent;
+
         if (endTime1 != "") { // 終了時刻がある場合のみチェック
         //const elapsedEndTime = nowTime - new Date(lastEndTime).getTime();
         //if (elapsedEndTime < limitTime) {     //前回の終了点呼の時間からnHours時間以内
@@ -193,6 +196,11 @@ const handleFormSubmit = async (e) => {
             }
         //}
         }
+    }
+    if(startTime1 && endTime1){
+        statusText.textContent = "業務終了中...";
+    }else if(startTime1 && !endTime1){
+        statusText.textConten = "業務中...";
     }
 
     if(confirmFlag){
