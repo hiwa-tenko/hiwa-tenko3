@@ -1,6 +1,6 @@
 ﻿// Hiwa点呼3
 //version H: HP, F: Fujitsu, A: AORUS, S: sykFujitsu
-const version = "0.879H";//20251113
+const version = "0.880H";//20251113
 //コミット例：　version = "0.873H";//20251113
 console.log("version=",version);
 document.getElementById('title_ver').textContent= "ver. " + version;
@@ -189,6 +189,7 @@ const handleFormSubmit = async (e) => {
             if (nowDay == new Date(lastEndTime1).getDate()){
                 confirmFlag = true;
                 confirmMessage = "すでに終了点呼が送信されています。\n";
+                statusText.textContent = "業務終了中...";
             }
         //}
         }
@@ -758,7 +759,7 @@ const setTenkoButton = () => {
             displayDurationTime();
             endTimeDiv.textContent= savedTenkoEnd;
             if(savedTenkoEnd === ""){   //終了時刻が無い場合（業務中ステータス）
-                statusText.textContent = "業務中";
+                statusText.textContent = "業務中...";
             }
       
         } else if(savedStartEnd === "開始"){  //前回が開始点呼の場合
