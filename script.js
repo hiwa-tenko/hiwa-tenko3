@@ -1,6 +1,6 @@
 ﻿// Hiwa点呼3
 //version H: HP, F: Fujitsu, A: AORUS, S: sykFujitsu
-const version = "0.887H";//20251113
+const version = "0.888F";//20251113
 //コミット例：　version = "0.873H";//20251113
 console.log("version=",version);
 document.getElementById('title_ver').textContent= "ver. " + version;
@@ -900,7 +900,7 @@ function displayCurrentTime() {
         const minutes = nowTime.getMinutes().toString().padStart(2);
         currentTimeDiv.textContent = `${hours}時${minutes}分`;
     }
-    displayDurationTime();
+    //displayDurationTime();
 }
 //現在の業務時間（現在時刻ー開始時間）を更新して表示
 function displayDurationTime() {
