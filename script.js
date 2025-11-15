@@ -1,6 +1,6 @@
 ﻿// Hiwa点呼3
 //version H: HP, F: Fujitsu, A: AORUS, S: sykFujitsu
-const version = "0.889F";//20251114
+const version = "0.890H";//20251115
 //コミット例：　version = "0.873H";//20251113
 console.log("version=",version);
 document.getElementById('title_ver').textContent= "ver. " + version;
@@ -148,7 +148,7 @@ const handleFormSubmit = async (e) => {
         //３．今日が日曜日だった場合（誤操作：休日送信チェック）
 
     let confirmFlag = false;    //確認ダイアログを非表示
-    let confirmMessage = "点呼ボタンを切り替えました。";   //確認メッセージ（初期値）
+    let confirmMessage = "●";   //確認メッセージ（初期値）
     let cancelMessage = "送信はキャンセルされました。\n点呼ボタンのみ切り替えます。"; //キャンセルメッセージ（初期値）
     const startEndText = startEnd.textContent;  // 開始or終了（点呼ボタン）
     const nowDay = new Date().getDate();    // 今日の日付
@@ -171,36 +171,37 @@ const handleFormSubmit = async (e) => {
             //confirmFlag = true;
         //}
         console.log("startEndText=",startEndText);
-    if (startEndText == "開始") {   //前回の開始点呼と同日の場合
+    if (startEndText == "開始") {   //開始点呼の場合
         if (lastStartTime1) { // 前回の開始点呼がある場合のみチェック
             if (nowDay == new Date(lastStartTime1).getDate()){   //前回の開始点呼と同日の場合
                 //confirmFlag = true;
                 startEndSwitch(startEndText);   //開始、終了点呼だけを切り替え
                 submitButton.disabled = false;  // ボタンを再度有効化
                 
-                confirmMessage += "すでに開始点呼が送信されています。";
+                confirmMessage += "開始点呼は変更できません。\n終了点呼に切り替えます。";
+                statusText.textContent = "業務再開中..."
                 messageDisplay(confirmMessage);
                 return;
             }
         }
-    }else if (startEndText == "終了") {   //前回の終了点呼と同日の場合
+    }else if (startEndText == "終了") {   //終了点呼の場合
 
         if (endTime1 != "") { // 終了時刻がある場合のみチェック
         //const elapsedEndTime = nowTime - new Date(lastEndTime).getTime();
         //if (elapsedEndTime < limitTime) {     //前回の終了点呼の時間からnHours時間以内
             //confirmFlag = true;
         //}
-        //if (startEndText == "終了") {   //前回の終了点呼と同日の場合
-            if (nowDay == new Date(lastEndTime1).getDate()){
+        //if (startEndText == "終了") {
+            if (nowDay == new Date(lastEndTime1).getDate()){   //前回の終了点呼と同日の場合
                 confirmFlag = true;
-                confirmMessage = "すでに終了点呼が送信されています。\n";
-                statusText.textContent = "業務終了中...";
+                confirmMessage += "終了点呼は現在の時刻に変更されます。\n";
+                statusText.textContent = "業務終了...";
             }
         //}
         }
     }
     if(startTime1 && endTime1){
-        statusText.textContent = "業務終了中...";
+        statusText.textContent = "業務終了...";
     }else if(startTime1 && !endTime1){
         statusText.textConten = "業務中...";
     }
@@ -907,7 +908,7 @@ function displayCurrentTime() {
 //現在の業務時間（現在時刻ー開始時間）を定期的に更新して表示
 function displayDurationTime() {
         const savedStartTime = localStorage.getItem(START_TIME_KEY);    //前回の開始点呼時間
-        //console.log("savedStartTime= "+savedStartTime);
+        console.log("savedStartTime= "+savedStartTime);
         //開始時刻が有り、かつ終了時刻が無い場合()は業務時間を更新
         if (startTimeDiv.textContent != "" && endTimeDiv.textContent == "") { 
             const elapseTime = new Date().getTime() - new Date(savedStartTime).getTime(); //開始点呼からの経過時間
@@ -915,12 +916,13 @@ function displayDurationTime() {
             const elapsedMinutes = Math.floor((elapseTime % 3600000) / 60000);
             //const elapsedSeconds = Math.floor((elapseTime % 60000) / 1000);
             durationTimeDiv.textContent = `${elapsedHours}時間${elapsedMinutes}分`;
+            console.log("durationTimeDiv= "+durationTimeDiv.textContent);
         }
 }
 //現在の業務時間（現在時刻ー開始時間）を（１回だけ）更新
 function durationTime() {
         const savedStartTime = localStorage.getItem(START_TIME_KEY);    //前回の開始点呼時間
-        //console.log("savedStartTime= "+savedStartTime);
+        console.log("savedStartTime= "+savedStartTime);
         //開始時刻が有り、かつ終了時刻が無い場合()は業務時間を更新
         //if (startTimeDiv.textContent != "" && endTimeDiv.textContent == "") { 
             const elapseTime = new Date().getTime() - new Date(savedStartTime).getTime(); //開始点呼からの経過時間
@@ -929,6 +931,8 @@ function durationTime() {
             //const elapsedSeconds = Math.floor((elapseTime % 60000) / 1000);
             durationTimeDiv.textContent = `${elapsedHours}時間${elapsedMinutes}分`;
         //}
+        console.log("durationTimeDiv= "+durationTimeDiv.textContent);
+  
 }
 
 /*
