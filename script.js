@@ -1,6 +1,6 @@
 ﻿// Hiwa点呼3
 //version H: HP, F: Fujitsu, A: AORUS, S: sykFujitsu
-const version = "0.891H";//20251115
+const version = "0.892H";//20251115
 //コミット例：　version = "0.873H";//20251113
 console.log("version=",version);
 document.getElementById('title_ver').textContent= "ver. " + version;
@@ -670,7 +670,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // バックグラウンドから復帰した際の処理
 document.addEventListener('visibilitychange', () => {
     // ページが再び表示された場合
-    //console.log("673:visibilitychange");
+    console.log("673:visibilitychange");
     if (document.visibilityState === 'visible') {
         console.log("バックグラウンドから復帰");
         // ページアクセスログをDBに記録する
@@ -767,12 +767,13 @@ const setTenkoButton = () => {
             submitButton.style.background = '#e53749ff';
             startEnd.textContent = "終了";
             startTimeDiv.textContent = savedTenkoStart;
-            durationTime();
+            //durationTime();
+            durationTimeDiv.textContent = savedTenkoDuration;
             endTimeDiv.textContent= savedTenkoEnd;
             if(savedTenkoEnd === ""){   //終了時刻が無い場合（業務中ステータス）
                 statusText.textContent = "業務中...";
             }else{
-                statusText.textContent = "業務終了中...";
+                statusText.textContent = "業務終了...";
             }
       
         } else if(savedStartEnd === "開始"){  //前回が開始点呼の場合
@@ -785,7 +786,7 @@ const setTenkoButton = () => {
             durationTimeDiv.textContent = savedTenkoDuration;
             endTimeDiv.textContent= savedTenkoEnd;
             if(savedTenkoStart && savedTenkoEnd){
-                statusText.textContent = "業務終了中...";
+                statusText.textContent = "業務終了...";
             }else{
                 statusText.textContent = "業務中...";
             }
@@ -906,7 +907,7 @@ function displayCurrentTime() {
     }
     //displayDurationTime();
 }
-//現在の業務時間（現在時刻ー開始時間）を定期的に更新して表示
+//現在の業務時間（現在時刻ー開始時間）を定期的(1分毎)に更新して表示
 function displayDurationTime() {
         const savedStartTime = localStorage.getItem(START_TIME_KEY);    //前回の開始点呼時間
         console.log("savedStartTime= "+savedStartTime);
