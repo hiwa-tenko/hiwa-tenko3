@@ -1,6 +1,6 @@
 ﻿// Hiwa点呼3
 //version H: HP, F: Fujitsu, A: AORUS, S: sykFujitsu
-const version = "0.893H";//20251115
+const version = "0.894H";//20251115
 //コミット例：　version = "0.873H";//20251113
 console.log("version=",version);
 document.getElementById('title_ver').textContent= "ver. " + version;
@@ -924,18 +924,23 @@ function displayDurationTime() {
 }
 //現在の業務時間（現在時刻ー開始時間）を（１回だけ）更新
 function durationTime() {
+        let elapseTime = 0;
         const savedStartTime = localStorage.getItem(START_TIME_KEY);    //前回の開始点呼時間
+        const savedEndTime = localStorage.getItem(END_TIME_KEY);    //前回の開始点呼時間
         console.log("savedStartTime= "+savedStartTime);
+        console.log("savedEndTime= "+savedEndTime);
         //開始時刻が有り、かつ終了時刻が無い場合()は業務時間を更新
-        //if (startTimeDiv.textContent != "" && endTimeDiv.textContent == "") { 
-            const elapseTime = new Date().getTime() - new Date(savedStartTime).getTime(); //開始点呼からの経過時間
+        if (startTimeDiv.textContent != "" && endTimeDiv.textContent == "") { 
+            elapseTime = new Date().getTime() - new Date(savedStartTime).getTime(); //開始点呼からの現在時刻までの経過時間 
+        }else{
+            elapseTime = new Date(savedEndTime).getTime() - new Date(savedStartTime).getTime(); //開始点呼から終了点呼までの経過時間
+        }
             const elapsedHours = Math.floor(elapseTime / 3600000);
             const elapsedMinutes = Math.floor((elapseTime % 3600000) / 60000);
             //const elapsedSeconds = Math.floor((elapseTime % 60000) / 1000);
             durationTimeDiv.textContent = `${elapsedHours}時間${elapsedMinutes}分`;
-        //}
-        console.log("durationTimeDiv= "+durationTimeDiv.textContent);
-  
+            console.log("durationTimeDiv= "+durationTimeDiv.textContent);
+
 }
 
 /*
