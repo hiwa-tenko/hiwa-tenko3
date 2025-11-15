@@ -8,6 +8,7 @@ body {
     background-color: #f4f7f6;
     color: #333;
 }
+.wf-notosansjapanese { font-family: "Noto Sans JP"; }
 .container {
     max-width: 600px;
     margin: 0 auto;
@@ -378,7 +379,16 @@ textarea {
     background-color: #000; /* 2行目 背景色を黒に */
     border-radius: 4px;
 }
-
+#s_time {
+    font-size: 1.0em;
+    font-weight: bold;
+    color: #7abaf9;; /* 2行目 文字色を白に */
+}
+#e_time {
+    font-size: 1.0em;
+    font-weight: bold;
+    color: #7abaf9;; /* 2行目 文字色を白に */
+}
 .current-start-end div {
     height: 1.2em;
     background-color: #000;

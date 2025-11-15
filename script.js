@@ -11,7 +11,7 @@ document.getElementById('title_ver').textContent= "ver. " + version;
 ◎20251105 ：report.js    ・20251108完了：土、日の月日の色変更
 ◎20251105 ：report.js    ・20251107完了：終了時間が次の日になった場合の例外対応
 ◎20251109 ：report.js    ・20251109完了：前回の開始時間が前日以前になった場合背景色をグレー
-20251112：終了点呼ボタンが表示されている間は「業務中」みたいな表示
+◎20251112：終了点呼ボタンが表示されている間は「業務中」みたいな表示
 20251112：開始・終了点呼終了後は、チェックボックスをON(終了点呼は、OFFにしないと上書き不可)
 
 */
@@ -37,8 +37,12 @@ const currentTimeDiv = document.getElementById('currentTime');
 const startTimeInput = document.getElementById('start');    //点呼開始時間(input hidden)
 const endTimeInput = document.getElementById('end');    //点呼終了時間(input hidden)
 const startTimeDiv = document.getElementById('s_time');
+//const sDay = document.getElementById('s_day');
+//const sTime = document.getElementById('s_time');
 const durationTimeDiv = document.getElementById('d_time');
 const endTimeDiv = document.getElementById('e_time');
+//const eDay = document.getElementById('e_day');
+//const eTime = document.getElementById('e_time');
 
 const nameInput = document.getElementById('name');
 const numberInput = document.getElementById('number');
@@ -157,7 +161,7 @@ const handleFormSubmit = async (e) => {
     const limitTime = nHours * 60 * 60 * 1000; // n時間を表すミリ秒
     //const lastStartTime = startTimeInput.value;
     const lastStartTime1 = localStorage.getItem(START_TIME_KEY); // 前回の開始点呼の日付(2025-11-02 11:10) 
-    const lastEndTime1 = localStorage.getItem(END_TIME_KEY); // 前回の開始点呼の日付(2025-11-02 11:10) 
+    const lastEndTime1 = localStorage.getItem(END_TIME_KEY); // 前回の終了点呼の日付(2025-11-02 15:10) 
 
     const startTime1 = startTimeDiv.textContent;
     const endTime1 = endTimeDiv.textContent;
