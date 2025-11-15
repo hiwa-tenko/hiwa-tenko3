@@ -1,6 +1,6 @@
 ﻿// Hiwa点呼3
 //version H: HP, F: Fujitsu, A: AORUS, S: sykFujitsu
-const version = "0.896H";//20251115
+const version = "0.897H";//20251115
 //コミット例：　version = "0.873H";//20251113
 console.log("version=",version);
 document.getElementById('title_ver').textContent= "ver. " + version;
@@ -789,7 +789,7 @@ const setTenkoButton = () => {
             // 開始・終了・業務時間をセット
             //startTimeDiv.textContent = savedTenkoStart;
             durationTimeDiv.textContent = savedTenkoDuration;
-            endTimeDiv.textContent= savedTenkoEnd;
+            //endTimeDiv.textContent= savedTenkoEnd;
             if(savedTenkoStart && savedTenkoEnd){
                 statusText.textContent = "業務終了...";
             }else{
