@@ -1,6 +1,6 @@
 ﻿// Hiwa点呼3
 //version H: HP, F: Fujitsu, A: AORUS, S: sykFujitsu
-const version = "0.898H";//20251115
+const version = "0.899H";//20251115
 //コミット例：　version = "0.873H";//20251113
 console.log("version=",version);
 document.getElementById('title_ver').textContent= "ver. " + version;
@@ -802,13 +802,13 @@ const setTenkoButton = () => {
                 //console.log("currentDay = "+currentDay);
                 //console.log("lastStartDay = "+lastStartDay);
             if(currentDay === lastStartDay){
-                startTimeDiv.style.backgroundColor = '#000' ;
+                //startTimeDiv.style.backgroundColor = '#000' ;
                 durationTimeDiv.style.backgroundColor = '#000';
-                endTimeDiv.style.backgroundColor = '#000';
+                //endTimeDiv.style.backgroundColor = '#000';
             }else{
-                startTimeDiv.style.backgroundColor = '#aaa' ;
+                //startTimeDiv.style.backgroundColor = '#aaa' ;
                 durationTimeDiv.style.backgroundColor = '#aaa';
-                endTimeDiv.style.backgroundColor = '#aaa';
+                //endTimeDiv.style.backgroundColor = '#aaa';
                 statusText.textContent = "";
 
             }
