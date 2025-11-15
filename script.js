@@ -1,6 +1,6 @@
 ﻿// Hiwa点呼3
 //version H: HP, F: Fujitsu, A: AORUS, S: sykFujitsu
-const version = "0.892H";//20251115
+const version = "0.893H";//20251115
 //コミット例：　version = "0.873H";//20251113
 console.log("version=",version);
 document.getElementById('title_ver').textContent= "ver. " + version;
@@ -633,7 +633,8 @@ document.addEventListener('DOMContentLoaded', () => {
     loadFormDataFromLocalStorage();
     //ページが読み込まれた時、点呼ボタンの表示を設定
     setTenkoButton();
-    
+    //ページが読み込まれた時、業務時間を再計算
+    durationTime();
 
     // navMenuがクリックされたときの処理
     const menuIcon = document.getElementById('list_menu');
