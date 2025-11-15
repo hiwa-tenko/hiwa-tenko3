@@ -1,6 +1,6 @@
 ﻿// Hiwa点呼3
 //version H: HP, F: Fujitsu, A: AORUS, S: sykFujitsu
-const version = "0.890H";//20251115
+const version = "0.891H";//20251115
 //コミット例：　version = "0.873H";//20251113
 console.log("version=",version);
 document.getElementById('title_ver').textContent= "ver. " + version;
@@ -803,6 +803,7 @@ const setTenkoButton = () => {
                 startTimeDiv.style.backgroundColor = '#aaa' ;
                 durationTimeDiv.style.backgroundColor = '#aaa';
                 endTimeDiv.style.backgroundColor = '#aaa';
+                statusText.textContent = "";
 
             }
 
